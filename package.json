@@ -16,9 +16,7 @@
     "postinstall": "prisma generate",
     "email": "email dev --dir emails --port 3333",
     "remove-content": "node ./setup.mjs",
-    "scripts": {
-      "lint": "next lint --fix"
-    }
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
