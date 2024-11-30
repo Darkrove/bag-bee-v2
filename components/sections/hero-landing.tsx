@@ -32,7 +32,7 @@ export default async function HeroLanding() {
 
           <p className="max-w-2xl text-balance text-muted-foreground sm:text-lg">
             Forget past mistakes. <b>Forget failures.</b> Forget everything
-            except what you're going to do now and do it.
+            except what you&apos;re going to do now and do it.
           </p>
 
           <div className="flex justify-center space-x-3">
