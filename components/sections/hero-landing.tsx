@@ -35,7 +35,7 @@ export default async function HeroLanding() {
             except what you&apos;re going to do now and do it.
           </p>
 
-          <div className="flex justify-center space-x-3">
+          <div className="flex justify-center items-center flex-col space-y-3 space-x-0 sm:space-x-3 sm:space-y-0 sm:flex-row">
             <Link
               href="/login"
               prefetch={true}
@@ -44,7 +44,7 @@ export default async function HeroLanding() {
                 "gap-2 px-5 text-[15px]",
               )}
             >
-              <span>Go to Login Page</span>
+              <span>Login</span>
               <Icons.arrowRight className="size-4" />
             </Link>
             <Link
