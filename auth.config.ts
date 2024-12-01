@@ -17,7 +17,7 @@ export default {
     }),
     Resend({
       apiKey: env.RESEND_API_KEY,
-      from: "Next Template App <onboarding@resend.dev>",
+      from: "Famous Bag <famous-bag@resend.dev>",
     }),
   ],
 } satisfies NextAuthConfig;
