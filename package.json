@@ -1,10 +1,10 @@
 {
-  "name": "next-auth-roles-template",
-  "version": "0.0.1",
+  "name": "famous-bag",
+  "version": "0.0.2",
   "private": true,
   "author": {
-    "name": "mickasmt",
-    "url": "https://twitter.com/mickasmt"
+    "name": "sajjad",
+    "url": "https://twitter.com/sajjad"
   },
   "scripts": {
     "dev": "next dev",
