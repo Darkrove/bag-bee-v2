@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MoveUpRight } from "lucide-react";
+import { formatDistance } from "date-fns";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,8 +19,37 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+
+const records = [
+  {
+    id: "#001",
+    customerName: "Liam Johnson",
+    customerPhone: "8433",
+    totalAmount: "1400.00",
+    createdAt: "2024-12-01T10:00:00Z", // Add createdAt property
+  },
+  {
+    id: "#002",
+    customerName: "Olivia Smith",
+    customerPhone: "8433",
+    totalAmount: "1570.00",
+    createdAt: "2024-12-01T10:00:00Z", // Add createdAt property
+  },
+  {
+    id: "#003",
+    customerName: "Noah Williams",
+    customerPhone: "8433",
+    totalAmount: "2000.00",
+    createdAt: "2024-12-01T10:00:00Z", // Add createdAt property
+  },
+];
 
 export default function TransactionsList() {
+  function getRandomNumber() {
+    return Math.floor(Math.random() * 10) + 1;
+  }
   return (
     <Card className="xl:col-span-2">
       <CardHeader className="flex flex-row items-center">
@@ -37,111 +67,61 @@ export default function TransactionsList() {
         </Button>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Customer</TableHead>
-              <TableHead className="hidden xl:table-column">Type</TableHead>
-              <TableHead className="hidden xl:table-column">Status</TableHead>
-              <TableHead className="hidden xl:table-column">Date</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <div className="font-medium">Liam Johnson</div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                  liam@example.com
+        <div>
+          {records
+            ?.reverse()
+            .slice(0, 5)
+            .map(
+              (
+                record: {
+                  id: string;
+                  customerName: string;
+                  customerPhone: string;
+                  totalAmount: string;
+                  createdAt: string;
+                },
+                index: number,
+              ) => (
+                <div className="flex flex-col gap-3 pt-3">
+                  <div className="flex items-center" key={record.customerPhone}>
+                    <Avatar className="size-9 bg-gray-300 shadow-sm">
+                      <AvatarImage
+                        src={`/avatars/${getRandomNumber()}.png`}
+                        alt="Avatar"
+                      />
+                      <AvatarFallback>
+                        {record.customerName ? record.customerName[0] : ""}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="ml-4 flex space-x-1">
+                      <div className="flex flex-col items-start justify-between space-y-1">
+                        <Link
+                          href={`/billv2/${record.id}`}
+                          className="truncate text-sm font-medium leading-none transition duration-300 ease-in-out hover:underline"
+                          target="_blank"
+                        >
+                          {record.customerName}
+                        </Link>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDistance(
+                            new Date(record.createdAt),
+                            new Date(),
+                          )}{" "}
+                          ago
+                        </p>
+                      </div>
+                    </div>
+                    <div className="ml-auto font-medium">
+                      + ₹{record.totalAmount}
+                    </div>
+                  </div>
+                  {index !== records.length - 1 && (
+                    <Separator className="border-gray-500" />
+                  )}
                 </div>
-              </TableCell>
-              <TableCell className="hidden xl:table-column">Sale</TableCell>
-              <TableCell className="hidden xl:table-column">
-                <Badge className="text-xs" variant="outline">
-                  Approved
-                </Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-23
-              </TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <div className="font-medium">Olivia Smith</div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                  olivia@example.com
-                </div>
-              </TableCell>
-              <TableCell className="hidden xl:table-column">Refund</TableCell>
-              <TableCell className="hidden xl:table-column">
-                <Badge className="text-xs" variant="outline">
-                  Declined
-                </Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-24
-              </TableCell>
-              <TableCell className="text-right">$150.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <div className="font-medium">Noah Williams</div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                  noah@example.com
-                </div>
-              </TableCell>
-              <TableCell className="hidden xl:table-column">
-                Subscription
-              </TableCell>
-              <TableCell className="hidden xl:table-column">
-                <Badge className="text-xs" variant="outline">
-                  Approved
-                </Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-25
-              </TableCell>
-              <TableCell className="text-right">$350.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <div className="font-medium">Emma Brown</div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                  emma@example.com
-                </div>
-              </TableCell>
-              <TableCell className="hidden xl:table-column">Sale</TableCell>
-              <TableCell className="hidden xl:table-column">
-                <Badge className="text-xs" variant="outline">
-                  Approved
-                </Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-26
-              </TableCell>
-              <TableCell className="text-right">$450.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <div className="font-medium">Liam Johnson</div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                  liam@example.com
-                </div>
-              </TableCell>
-              <TableCell className="hidden xl:table-column">Sale</TableCell>
-              <TableCell className="hidden xl:table-column">
-                <Badge className="text-xs" variant="outline">
-                  Approved
-                </Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-27
-              </TableCell>
-              <TableCell className="text-right">$550.00</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+              ),
+            )}
+        </div>
       </CardContent>
     </Card>
   );

@@ -29,7 +29,6 @@ export default async function AdminPage() {
           <InfoCard />
         </div>
         <TransactionsList />
-        <TransactionsList />
       </div>
     </>
   );
