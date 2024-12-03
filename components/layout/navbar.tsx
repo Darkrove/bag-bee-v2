@@ -38,7 +38,7 @@ const links = marketingConfig.mainNav;
       >
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-1.5">
-            <Icons.logo />
+            <Icons.logo className="size-6"/>
             <span className="font-satoshi text-xl font-bold">
               {siteConfig.name}
             </span>

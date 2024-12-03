@@ -24,7 +24,7 @@ export default async function HeroLanding() {
 
           <h1 className="text-balance font-satoshi text-[40px] font-black leading-[1.15] tracking-tight sm:text-5xl md:text-6xl md:leading-[1.15]">
             A{" "}
-            <span className="bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-green-300 to-cyan-300 bg-clip-text text-transparent">
               POS
             </span>{" "}
             System for Managing Business
@@ -41,11 +41,11 @@ export default async function HeroLanding() {
               prefetch={true}
               className={cn(
                 buttonVariants({ rounded: "xl", size: "lg" }),
-                "gap-2 px-5 text-[15px]",
+                "w-full text-[15px]",
               )}
             >
               <span>Login</span>
-              <Icons.arrowRight className="size-4" />
+              <Icons.arrowRight className="ml-2 size-4" />
             </Link>
             <Link
               href="https://github.com/mickasmt/next-auth-roles-template"
@@ -57,13 +57,12 @@ export default async function HeroLanding() {
                   rounded: "xl",
                   size: "lg",
                 }),
-                "px-4 text-[15px]",
+                "w-full text-[15px]",
               )}
             >
               <Icons.gitHub className="mr-2 size-4" />
-              <p>
-                <span className="hidden sm:inline-block">Star on</span> GitHub
-              </p>
+
+              <span>GitHub</span>
             </Link>
           </div>
         </div>
