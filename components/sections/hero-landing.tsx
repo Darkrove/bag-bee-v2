@@ -35,7 +35,7 @@ export default async function HeroLanding() {
             except what you&apos;re going to do now and do it.
           </p>
 
-          <div className="flex flex-col items-center px-5 sm:px-10 lg:px-28 w-full justify-center space-x-0 space-y-3 sm:flex-row sm:space-x-3 sm:space-y-0">
+          <div className="flex w-full flex-col items-center justify-center space-x-0 space-y-3 px-5 sm:flex-row sm:space-x-3 sm:space-y-0 sm:px-10 lg:px-28">
             <Link
               href="/login"
               prefetch={true}
