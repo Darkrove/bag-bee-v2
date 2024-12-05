@@ -5,6 +5,9 @@ import { constructMetadata } from "@/lib/utils";
 import { DashboardHeader } from "@/components/dashboard/header";
 import InfoCard from "@/components/dashboard/info-card";
 import TransactionsList from "@/components/dashboard/transactions-list";
+import DatePicker from "@/components/ui/datepicker";
+import { DatePickerProvider } from "@/components/context/datepicker-provider"
+import LayoutHeader from "@/components/layout/header";
 
 export const metadata = constructMetadata({
   title: "Admin – Next Template",
@@ -16,12 +19,14 @@ export default async function AdminPage() {
   if (!user || user.role !== "ADMIN") redirect("/login");
 
   return (
-    <>
+     <DatePickerProvider name="transaction">
       <DashboardHeader
         heading="Admin Panel"
         text="Access only for users with ADMIN role."
       />
       <div className="flex flex-col gap-5">
+          <LayoutHeader title="Dashboard" showDatePicker={true} />
+        
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <InfoCard />
           <InfoCard />
@@ -30,6 +35,6 @@ export default async function AdminPage() {
         </div>
         <TransactionsList />
       </div>
-    </>
+      </DatePickerProvider>
   );
 }
