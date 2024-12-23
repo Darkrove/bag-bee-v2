@@ -34,7 +34,7 @@ export function DashboardHeader({
   children,
 }: DashboardHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+    <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
       <div className="grid gap-1">
         <h1 className="font-heading text-2xl font-semibold">{heading}</h1>
         {text && <p className="text-base text-muted-foreground">{text}</p>}
@@ -57,7 +57,7 @@ export default function LayoutHeader({
     <>
       <DashboardHeader heading={heading} text={text}>
         {showDatePicker && (
-          <div className="date-picker mt-2 sm:mt-0 w-full sm:w-auto items-center">
+          <div className="date-picker mt-2 w-full items-center sm:mt-0 sm:w-auto">
             <DatePicker />
           </div>
         )}
