@@ -74,3 +74,37 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map(name: "verification_tokens")
 }
+
+model Invoice {
+  id              Int             @id @default(autoincrement())
+  customerName    String
+  customerPhone   String          @db.Text
+  customerAddress String
+  cashierName     String          @db.Text
+  totalAmount     Int
+  totalProfit     Int
+  totalQuantity   Int
+  paymentMode     String
+  warrantyPeriod  Int
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now())
+
+  items           InvoiceItem[]   @relation("InvoiceToItems")
+}
+
+model InvoiceItem {
+  id              Int        @id @default(autoincrement())
+  invoiceId       Int
+  productCategory String     @db.Text
+  note            String?
+  quantity        Int
+  price           Int
+  amount          Int
+  code            String     @db.Text
+  profit          Int
+  dealerCode      String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @default(now())
+
+  invoice         Invoice    @relation("InvoiceToItems", fields: [invoiceId], references: [id])
+}

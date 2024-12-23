@@ -1,0 +1,54 @@
+"use client";
+import * as React from "react";
+import { IndianRupee, PieChart, ChartLine } from "lucide-react";
+import Counter from "@/components/counter";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useOverview } from "@/components/context/overview-provider";
+import InfoCard from "@/components/dashboard/info-card";
+
+export function Data() {
+  const { data, loading } = useOverview();
+
+  // Loading state with Skeleton
+  if (loading) {
+    return (
+      <>
+        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-32 w-full" />
+      </>
+    );
+  }
+
+  // Ensure data is available and has totalSales and totalProfit
+  const totalSales = data?.sales?.totalSales || 0;
+  const totalProfit = data?.sales?.totalProfit || 0;
+  const totalTransactions = data?.sales?.data?.length || 0;
+  const averageTransactionValue = totalTransactions ? parseFloat((totalSales / totalTransactions).toFixed(2)) : 0;
+
+  return (
+    <>
+      <InfoCard
+        amount={totalSales}
+        title="Total Sales"
+        icon={<PieChart className="size-4 text-muted-foreground" />}
+      />
+      <InfoCard
+        amount={totalProfit}
+        title="Total Profit"
+        icon={<IndianRupee className="size-4 text-muted-foreground" />}
+      />
+      <InfoCard
+        amount={totalTransactions}
+        title="Total Transactions"
+        icon={<ChartLine className="size-4 text-muted-foreground" />}
+      />
+       <InfoCard
+        amount={averageTransactionValue}
+        title="Average Sales Value"
+        icon={<IndianRupee className="size-4 text-muted-foreground" />}
+      />
+    </>
+  );
+}

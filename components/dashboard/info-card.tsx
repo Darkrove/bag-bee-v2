@@ -1,23 +1,26 @@
-import { Users } from "lucide-react"
+import { ReactNode } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Counter from "@/components/counter";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+interface InfoCardProps {
+  amount: number;
+  title: string;
+  icon: ReactNode;
+}
 
-export default function InfoCard() {
+export default function InfoCard({ amount, title, icon }: InfoCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-        <Users className="size-4 text-muted-foreground" />
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        {icon}
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">+2350</div>
+        <div className="text-2xl font-bold">
+          ₹<Counter value={amount} />
+        </div>
         <p className="text-xs text-muted-foreground">+180.1% from last month</p>
       </CardContent>
     </Card>
-  )
+  );
 }
