@@ -9,7 +9,7 @@ import { Icons } from "@/components/shared/icons";
 export default async function HeroLanding() {
   return (
     <section className="space-y-6">
-      <div className="relative flex w-full items-center justify-center overflow-hidden rounded-lg bg-background p-20">
+      <div className="relative flex w-full items-center justify-center overflow-hidden rounded-lg bg-background p-8 sm:p-20">
         <div className="container flex max-w-screen-md flex-col items-center gap-5 text-center">
           <Link
             href="https://next-saas-stripe-starter.vercel.app/"
