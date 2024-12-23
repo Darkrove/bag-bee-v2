@@ -1,12 +1,11 @@
 import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/session";
-import { DashboardHeader } from "@/components/dashboard/header";
+import LayoutHeader from "@/components/dashboard/header";
 import InfoCard from "@/components/dashboard/info-card";
 import TransactionsList from "@/components/dashboard/transactions-list";
 import DatePicker from "@/components/ui/datepicker";
 import { DatePickerProvider } from "@/components/context/datepicker-provider"
-import LayoutHeader from "@/components/layout/header";
 import { OverviewContextProvider } from "@/components/context/overview-provider"
 import { Data } from "./data";
 
@@ -18,13 +17,12 @@ export default async function AdminPage() {
   return (
      <DatePickerProvider name="transaction">
        <OverviewContextProvider>
-      <DashboardHeader
+      <LayoutHeader
         heading="Admin Panel"
         text="Access only for users with ADMIN role."
+        showDatePicker={true}
       />
-      <div className="flex flex-col gap-5">
-          <LayoutHeader title="Dashboard" showDatePicker={true} />
-        
+      <div className="flex flex-col gap-2">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <Data />
         </div>
