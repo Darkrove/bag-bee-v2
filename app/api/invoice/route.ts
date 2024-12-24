@@ -163,6 +163,7 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.log(error);
+      
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }
 
