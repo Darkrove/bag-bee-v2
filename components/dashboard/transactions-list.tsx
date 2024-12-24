@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { ArrowUpRight, MoveUpRight } from "lucide-react";
-import { formatDistance } from "date-fns";
+import { ArrowUpRight } from "lucide-react";
+import { endOfYear, format, formatDistance, startOfYear } from "date-fns"
 
+import { dateFormat } from "@/constants/date"
+import { apiUrls } from "@/lib/api-urls"
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,45 +13,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
-const records = [
-  {
-    id: "#001",
-    customerName: "Liam Johnson",
-    customerPhone: "8433",
-    totalAmount: "1400.00",
-    createdAt: "2024-12-01T10:00:00Z", // Add createdAt property
-  },
-  {
-    id: "#002",
-    customerName: "Olivia Smith",
-    customerPhone: "8433",
-    totalAmount: "1570.00",
-    createdAt: "2024-12-01T10:00:00Z", // Add createdAt property
-  },
-  {
-    id: "#003",
-    customerName: "Noah Williams",
-    customerPhone: "8433",
-    totalAmount: "2000.00",
-    createdAt: "2024-12-01T10:00:00Z", // Add createdAt property
-  },
-];
-
-export default function TransactionsList() {
+export default async function TransactionsList() {
   function getRandomNumber() {
     return Math.floor(Math.random() * 10) + 1;
   }
+
+  const from = format(startOfYear(new Date()), dateFormat)
+  const to = format(endOfYear(new Date()), dateFormat)
+  const result = await fetch(
+    process.env.NEXTAUTH_URL + apiUrls.invoice.getInvoice({ from, to }),
+    {
+      cache: "no-store",
+    }
+  ).then((res) => res.json())
+
   return (
     <Card className="xl:col-span-2">
       <CardHeader className="flex flex-row items-center">
@@ -68,17 +48,18 @@ export default function TransactionsList() {
       </CardHeader>
       <CardContent>
         <div>
-          {records
+          {result?.data
             ?.reverse()
             .slice(0, 5)
             .map(
               (
                 record: {
-                  id: string;
-                  customerName: string;
-                  customerPhone: string;
-                  totalAmount: string;
-                  createdAt: string;
+                  id: string
+                  productCategory: string
+                  customerName: string
+                  customerPhone: string
+                  createdAt: Date
+                  totalAmount: string
                 },
                 index: number,
               ) => (
@@ -97,7 +78,7 @@ export default function TransactionsList() {
                       <div className="flex flex-col items-start justify-between space-y-1">
                         <Link
                           href={`/billv2/${record.id}`}
-                          className="truncate text-sm font-medium leading-none transition duration-300 ease-in-out hover:underline"
+                          className="truncate text-sm font-medium capitalize leading-none transition duration-300 ease-in-out hover:underline"
                           target="_blank"
                         >
                           {record.customerName}
@@ -115,7 +96,7 @@ export default function TransactionsList() {
                       + ₹{record.totalAmount}
                     </div>
                   </div>
-                  {index !== records.length - 1 && (
+                  {index !== 5 - 1 && (
                     <Separator className="border-gray-500" />
                   )}
                 </div>

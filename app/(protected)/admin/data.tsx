@@ -42,9 +42,10 @@ export function Data() {
       <InfoCard
         amount={totalTransactions}
         title="Total Transactions"
+        showCurrencySymbol={false}
         icon={<ChartLine className="size-4 text-muted-foreground" />}
       />
-       <InfoCard
+      <InfoCard
         amount={averageTransactionValue}
         title="Average Sales Value"
         icon={<IndianRupee className="size-4 text-muted-foreground" />}

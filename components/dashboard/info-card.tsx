@@ -2,13 +2,21 @@ import { ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Counter from "@/components/counter";
 
+// Define the props for the InfoCard component
 interface InfoCardProps {
   amount: number;
   title: string;
   icon: ReactNode;
+  showCurrencySymbol?: boolean; // Optional prop to show/hide currency symbol
 }
 
-export default function InfoCard({ amount, title, icon }: InfoCardProps) {
+// InfoCard component definition
+export default function InfoCard({
+  amount,
+  title,
+  icon,
+  showCurrencySymbol = true, // Default to true if not provided
+}: InfoCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -17,7 +25,7 @@ export default function InfoCard({ amount, title, icon }: InfoCardProps) {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
-          ₹<Counter value={amount} />
+          {showCurrencySymbol && "₹"}<Counter value={amount} />
         </div>
         <p className="text-xs text-muted-foreground">+180.1% from last month</p>
       </CardContent>
