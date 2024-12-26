@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, TrendingUp } from "lucide-react";
 import { endOfYear, format, formatDistance, startOfYear } from "date-fns"
 import { ReactNode } from "react";
 
 import { dateFormat } from "@/constants/date"
 import { apiUrls } from "@/lib/api-urls"
 import { dealers } from "@/constants/table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { currencyFormatter } from "@/lib/utils";
 
 interface InvoiceItem {
     productCategory: string;
@@ -89,7 +89,7 @@ function calculateTopCategories(invoices: Invoice[], topN: number): CategoryWith
     const sortedCategories = Object.entries(categorySales).sort(
       (a, b) => b[1].totalSales - a[1].totalSales
     );
-  console.log(sortedCategories)
+  // console.log(invoices[1].items)
     // Extract the top N categories
     const topCategories = sortedCategories.slice(0, topN);
   
@@ -119,18 +119,17 @@ function calculateTopCategories(invoices: Invoice[], topN: number): CategoryWith
 
 
 export default async function TopDataList() {
-    const from = format(startOfYear(new Date()), dateFormat);
+    const from = format(new Date('2023-01-01'), dateFormat);
     const to = format(endOfYear(new Date()), dateFormat);
     const invoices = await fetchInvoices(from, to);
-
+// console.log(invoices[0].items)
     const topCategoriesWithPercentage = calculateTopCategories(invoices, 5);
-console.log(topCategoriesWithPercentage)
     return (
 <div className="grid gap-4">
       <TopListCard
         heading="Top Categories"
         title="Top 5 product categories"
-        link="/categories"
+         link="/featured-products"
         data={topCategoriesWithPercentage}
         icon={true}
       />
@@ -140,10 +139,7 @@ console.log(topCategoriesWithPercentage)
 }
 
 const TopListCard: React.FC<TopListCardProps> = ({ heading, title, link, data, icon }) => {
-    function getRandomNumber() {
-      return Math.floor(Math.random() * 10) + 1;
-    }
-  
+    
     return (
       <Card className="xl:col-span-2">
         <CardHeader className="flex flex-row items-center">
@@ -161,35 +157,29 @@ const TopListCard: React.FC<TopListCardProps> = ({ heading, title, link, data, i
         <CardContent>
           <div>
             {data.map((item, index) => (
-              <div key={item.entity} className="flex flex-col gap-3 pt-3">
-                <div className="flex items-center">
-                  {icon && (
-                    <Avatar className="size-9 bg-gray-300 shadow-sm">
-                      <AvatarImage
-                        src={`/avatars/${getRandomNumber()}.png`}
-                        alt="Avatar"
-                      />
-                      <AvatarFallback>
-                        {item.entity ? item.entity[0] : ""}
-                      </AvatarFallback>
-                    </Avatar>
-                  )}
-                  <div className="ml-4 flex space-x-1">
-                    <div className="flex flex-col items-start justify-between space-y-1">
-                      <span className="truncate text-sm font-medium capitalize leading-none">
-                        {item.entity}
-                      </span>
-                      <Badge className="bg-green-200 text-xs text-green-600">
-                        {item.percentageSales.toFixed(2)}%
-                      </Badge>
-                      <p className="text-sm text-muted-foreground">
-                        {item.totalSales} sales
-                      </p>
-                    </div>
-                  </div>
-                  <div className="ml-auto font-medium">
-                    ₹{item.totalProfit.toFixed(2)} profit
-                  </div>
+              <div key={index} className="flex flex-col gap-3 pt-3">
+                <div className="flex items-center justify-between">
+                <TrendingUp className="h-8 w-8 text-green-400" />
+                <div className="ml-4 flex space-x-1">
+                            <div className="flex flex-col space-y-1">
+                              <p className="text-sm font-medium capitalize leading-none">
+                                {item.entity}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {item.percentageSales.toFixed(2)}% of sales
+                              </p>
+                            </div>
+                          </div>
+                          <div className="ml-auto flex flex-row gap-3 font-medium">
+                            <div className="flex flex-col space-y-1 text-right">
+                              <p className="text-sm font-medium capitalize leading-none">
+                                {currencyFormatter.format(item.totalSales)}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                              {currencyFormatter.format(item.totalProfit)}
+                              </p>
+                            </div>
+                          </div>
                 </div>
                 {index !== data.length - 1 && <Separator className="border-gray-500" />}
               </div>

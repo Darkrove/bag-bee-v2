@@ -28,6 +28,7 @@ export default async function AdminPage() {
             <Data />
           </div>
           <TransactionsList />
+          <TopDataList/>
         </div>
       </OverviewContextProvider>
     </DatePickerProvider>

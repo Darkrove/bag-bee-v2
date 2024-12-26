@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { currencyFormatter } from "@/lib/utils";
 
 export default async function TransactionsList() {
   function getRandomNumber() {
@@ -93,7 +94,7 @@ export default async function TransactionsList() {
                       </div>
                     </div>
                     <div className="ml-auto font-medium">
-                      + ₹{record.totalAmount}
+                      + {currencyFormatter.format(parseInt(record.totalAmount))}
                     </div>
                   </div>
                   {index !== 5 - 1 && (
