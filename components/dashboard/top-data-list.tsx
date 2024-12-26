@@ -159,7 +159,7 @@ const TopListCard: React.FC<TopListCardProps> = ({ heading, title, link, data, i
             {data.map((item, index) => (
               <div key={index} className="flex flex-col gap-3 pt-3">
                 <div className="flex items-center justify-between">
-                <TrendingUp className="h-8 w-8 text-green-400" />
+                <TrendingUp className="size-8 text-green-400" />
                 <div className="ml-4 flex space-x-1">
                             <div className="flex flex-col space-y-1">
                               <p className="text-sm font-medium capitalize leading-none">
