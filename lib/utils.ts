@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 import { env } from "@/env.mjs";
 import { siteConfig } from "@/config/site";
+import { dealers } from "@/constants/table";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -175,3 +176,9 @@ export const currencyFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
   currency: "INR",
 });
+
+export function getDealerLabelFromValue(targetValue: string): string | undefined {
+  const lowerCaseValue = targetValue.toLowerCase();
+  const dealer = dealers.find((d) => d.value === lowerCaseValue);
+  return dealer ? dealer.label : undefined;
+}

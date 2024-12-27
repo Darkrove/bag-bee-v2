@@ -64,7 +64,7 @@ export default async function TransactionsList() {
                 },
                 index: number,
               ) => (
-                <div className="flex flex-col gap-3 pt-3">
+                <div key={index} className="flex flex-col gap-3 pt-3">
                   <div className="flex items-center" key={record.customerPhone}>
                     <Avatar className="size-9 bg-gray-300 shadow-sm">
                       <AvatarImage
