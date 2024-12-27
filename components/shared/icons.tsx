@@ -16,9 +16,11 @@ import {
   Laptop,
   LayoutPanelLeft,
   LineChart,
-  Loader2,
+  ReceiptIndianRupee,
+  Loader2,  
   LucideIcon,
   LucideProps,
+  Table,
   MessagesSquare,
   Moon,
   MoreVertical,
@@ -30,6 +32,7 @@ import {
   Trash2,
   User,
   X,
+  UsersRound,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -41,9 +44,12 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   bookOpen: BookOpen,
+  table: Table,
+  usersRound: UsersRound,
   check: Check,
   close: X,
   copy: Copy,
+  receiptIndianRupee: ReceiptIndianRupee,
   dashboard: LayoutPanelLeft,
   ellipsis: MoreVertical,
   gitHub: ({ ...props }: LucideProps) => (
