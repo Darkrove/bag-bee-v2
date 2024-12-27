@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { currencyFormatter, getDealerLabelFromValue } from "@/lib/utils";
+import { fetchInvoices, InvoicesResponse } from "@/actions/fetch-invoices";
 
 interface InvoiceItem {
   productCategory: string;
@@ -21,10 +22,6 @@ interface InvoiceItem {
   price: number;
   quantity: number;
   profit: number;
-}
-
-interface Invoice {
-  items: InvoiceItem[];
 }
 
 interface SalesDataItem {
@@ -49,23 +46,14 @@ interface TopListCardProps {
   isDealer?: boolean;
 }
 
-async function fetchInvoices(from: string, to: string): Promise<Invoice[]> {
-  const result = await fetch(
-    process.env.NEXTAUTH_URL + apiUrls.invoice.getInvoice({ from, to }),
-    { cache: "no-store" },
-  ).then((res) => res.json());
-
-  return result?.data || [];
-}
-
 function calculateSalesData(
-  invoices: Invoice[],
+  response: InvoicesResponse,
   key: keyof InvoiceItem,
 ): SalesData {
   const salesData: SalesData = {};
 
-  invoices.forEach((invoice) => {
-    invoice.items.forEach((item) => {
+  response.data?.forEach((invoice) => {
+    invoice.items?.forEach((item) => {
       const value = item[key];
       if (!salesData[value]) {
         salesData[value] = { totalSales: 0, totalProfit: 0 };
@@ -104,10 +92,10 @@ export default async function TopDataList() {
   const from = format(new Date("2023-01-01"), dateFormat);
   const to = format(endOfYear(new Date()), dateFormat);
   
-  const invoices = await fetchInvoices(from, to);
+  const result = await fetchInvoices(from, to)
 
-  const categorySalesData = calculateSalesData(invoices, "productCategory");
-  const dealerSalesData = calculateSalesData(invoices, "dealerCode");
+  const categorySalesData = calculateSalesData(result, "productCategory");
+  const dealerSalesData = calculateSalesData(result, "dealerCode");
 
   const topCategoriesWithPercentage = getTopEntitiesWithPercentage(
     categorySalesData,
