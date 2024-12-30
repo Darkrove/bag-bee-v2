@@ -85,7 +85,7 @@ model Invoice {
   totalProfit     Int
   totalQuantity   Int
   paymentMode     String
-  warrantyPeriod  Int
+  warrantyPeriod  String
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @default(now())
 

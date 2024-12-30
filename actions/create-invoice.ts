@@ -4,14 +4,24 @@ import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import messages from "@/constants/messages";
 import { prisma } from "@/lib/db";
-import { error } from "console";
+import { InvoiceData } from "./fetch-invoices";
+
+interface CreateInvoicesResponse {
+  status: string;
+  message: string | z.ZodIssue[];
+  time?: string;
+  data?: InvoiceData;
+  id?: number;
+}
+
+import { InvoiceDataRequest } from "@/types/invoice";
 
 const invoiceSchema = z.object({
   customerName: z.string(),
   customerPhone: z.string(),
   customerAddress: z.string(),
   paymentMode: z.string(),
-  warrantyPeriod: z.number(),
+  warrantyPeriod: z.string(),
   cashierName: z.string(),
   totalAmount: z.number(),
   totalProfit: z.number(),
@@ -30,7 +40,9 @@ const invoiceSchema = z.object({
   ),
 });
 
-async function createInvoice(data: any) {
+export type InvoiceInterface = z.infer<typeof invoiceSchema>;
+
+export async function createInvoice(data: InvoiceDataRequest): Promise<CreateInvoicesResponse> {
   const validationResult = invoiceSchema.safeParse(data);
 
   if (!validationResult.success) {
@@ -89,7 +101,7 @@ async function createInvoice(data: any) {
       console.log(error);
       return {
         status: "error",
-        messages: error.issues,
+        message: error.issues,
       };
     }
     return {
