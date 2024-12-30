@@ -106,7 +106,7 @@ export function ItemForm() {
     try {
       const profit = calculateProfit(data.code, data.price, data.quantity);
       const amount = data.price * data.quantity;
-      const note = data?.note?.replace(/\s/g, "").toUpperCase() || null;
+      const note = data?.note?.replace(/\s/g, "").toUpperCase() || undefined;
       const invoiceData = {
         code: (data.code).toUpperCase(),
         productCategory: data.product,
