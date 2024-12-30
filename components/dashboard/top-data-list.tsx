@@ -3,7 +3,6 @@ import { ArrowUpRight, TrendingUp } from "lucide-react";
 import { endOfYear, format } from "date-fns";
 
 import { dateFormat } from "@/constants/date";
-import { apiUrls } from "@/lib/api-urls";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { currencyFormatter, getDealerLabelFromValue } from "@/lib/utils";
+import { toCamelCase, currencyFormatter } from "@/lib/utils";
 import { fetchInvoices, InvoicesResponse } from "@/actions/fetch-invoices";
 
 interface InvoiceItem {
@@ -154,9 +153,7 @@ const TopListCard: React.FC<TopListCardProps> = ({
                 <div className="ml-4 flex space-x-1">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium capitalize leading-none">
-                      {isDealer
-                        ? `${getDealerLabelFromValue(item.entity)}`
-                        : `${item.entity}`}
+                      {toCamelCase(item.entity)}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {item.percentageSales.toFixed(2)}% of sales
