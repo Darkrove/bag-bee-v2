@@ -9,12 +9,16 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/analytics";
 import ModalProvider from "@/components/modals/providers";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { siteConfig } from "@/config/site";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export const metadata = constructMetadata();
+export const metadata = constructMetadata({
+  title: siteConfig.name,
+  description: siteConfig.description,
+});
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
