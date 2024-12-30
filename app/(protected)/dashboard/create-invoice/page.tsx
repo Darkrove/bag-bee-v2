@@ -22,7 +22,7 @@ export default function InvoicePage() {
             <CardTitle className=" text-xl font-bold  md:text-2xl">
               Choose Product
             </CardTitle>
-            <Luggage className="h-6 w-6 text-muted-foreground" />
+            <Luggage className="size-6 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <ItemForm />
@@ -33,7 +33,7 @@ export default function InvoicePage() {
             <CardTitle className="text-xl font-bold md:text-2xl">
               New Invoice
             </CardTitle>
-            <Receipt className="h-6 w-6 text-muted-foreground" />
+            <Receipt className="size-6 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <InvoiceForm />

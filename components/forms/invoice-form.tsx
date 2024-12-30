@@ -171,7 +171,7 @@ export function InvoiceForm() {
                   className="ml-auto rounded-full"
                   onClick={() => handleDelete(item.code)}
                 >
-                  <Trash className="h-4 w-4" />
+                  <Trash className="size-4" />
                 </Button>
               </div>
             </div>
@@ -268,7 +268,7 @@ export function InvoiceForm() {
                           ? modes.find((mode) => mode.value === field.value)
                               ?.label
                           : "Select mode"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -286,7 +286,7 @@ export function InvoiceForm() {
                             >
                               <Check
                                 className={cn(
-                                  "mr-2 h-4 w-4",
+                                  "mr-2 size-4",
                                   mode.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
@@ -329,7 +329,7 @@ export function InvoiceForm() {
                               (warranty) => warranty.value === field.value,
                             )?.label
                           : "Select warranty"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -349,7 +349,7 @@ export function InvoiceForm() {
                             >
                               <Check
                                 className={cn(
-                                  "mr-2 h-4 w-4",
+                                  "mr-2 size-4",
                                   warranty.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
@@ -377,9 +377,9 @@ export function InvoiceForm() {
           disabled={isLoading || items.length === 0}
         >
           {isLoading ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
           )}
           Create Invoice
         </Button>

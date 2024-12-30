@@ -178,7 +178,7 @@ export function ItemForm() {
                             >
                               <Check
                                 className={cn(
-                                  "mr-2 h-4 w-4",
+                                  "mr-2 size-4",
                                   product.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
@@ -222,7 +222,7 @@ export function ItemForm() {
                               (dealer) => dealer.value === field.value,
                             )?.label
                           : "Select dealer code"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -242,7 +242,7 @@ export function ItemForm() {
                             >
                               <Check
                                 className={cn(
-                                  "mr-2 h-4 w-4",
+                                  "mr-2 size-4",
                                   dealer.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
@@ -347,10 +347,10 @@ export function ItemForm() {
         <Button className="w-full" type="submit" disabled={isLoading}>
           {isLoading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+              <Loader2 className="mr-2 size-4 animate-spin" />{" "}
             </>
           ) : (
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
           )}
           Add To Invoice
         </Button>
@@ -364,7 +364,7 @@ export function ItemForm() {
             clearItems();
           }}
         >
-          <Trash className="mr-2 h-4 w-4" />
+          <Trash className="mr-2 size-4" />
           Clear All Fields
         </Button>
       </div>
