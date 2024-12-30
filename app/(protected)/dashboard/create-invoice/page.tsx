@@ -7,14 +7,14 @@ import { InvoiceForm } from "@/components/forms/invoice-form"
 import { ItemForm } from "@/components/forms/item-form"
 
 export const metadata = constructMetadata({
-  title: "Invoice",
-  description: "List of charts by shadcn-ui",
+  title: "Create Invoice| Famous Bag",
+  description: "Create a new invoice.",
 });
 
 export default function InvoicePage() {
   return (
     <>
-      <DashboardHeader heading="Invoice" text="List of charts by shadcn-ui." />
+      <DashboardHeader heading="Invoice" text="Create a new invoice." />
       <section className="grid items-center gap-6">
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <Card>

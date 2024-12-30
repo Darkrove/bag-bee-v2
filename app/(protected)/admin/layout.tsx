@@ -7,7 +7,7 @@ interface ProtectedLayoutProps {
 }
 
 export const metadata = constructMetadata({
-  title: "Admin – Next Template",
+  title: "Admin | Famous Bag",
   description: "Admin page for only admin management.",
 });
 

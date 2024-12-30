@@ -10,7 +10,6 @@ import { OverviewContextProvider } from "@/components/context/overview-provider"
 import { Data } from "./data";
 import TopDataList from "@/components/dashboard/top-data-list";
 
-
 export default async function AdminPage() {
   const user = await getCurrentUser();
   if (!user || user.role !== "ADMIN") redirect("/login");

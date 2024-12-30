@@ -5,8 +5,8 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 
 export const metadata = constructMetadata({
-  title: "Dashboard – Next Template",
-  description: "Create and manage content.",
+  title: "Dashboard | Famous Bag",
+  description: "Dahboard for analytics and data visualization.",
 });
 
 export default async function DashboardPage() {
@@ -16,7 +16,7 @@ export default async function DashboardPage() {
     <>
       <DashboardHeader
         heading="Dashboard"
-        text={`Current Role : ${user?.role} — Change your role in settings.`}
+        text={`Current Role : ${user?.role}.`}
       />
       <EmptyPlaceholder>
         <EmptyPlaceholder.Icon name="post" />

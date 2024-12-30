@@ -11,14 +11,14 @@ import { RadialTextChart } from "@/components/charts/radial-text-chart";
 import { DashboardHeader } from "@/components/dashboard/header";
 
 export const metadata = constructMetadata({
-  title: "Charts",
-  description: "List of charts by shadcn-ui",
+  title: "Charts | Famous Bag",
+  description: "Charts for analytics and data visualization.",
 });
 
 export default function ChartsPage() {
   return (
     <>
-      <DashboardHeader heading="Charts" text="List of charts by shadcn-ui." />
+      <DashboardHeader heading="Charts" text="Charts for analytics." />
       <div className="flex flex-col gap-5">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
           <RadialTextChart />
