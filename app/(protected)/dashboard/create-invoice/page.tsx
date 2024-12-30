@@ -15,7 +15,7 @@ export default function InvoicePage() {
   return (
     <>
       <DashboardHeader heading="Invoice" text="List of charts by shadcn-ui." />
-      <section className="container grid items-center gap-6">
+      <section className="grid items-center gap-6">
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <Card>
           <CardHeader className="flex w-full flex-row items-center justify-between space-y-0 pb-2">
