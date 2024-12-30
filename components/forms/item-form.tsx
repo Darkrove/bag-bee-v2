@@ -360,7 +360,14 @@ export function ItemForm() {
           className="w-full"
           variant="destructive"
           onClick={() => {
-            form.reset();
+            form.reset({
+              quantity: 1,
+              price: 0,
+              code: "",
+              note: "",
+              product: "",
+              dealerCode: "",
+            })
             clearItems();
           }}
         >
