@@ -108,14 +108,14 @@ export function ItemForm() {
       const amount = data.price * data.quantity;
       const note = data?.note?.replace(/\s/g, "").toUpperCase() || null;
       const invoiceData = {
-        code: data.code,
+        code: (data.code).toUpperCase(),
         productCategory: data.product,
         quantity: data.quantity,
         price: data.price,
         amount: amount,
         profit: profit,
         note: note,
-        dealerCode: data.dealerCode,
+        dealerCode: (data.dealerCode).toUpperCase(),
       };
       addItem(invoiceData);
       toast.success("Success", {
