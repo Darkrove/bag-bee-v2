@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import { IndianRupee, PieChart, ChartLine } from "lucide-react";
-import Counter from "@/components/counter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useOverview } from "@/components/context/overview-provider";
 import InfoCard from "@/components/dashboard/info-card";

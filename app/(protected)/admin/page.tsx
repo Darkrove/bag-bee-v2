@@ -26,7 +26,7 @@ export default async function AdminPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <Data />
           </div>
-          <TransactionsList />
+          <TransactionsList showRowsNumber={5}/>
           <TopDataList/>
         </div>
       </OverviewContextProvider>

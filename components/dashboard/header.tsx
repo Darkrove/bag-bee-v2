@@ -62,7 +62,6 @@ export default function LayoutHeader({
           </div>
         )}
       </DashboardHeader>
-      <Separator />
     </>
   );
 }

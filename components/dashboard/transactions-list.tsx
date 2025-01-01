@@ -17,7 +17,7 @@ import { currencyFormatter } from "@/lib/utils";
 import { fetchInvoices } from "@/actions/fetch-invoices";
 import { Invoice } from "@prisma/client";
 
-export default async function TransactionsList() {
+export default async function TransactionsList({showRowsNumber}: {showRowsNumber: number}) {
   function getRandomNumber() {
     return Math.floor(Math.random() * 10) + 1;
   }
@@ -46,7 +46,7 @@ export default async function TransactionsList() {
         <div>
           {result?.data
             ?.reverse()
-            .slice(0, 5)
+            .slice(0, showRowsNumber)
             .map((invoice: Invoice, index: number) => (
               <div key={index} className="flex flex-col gap-3 pt-3">
                 <div className="flex items-center" key={invoice.customerPhone}>
@@ -81,7 +81,7 @@ export default async function TransactionsList() {
                     + {currencyFormatter.format(invoice.totalAmount)}
                   </div>
                 </div>
-                {index !== 5 - 1 && <Separator className="border-gray-500" />}
+                {index !== showRowsNumber - 1 && <Separator className="border-gray-500" />}
               </div>
             ))}
         </div>
