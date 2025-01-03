@@ -60,36 +60,6 @@ const InvoiceLayout = ({ invoice, invoiceItem }: Props) => {
           <br />
         </span>
       ),
-      items: [
-        {
-          service: "general",
-          code: "EEB",
-          qty: "2",
-          rate: "180",
-          amount: "360",
-        },
-        {
-          service: "college bag",
-          code: "NEB",
-          qty: "1",
-          rate: "400",
-          amount: "400",
-        },
-        {
-          service: "office bag",
-          code: "SCS",
-          qty: "1",
-          rate: "1500",
-          amount: "1500",
-        },
-        {
-          service: "air bag",
-          code: "OAS",
-          qty: "1",
-          rate: "750",
-          amount: "750",
-        },
-      ],
       subtotal: "0",
       taxes: "0",
       total: "0",
