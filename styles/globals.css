@@ -102,3 +102,11 @@
 ::-webkit-inner-spin-button {
   appearance: none;
 }
+
+@media not print {
+  /* style applied if the page is not printed */
+  .invoice {
+    @apply shadow-md;
+    @apply rounded-xl;
+  }
+}

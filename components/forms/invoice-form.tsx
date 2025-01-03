@@ -125,7 +125,7 @@ export function InvoiceForm() {
                 description: "Invoice created successfully.",
                 action: {
                 label: "View",
-                onClick: () => router.push(`/billv2/${response.id}`),
+                onClick: () => router.push(`/dashboard/view-invoice/${response.id}`),
                 },
             })
             } else {

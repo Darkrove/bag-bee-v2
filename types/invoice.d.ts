@@ -1,4 +1,4 @@
-import { Invoice } from "@prisma/client";
+import { Invoic } from "@prisma/client";
 
 export interface InvoiceItemRequest {
     code: string;

@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { DashboardHeader } from "@/components/dashboard/header";
 
-export default function ChartsLoading() {
+export default function CreateInvoiceLoading() {
   return (
     <>
       <DashboardHeader heading="Invoice" text="Create a new invoice." />

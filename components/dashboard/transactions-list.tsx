@@ -62,7 +62,7 @@ export default async function TransactionsList({showRowsNumber}: {showRowsNumber
                   <div className="ml-4 flex space-x-1">
                     <div className="flex flex-col items-start justify-between space-y-1">
                       <Link
-                        href={`/billv2/${invoice.id}`}
+                        href={`/dashboard/view-invoice/${invoice.id}`}
                         className="truncate text-sm font-medium capitalize leading-none transition duration-300 ease-in-out hover:underline"
                         target="_blank"
                       >
