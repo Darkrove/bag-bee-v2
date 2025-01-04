@@ -64,7 +64,6 @@ export default async function TransactionsList({showRowsNumber}: {showRowsNumber
                       <Link
                         href={`/dashboard/view-invoice/${invoice.id}`}
                         className="truncate text-sm font-medium capitalize leading-none transition duration-300 ease-in-out hover:underline"
-                        target="_blank"
                       >
                         {invoice.customerName}
                       </Link>
