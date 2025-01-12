@@ -10,6 +10,7 @@ import { Check, ChevronsUpDown, Loader2, Plus, Trash } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { cn, calculateProfit } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { DEALERS, PRODUCTS } from "@/components/sales/data";
 import {
   Command,
   CommandEmpty,
@@ -33,42 +34,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-const products = [
-  { label: "Office Bag", value: "Office Bag" },
-  { label: "School Bag", value: "School Bag" },
-  { label: "College Bag", value: "College Bag" },
-  { label: "Rain Cover", value: "Rain Cover" },
-  { label: "Trekking Bag", value: "Trekking Bag" },
-  { label: "Air Bag", value: "Air Bag" },
-  { label: "Laptop Bag", value: "Laptop Bag" },
-  { label: "Trolley Bag", value: "Trolley Bag" },
-  { label: "Duffle Bag", value: "Duffle Bag" },
-  { label: "Gym Bag", value: "Gym Bag" },
-  { label: "Sling Bag", value: "Sling Bag" },
-  { label: "Wallet", value: "Wallet" },
-  { label: "Belt", value: "Belt" },
-  { label: "Hand Bag", value: "Hand Bag" },
-  { label: "General", value: "General" },
-] as const;
-
-const dealers = [
-  { label: "Luggage king", value: "Luggage king" },
-  { label: "Goodwin", value: "Goodwin" },
-  { label: "Legon bag", value: "Legon bag" },
-  { label: "Fly bag", value: "Fly bag" },
-  { label: "Zabco bag", value: "Zabco bag" },
-  { label: "Market", value: "Market" },
-  { label: "Falcon", value: "Falcon" },
-  { label: "Impress", value: "Impress" },
-  { label: "Peri bag", value: "Peri bag" },
-  { label: "Dubbly bag", value: "Dubbly bag" },
-  { label: "Fast Fashion", value: "Fast Fashion" },
-  { label: "Cherry Bag", value: "Cherry Bag" },
-  { label: "Originals Bag", value: "Originals Bag" },
-  { label: "Jiore Bag", value: "Jiore Bag" },
-  { label: "FBI", value: "FBI" },
-] as const;
 
 const formSchema = z.object({
   product: z.string().refine((value) => value.length > 0, {
@@ -153,7 +118,7 @@ export function ItemForm() {
                         )}
                       >
                         {field.value
-                          ? products.find(
+                          ? PRODUCTS.find(
                               (product) => product.value === field.value,
                             )?.label
                           : "Select language"}
@@ -168,7 +133,7 @@ export function ItemForm() {
                       <CommandList>
                         <CommandEmpty>No category found.</CommandEmpty>
                         <CommandGroup>
-                          {products.map((product) => (
+                          {PRODUCTS.map((product) => (
                             <CommandItem
                               value={product.value}
                               key={product.value}
@@ -218,7 +183,7 @@ export function ItemForm() {
                         )}
                       >
                         {field.value
-                          ? dealers.find(
+                          ? DEALERS.find(
                               (dealer) => dealer.value === field.value,
                             )?.label
                           : "Select dealer code"}
@@ -232,7 +197,7 @@ export function ItemForm() {
                       <CommandList>
                         <CommandEmpty>No dealer code found.</CommandEmpty>
                         <CommandGroup>
-                          {dealers.map((dealer) => (
+                          {DEALERS.map((dealer) => (
                             <CommandItem
                               value={dealer.value}
                               key={dealer.value}

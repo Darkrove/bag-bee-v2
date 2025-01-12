@@ -37,6 +37,7 @@ import {
 import { Check, ChevronsUpDown, Loader2, Trash, Plus } from "lucide-react";
 import { cn, currencyFormatter } from "@/lib/utils";
 import { InvoiceDataRequest } from "@/types/invoice";
+import { MODES } from "@/components/sales/data";
 
 const formSchema = z.object({
   customerName: z.string().min(2).max(30),
@@ -45,13 +46,6 @@ const formSchema = z.object({
   mode: z.string().nonempty("Please select a payment mode."),
   warranty: z.string().nonempty("Please select a warranty period."),
 });
-
-const modes = [
-  { label: "Cash", value: "cash" },
-  { label: "Online", value: "online" },
-  { label: "Card", value: "card" },
-  { label: "Cheque", value: "cheque" },
-] as const;
 
 const warranty = [
   { label: "No warranty", value: "0" },
@@ -265,7 +259,7 @@ export function InvoiceForm() {
                         )}
                       >
                         {field.value
-                          ? modes.find((mode) => mode.value === field.value)
+                          ? MODES.find((mode) => mode.value === field.value)
                               ?.label
                           : "Select mode"}
                         <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
@@ -278,7 +272,7 @@ export function InvoiceForm() {
                       <CommandList>
                         <CommandEmpty>No mode found.</CommandEmpty>
                         <CommandGroup>
-                          {modes.map((mode) => (
+                          {MODES.map((mode) => (
                             <CommandItem
                               value={mode.value}
                               key={mode.value}
