@@ -8,6 +8,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 import { columns } from "@/components/sales/columns"
 import { DataTable } from "@/components/sales/data-table"
+import { DataTableMobile } from "@/components/sales/data-table-mobile";
 
 export const metadata = constructMetadata({
   title: "Sales Data | Famous Bag",
@@ -37,8 +38,9 @@ export default async function SalesDataPage() {
         <Button>Buy Products</Button>
       </EmptyPlaceholder>
       )}
-      <div className="container mx-auto">
+      <div className="mx-auto w-full">
         <DataTable columns={columns} data={result?.data ?? []} />
+        <DataTableMobile data={result?.data ?? []}/>
       </div>
     </>
   );

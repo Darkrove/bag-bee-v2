@@ -13,15 +13,11 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { currencyFormatter } from "@/lib/utils";
+import { currencyFormatter, getRandomNumber } from "@/lib/utils";
 import { fetchInvoices } from "@/actions/fetch-invoices";
 import { Invoice } from "@prisma/client";
 
 export default async function TransactionsList({showRowsNumber}: {showRowsNumber: number}) {
-  function getRandomNumber() {
-    return Math.floor(Math.random() * 10) + 1;
-  }
-
   const from = format(startOfYear(new Date()), dateFormat);
   const to = format(endOfYear(new Date()), dateFormat);
   const result = await fetchInvoices(from, to);

@@ -215,3 +215,7 @@ export function calculateProfit(
 export function toCamelCase(str: string): string {
   return str.replace(/([A-Z])/g, (g) => `${g[0].toLowerCase()}`);
 }
+
+export  function getRandomNumber() {
+  return Math.floor(Math.random() * 10) + 1;
+}
