@@ -285,7 +285,7 @@ const InvoiceDetail = ({ invoice }: { invoice: InvoiceData }) => {
                 <Blend className="size-4 text-secondary-foreground" />
                 <p className="text-sm font-semibold">Status</p>
               </div>
-              <Badge variant="outline" size="sm">
+              <Badge variant="success" size="sm">
                 Paid
               </Badge>
             </div>
