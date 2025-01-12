@@ -18,7 +18,6 @@ export const sidebarLinks: SidebarNavItem[] = [
       { href: "/dashboard/sales-data", icon: "table", title: "Sales Data", disabled: true},
       { href: "/dashboard/customers", icon: "usersRound", title: "Customers", disabled: true},
       { href: "/dashboard/invoices", icon: "database", title: "Invoices", disabled: true}, 
-      { href: "/dashboard/view-invoice", icon: "search", title: "View Invoice"},
       {
         href: "/admin/orders",
         icon: "package",
