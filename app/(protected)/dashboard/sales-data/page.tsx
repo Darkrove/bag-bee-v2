@@ -38,7 +38,7 @@ export default async function SalesDataPage() {
       </EmptyPlaceholder>
       )}
       <div className="container mx-auto">
-      <DataTable columns={columns} data={result?.data ?? []} />
+        <DataTable columns={columns} data={result?.data ?? []} />
       </div>
     </>
   );
