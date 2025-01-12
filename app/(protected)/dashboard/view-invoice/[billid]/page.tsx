@@ -1,5 +1,4 @@
 import { getInvoiceById, InvoicesResponse } from "@/actions/fetch-invoice-by-id";
-import { DashboardHeader } from "@/components/dashboard/header"
 import InvoiceLayout from "@/components/invoice/invoice-layout";
 import { constructMetadata } from "@/lib/utils";
 
