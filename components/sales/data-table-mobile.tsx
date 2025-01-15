@@ -11,6 +11,7 @@ import {
   FileText,
   IndianRupee,
   MoreHorizontal,
+  ShoppingBasket,
   User,
 } from "lucide-react";
 
@@ -275,6 +276,15 @@ const InvoiceDetail = ({ invoice }: { invoice: InvoiceData }) => {
               </div>
               <p className="text-sm text-muted-foreground">
                 {currencyFormatter.format(invoice.totalProfit)}
+              </p>
+            </div>
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex items-center space-x-2">
+                <ShoppingBasket className="size-4 text-secondary-foreground" />
+                <p className="text-sm font-semibold">Items</p>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {invoice.items.map((item) => item.productCategory).join(", ")}
               </p>
             </div>
             <div className="flex items-center justify-between space-x-2">
