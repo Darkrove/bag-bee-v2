@@ -3,18 +3,18 @@
 import React, { useRef } from "react"
 import Link from "next/link"
 import { addDays, format } from "date-fns"
-import { Loader2, Pencil, Printer, QrCode, Share, Trash } from "lucide-react"
-import useSWR from "swr"
+import { Download, Loader2, Pencil, Printer, QrCode, Share, Trash } from "lucide-react"
 
 import { Separator } from "@/components/ui/separator"
 import { RoundButton, buttonVariants } from "@/components/ui/round-button"
 import { Icons } from "@/components/shared/icons"
 import { InvoiceItem } from "@prisma/client";
 import { Status } from "@/components/invoice/status"
+import { PDFDownloadLink } from "@react-pdf/renderer"
+import { Button } from "../ui/button"
+import InvoiceTemplate from "@/template/invoice-template"
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
-interface Props {
+export interface Props {
   invoice: {
     id: number;
     createdAt: Date;
@@ -342,6 +342,22 @@ Happy Shopping ♻`
           </div>
         </div>
         {/* <!-- End Invoice --> */}
+        <div className="fixed bottom-6 right-6">
+            <PDFDownloadLink document={<InvoiceTemplate invoice={invoice} invoiceItem={invoiceItem} totalSales={invoice.totalAmount} me={{
+                    name: "",
+                    address: undefined,
+                    city: "",
+                    mail: "",
+                    contact: ""
+                  }} />} fileName={`invoice-${invoice.id}.pdf`}>
+        <div>
+            <Button >
+              <Download className="mr-1 size-4"/>
+              Download
+            </Button>
+        </div>
+    </PDFDownloadLink>
+            </div>
       </div>
     </div>
   )
