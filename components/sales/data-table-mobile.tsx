@@ -88,9 +88,6 @@ export function DataTableMobile({ data }: { data: InvoiceData[] }) {
       {currentRecords.map((invoice) => (
         <InvoiceDetail key={invoice.id} invoice={invoice} />
       ))}
-      <div className="text-center text-sm text-muted-foreground">
-        {currentPage} of {totalPages} page(s)
-      </div>
     </div>
   );
 }
@@ -135,7 +132,6 @@ const DataTableToolbar = ({
         </Select>
       </div>
       <div className="flex items-center space-x-2">
-        {/* create button for first page */}
         <Button
           variant="outline"
           className="size-8 p-0"
@@ -152,6 +148,7 @@ const DataTableToolbar = ({
         >
           <ChevronLeft className="size-4" />
         </Button>
+        <p className="flex size-8 items-center justify-center rounded-md border border-input">{currentPage}</p>
         <Button
           variant="outline"
           className="size-8 p-0"
