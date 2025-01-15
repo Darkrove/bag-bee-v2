@@ -1,18 +1,27 @@
-"use client"
+"use client";
 
-import React, { useRef } from "react"
-import Link from "next/link"
-import { addDays, format } from "date-fns"
-import { Download, Loader2, Pencil, Printer, QrCode, Share, Trash } from "lucide-react"
+import React, { useRef } from "react";
+import Link from "next/link";
+import { addDays, format } from "date-fns";
+import ReactToPrint from "react-to-print";
+import {
+  Download,
+  Loader2,
+  Pencil,
+  Printer,
+  QrCode,
+  Share,
+  Trash,
+} from "lucide-react";
 
-import { Separator } from "@/components/ui/separator"
-import { RoundButton, buttonVariants } from "@/components/ui/round-button"
-import { Icons } from "@/components/shared/icons"
+import { Separator } from "@/components/ui/separator";
+import { RoundButton, buttonVariants } from "@/components/ui/round-button";
+import { Icons } from "@/components/shared/icons";
 import { InvoiceItem } from "@prisma/client";
-import { Status } from "@/components/invoice/status"
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import { Button } from "../ui/button"
-import InvoiceTemplate from "@/template/invoice-template"
+import { Status } from "@/components/invoice/status";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Button } from "../ui/button";
+import InvoiceTemplate from "@/template/invoice-template";
 
 export interface Props {
   invoice: {
@@ -33,6 +42,7 @@ export interface Props {
 }
 
 const InvoiceLayout = ({ invoice, invoiceItem }: Props) => {
+  const componentRef = useRef(null);
   const data = {
     me: {
       name: "Famous Bag House",
@@ -67,25 +77,86 @@ const InvoiceLayout = ({ invoice, invoiceItem }: Props) => {
     },
     encodedMessage: encodeURIComponent(
       `Dear Sir/Madam
-Thanks for shopping at *Famous Bag*. As part of our green initiative, your digital bill awaits:
-https://yourbill.vercel.app/${invoice?.id}
+Thanks for shopping at *Famous Bag*. As part of our green initiative, your digital bill awaits.
 
-Happy Shopping ♻`
+Happy Shopping ♻`,
     ),
     encodedFileURL: encodeURIComponent(
-      "https://www.isro.gov.in/media_isro/pdf/Missions/LVM3/LVM3M4_Chandrayaan3_brochure.pdf"
+      "https://www.isro.gov.in/media_isro/pdf/Missions/LVM3/LVM3M4_Chandrayaan3_brochure.pdf",
     ),
-  }
+  };
 
   return (
     <div>
       <div className="flex-col space-y-5">
         <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
           <div className="mx-auto flex flex-col space-y-4 sm:w-11/12 lg:w-3/4">
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="flex gap-2">
+                  <Link
+                    href={`https://api.whatsapp.com/send?phone=+91${invoice.customerPhone}&text=${data.encodedMessage}`}
+                    className={buttonVariants({ variant: "secondary" })}
+                    target="_blank"
+                  >
+                    <span className="sr-only">Share</span>
+                    <Share className="size-4 text-secondary-foreground transition-all group-hover:text-blue-800" />
+                  </Link>
+                  <ReactToPrint
+                    bodyClass="invoice"
+                    trigger={() => (
+                      <RoundButton>
+                        <span className="sr-only">Print</span>
+                        <Printer className="size-4 text-secondary-foreground transition-all group-hover:text-green-800" />
+                      </RoundButton>
+                    )}
+                    content={() => componentRef.current}
+                  />
+                  <PDFDownloadLink
+                    document={
+                      <InvoiceTemplate
+                        invoice={invoice}
+                        invoiceItem={invoiceItem}
+                        totalSales={invoice.totalAmount}
+                        me={{
+                          name: "",
+                          address: undefined,
+                          city: "",
+                          mail: "",
+                          contact: "",
+                        }}
+                      />
+                    }
+                    fileName={`invoice-${invoice.id}.pdf`}
+                  >
+                    <div>
+                      <RoundButton variant="destructive">
+                        <span className="sr-only">Download</span>
+                        <Download className="size-4 text-secondary-foreground transition-all group-hover:text-red-800" />
+                      </RoundButton>
+                    </div>
+                  </PDFDownloadLink>
+                </div>
+
+                <div className="flex gap-2">
+                  <Link
+                    href={`/edit/${invoice.id}`}
+                    className={buttonVariants({ variant: "secondary" })}
+                  >
+                    <span className="sr-only">Edit</span>
+                    <Pencil className="size-4 text-secondary-foreground transition-all group-hover:text-blue-800" />
+                  </Link>
+                  <RoundButton variant="destructive">
+                    <span className="sr-only">Delete</span>
+                    <Trash className="size-4 text-secondary-foreground transition-all group-hover:text-red-800" />
+                  </RoundButton>
+                </div>
+              </div>
+            </div>
             <div className="w-full rounded-lg bg-white p-10 shadow-md dark:bg-secondary">
               <div className="flex items-center justify-between">
                 <div className="flex w-full items-center justify-between space-x-2 md:w-auto md:justify-start">
-                  <h1 className=" text-gray-600 dark:text-gray-400">Mode</h1>
+                  <h1 className="text-gray-600 dark:text-gray-400">Mode</h1>
                   <Status type={invoice?.paymentMode} />
                 </div>
                 <div className="hidden space-x-2 md:block">
@@ -97,6 +168,7 @@ Happy Shopping ♻`
               </div>
             </div>
             <div
+              ref={componentRef}
               className="invoice flex min-h-full w-full flex-col justify-between rounded-none border-t-[12px] border-primary bg-white p-4 dark:bg-secondary sm:p-10"
             >
               <div>
@@ -117,7 +189,9 @@ Happy Shopping ♻`
                     <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 md:text-3xl">
                       Invoice
                     </h2>
-                    <span className="mt-1 block text-gray-500">#{invoice.id}</span>
+                    <span className="mt-1 block text-gray-500">
+                      #{invoice.id}
+                    </span>
 
                     <address className="mt-4 not-italic text-gray-800 dark:text-gray-200">
                       {data.me.address}
@@ -146,10 +220,7 @@ Happy Shopping ♻`
                           Invoice date
                         </dt>
                         <dd className="col-span-2 text-gray-500">
-                          {format(
-                            invoice.createdAt,
-                            "dd/MM/yyyy"
-                          )}
+                          {format(invoice.createdAt, "dd/MM/yyyy")}
                         </dd>
                       </dl>
                       <dl className="grid gap-x-3 text-right sm:grid-cols-5">
@@ -161,9 +232,9 @@ Happy Shopping ♻`
                             {format(
                               addDays(
                                 invoice.createdAt,
-                                parseInt(invoice.warrantyPeriod)
+                                parseInt(invoice.warrantyPeriod),
                               ),
-                              "dd/MM/yyyy"
+                              "dd/MM/yyyy",
                             )}
                           </dd>
                         ) : (
@@ -182,7 +253,7 @@ Happy Shopping ♻`
                       <div className="text-xs font-medium uppercase text-gray-500 sm:col-span-2">
                         Item
                       </div>
-                      <div className="text-xs font-medium uppercase text-gray-500 ">
+                      <div className="text-xs font-medium uppercase text-gray-500">
                         Code
                       </div>
                       <div className="text-left text-xs font-medium uppercase text-gray-500">
@@ -197,63 +268,61 @@ Happy Shopping ♻`
                     </div>
 
                     <div className="hidden border-b border-gray-200 dark:border-gray-700 sm:block"></div>
-                    {invoiceItem.map(
-                      (item: InvoiceItem, index: number) => (
-                        <>
-                          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-                            <div className="col-span-2">
-                              <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
-                                Item
-                              </h5>
-                              <p className="font-medium text-gray-800 dark:text-gray-200">
-                                {item.productCategory}
-                                {item.note ? (
-                                  <span className="uppercase text-foreground/50">
-                                    {" "}
-                                    ({item.note})
-                                  </span>
-                                ) : null}
-                              </p>
-                            </div>
-                            <div className="text-right sm:text-left">
-                              <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
-                                Code
-                              </h5>
-                              <p className="text-gray-800 dark:text-gray-200">
-                                {item.code}
-                              </p>
-                            </div>
-                            <div>
-                              <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
-                                Rate
-                              </h5>
-                              <p className="text-gray-800 dark:text-gray-200">
-                                ₹{item.price}
-                              </p>
-                            </div>
-                            <div>
-                              <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
-                                Qty
-                              </h5>
-                              <p className="text-gray-800 dark:text-gray-200">
-                                {item.quantity}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
-                                Total
-                              </h5>
-                              <p className="text-gray-800 dark:text-gray-200 sm:text-right">
-                                ₹{item.amount}
-                              </p>
-                            </div>
+                    {invoiceItem.map((item: InvoiceItem, index: number) => (
+                      <>
+                        <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                          <div className="col-span-2">
+                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                              Item
+                            </h5>
+                            <p className="font-medium text-gray-800 dark:text-gray-200">
+                              {item.productCategory}
+                              {item.note ? (
+                                <span className="uppercase text-foreground/50">
+                                  {" "}
+                                  ({item.note})
+                                </span>
+                              ) : null}
+                            </p>
                           </div>
-                          {index !== invoiceItem.length - 1 && (
-                            <Separator className="border-gray-500" />
-                          )}
-                        </>
-                      )
-                    )}
+                          <div className="text-right sm:text-left">
+                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                              Code
+                            </h5>
+                            <p className="text-gray-800 dark:text-gray-200">
+                              {item.code}
+                            </p>
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                              Rate
+                            </h5>
+                            <p className="text-gray-800 dark:text-gray-200">
+                              ₹{item.price}
+                            </p>
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                              Qty
+                            </h5>
+                            <p className="text-gray-800 dark:text-gray-200">
+                              {item.quantity}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                              Total
+                            </h5>
+                            <p className="text-gray-800 dark:text-gray-200 sm:text-right">
+                              ₹{item.amount}
+                            </p>
+                          </div>
+                        </div>
+                        {index !== invoiceItem.length - 1 && (
+                          <Separator className="border-gray-500" />
+                        )}
+                      </>
+                    ))}
                   </div>
                 </div>
                 {/* <!-- End Table --> */}
@@ -329,9 +398,18 @@ Happy Shopping ♻`
             <div className="w-full rounded-lg bg-white p-6 shadow-md dark:bg-secondary">
               <div className="flex w-full flex-col items-center justify-center text-center">
                 <p className="text-xs">* No return / Exchange / Refund.</p>
-                <p className="text-xs">* Warranty covers only stitching and fitting.</p>
-                <p className="text-xs">* Any damage, malfunction, or defect in the accessories (such as zippers, straps, buckles, trolley, wheels,etc.). is not covered under our product warranty.</p>
-                <p className="text-xs">* This is computer generated invoice and hence does not require any signature.</p>
+                <p className="text-xs">
+                  * Warranty covers only stitching and fitting.
+                </p>
+                <p className="text-xs">
+                  * Any damage, malfunction, or defect in the accessories (such
+                  as zippers, straps, buckles, trolley, wheels,etc.). is not
+                  covered under our product warranty.
+                </p>
+                <p className="text-xs">
+                  * This is computer generated invoice and hence does not
+                  require any signature.
+                </p>
                 {/* <RenderQRCode props={{
                         key: id,
                         url: `https://yourbill.vercel.app/${id}`,
@@ -342,25 +420,9 @@ Happy Shopping ♻`
           </div>
         </div>
         {/* <!-- End Invoice --> */}
-        <div className="fixed bottom-6 right-6">
-            <PDFDownloadLink document={<InvoiceTemplate invoice={invoice} invoiceItem={invoiceItem} totalSales={invoice.totalAmount} me={{
-                    name: "",
-                    address: undefined,
-                    city: "",
-                    mail: "",
-                    contact: ""
-                  }} />} fileName={`invoice-${invoice.id}.pdf`}>
-        <div>
-            <Button >
-              <Download className="mr-1 size-4"/>
-              Download
-            </Button>
-        </div>
-    </PDFDownloadLink>
-            </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InvoiceLayout
+export default InvoiceLayout;
