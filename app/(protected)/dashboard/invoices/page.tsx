@@ -25,8 +25,8 @@ export default async function SalesDataPage() {
   return (
     <>
       <DashboardHeader
-        heading="Sales Data"
-        text="Check and manage your latest sales."
+        heading="Invoices"
+        text="Check and manage invoices."
       />
       {(result?.data?.length ?? 0) === 0 && (
         <EmptyPlaceholder>
