@@ -76,9 +76,6 @@ export function DataTableMobile({ data }: { data: InvoiceData[] }) {
 
   return (
     <div className="space-y-4 lg:hidden">
-      {currentRecords.map((invoice) => (
-        <InvoiceDetail key={invoice.id} invoice={invoice} />
-      ))}
       <DataTableToolbar
         recordsPerPage={recordsPerPage}
         handleRecordsPerPageChange={handleRecordsPerPageChange}
@@ -89,6 +86,9 @@ export function DataTableMobile({ data }: { data: InvoiceData[] }) {
         handleLastPage={handleLastPage}
         totalPages={totalPages}
       />
+      {currentRecords.map((invoice) => (
+        <InvoiceDetail key={invoice.id} invoice={invoice} />
+      ))}
     </div>
   );
 }
