@@ -76,6 +76,9 @@ export function DataTableMobile({ data }: { data: InvoiceData[] }) {
 
   return (
     <div className="space-y-4 lg:hidden">
+      {currentRecords.map((invoice) => (
+        <InvoiceDetail key={invoice.id} invoice={invoice} />
+      ))}
       <DataTableToolbar
         recordsPerPage={recordsPerPage}
         handleRecordsPerPageChange={handleRecordsPerPageChange}
@@ -86,9 +89,6 @@ export function DataTableMobile({ data }: { data: InvoiceData[] }) {
         handleLastPage={handleLastPage}
         totalPages={totalPages}
       />
-      {currentRecords.map((invoice) => (
-        <InvoiceDetail key={invoice.id} invoice={invoice} />
-      ))}
     </div>
   );
 }
@@ -113,8 +113,8 @@ const DataTableToolbar = ({
   totalPages: number;
 }) => {
   return (
-    <div className="mb-4 flex items-center justify-between">
-      <div className="flex items-center space-x-2">
+    <div className="mb-4 flex items-center justify-center md:justify-between">
+      <div className="hidden items-center space-x-2 md:flex">
         <p className="text-sm font-medium">Rows per page</p>
         <Select
           value={recordsPerPage.toString()}
@@ -284,7 +284,13 @@ const InvoiceDetail = ({ invoice }: { invoice: InvoiceData }) => {
                 <p className="text-sm font-semibold">Items</p>
               </div>
               <p className="text-sm text-muted-foreground">
-                {invoice.items.map((item) => item.productCategory).join(", ")}
+                {invoice.items.slice(0, 1).map((item) => item.productCategory)}
+                {invoice.items.length > 1 && (
+                  <span className="text-sm text-muted-foreground">
+                    {" "}
+                    & {invoice.totalQuantity - 1} more
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex items-center justify-between space-x-2">
