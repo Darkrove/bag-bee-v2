@@ -3,6 +3,7 @@ import { constructMetadata } from "@/lib/utils";
 import { DashboardHeader } from "@/components/dashboard/header";
 import TransactionsList from "@/components/dashboard/transactions-list";
 import Data from "./data";
+import { FloatingButton } from "@/components/ui/floating-button";
 
 export const metadata = constructMetadata({
   title: "Dashboard | Famous Bag",
@@ -24,6 +25,11 @@ export default async function DashboardPage() {
         </div>
         <TransactionsList showRowsNumber={10} />
       </div>
+      <FloatingButton
+        title="Create Invoice"
+        href="/dashboard/create-invoice"
+        iconName="Plus"
+      />
     </>
   );
 }
