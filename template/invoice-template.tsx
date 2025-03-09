@@ -158,6 +158,7 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
       >
         <Text style={styles.address}>Shop No. 5,</Text>
         <Text style={styles.address}>Ekta Appartment,</Text>
+<Text style={styles.address}>Nehru Road,</Text>
         <Text style={styles.address}>Opp. Ration Office,</Text>
         <Text style={styles.address}>Dombivli East-421201</Text>
       </View>
