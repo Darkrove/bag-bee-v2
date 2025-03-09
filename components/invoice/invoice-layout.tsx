@@ -50,6 +50,7 @@ const InvoiceLayout = ({ invoice, invoiceItem }: Props) => {
         <span>
           Shop No. 5,
           <br /> Ekta Appartment,
+<br/ > Nehru Road,
           <br /> Opp. Ration Office,
           <br /> Dombivli East-421201
         </span>
