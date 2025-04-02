@@ -17,41 +17,35 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+import React from "react"
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  transactions: {
+    label: "Transactions",
   },
-  chrome: {
-    label: "Chrome",
+  card: {
+    label: "Card",
     color: "hsl(var(--chart-1))",
   },
-  safari: {
-    label: "Safari",
+  cash: {
+    label: "Cash",
     color: "hsl(var(--chart-2))",
   },
-  firefox: {
-    label: "Firefox",
+  online: {
+    label: "Online",
     color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
 
-export function RadialChartGrid() {
+export function RadialChartGrid({card, cash, online}: {card: number, cash: number, online: number}) {
+  const chartData = React.useMemo(() => {
+      return [
+        { mode: "Card", transactions: card, fill: "var(--color-card)" },
+        { mode: "Cash", transactions: cash, fill: "var(--color-cash)" },
+        { mode: "Online", transactions: online, fill: "var(--color-online)" },
+      ]
+    }
+    , [card, cash, online])
   return (
     <Card className="flex flex-col">
       {/* <CardHeader className="items-center pb-0">
@@ -66,10 +60,10 @@ export function RadialChartGrid() {
           <RadialBarChart data={chartData} innerRadius={30} outerRadius={100}>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel nameKey="browser" />}
+              content={<ChartTooltipContent hideLabel nameKey="mode" />}
             />
             <PolarGrid gridType="circle" />
-            <RadialBar dataKey="visitors" />
+            <RadialBar dataKey="transactions" />
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
@@ -78,7 +72,7 @@ export function RadialChartGrid() {
           Trending up by 5.2% this month <TrendingUp className="size-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total transaction for the year {new Date().getFullYear()}
         </div>
       </CardFooter>
     </Card>

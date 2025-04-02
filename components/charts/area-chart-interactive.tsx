@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import { useOverview } from "@/components/context/overview-provider";
 import {
@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -18,14 +18,14 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 const chartConfig = {
   visitors: {
@@ -39,50 +39,48 @@ const chartConfig = {
     label: "Profit",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function AreaChartInteractive() {
-    const { data, loading } = useOverview()
-    const filteredData: { date: string; sales: number; profit: number }[] = [];
-console.log("data",data)
-    data?.sales?.data?.forEach(
-        (row: { totalAmount: number; totalProfit: number; createdAt: Date }) => {
-          const date = new Date(row.createdAt);
-          const formattedDate = date.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
-      
-          const totalAmount = row.totalAmount;
-          const totalProfit = row.totalProfit;
-      
-          // Check if the date already exists in the chartData array
-          const existingEntryIndex = filteredData.findIndex(
-            (entry) => entry.date === formattedDate
-          );
-      
-          if (existingEntryIndex !== -1) {
-            // If the date already exists, update the sales and profit for that date
-            filteredData[existingEntryIndex].sales += totalAmount;
-            filteredData[existingEntryIndex].profit += totalProfit;
-          } else {
-            // If the date doesn't exist, add a new entry for that date
-            filteredData.push({
-              date: formattedDate,
-              sales: totalAmount,
-              profit: totalProfit,
-            });
-          }
-        }
+  const { data, loading } = useOverview();
+  const filteredData: { date: string; sales: number; profit: number }[] = [];
+
+  data?.sales?.data?.forEach(
+    (row: { totalAmount: number; totalProfit: number; createdAt: Date }) => {
+      const date = new Date(row.createdAt);
+      const formattedDate = date.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
+
+      const totalAmount = row.totalAmount;
+      const totalProfit = row.totalProfit;
+
+      // Check if the date already exists in the chartData array
+      const existingEntryIndex = filteredData.findIndex(
+        (entry) => entry.date === formattedDate,
       );
-      console.log("filteredData",filteredData)
+
+      if (existingEntryIndex !== -1) {
+        // If the date already exists, update the sales and profit for that date
+        filteredData[existingEntryIndex].sales += totalAmount;
+        filteredData[existingEntryIndex].profit += totalProfit;
+      } else {
+        // If the date doesn't exist, add a new entry for that date
+        filteredData.push({
+          date: formattedDate,
+          sales: totalAmount,
+          profit: totalProfit,
+        });
+      }
+    },
+  );
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Sales VS Profit</CardTitle>
           <CardDescription>
-          Showing data for the last {filteredData.length} days
+            Showing data for the last {filteredData.length} days
           </CardDescription>
         </div>
-    
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
@@ -124,11 +122,11 @@ console.log("data",data)
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
-                })
+                });
               }}
             />
             <ChartTooltip
@@ -139,7 +137,7 @@ console.log("data",data)
                     return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
-                    })
+                    });
                   }}
                   indicator="dot"
                 />
@@ -164,5 +162,5 @@ console.log("data",data)
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -9,20 +9,67 @@ import { RadialShapeChart } from "@/components/charts/radial-shape-chart";
 import { RadialStackedChart } from "@/components/charts/radial-stacked-chart";
 import { RadialTextChart } from "@/components/charts/radial-text-chart";
 import { DashboardHeader } from "@/components/dashboard/header";
+import { PieChartDonut } from "@/components/charts/pie-chart";
+import { fetchInvoices } from "@/actions/fetch-invoices";
+import { dateFormat } from "@/constants/date";
+
+import { endOfDay, format, startOfDay, startOfYear } from "date-fns";
 
 export const metadata = constructMetadata({
   title: "Charts | Famous Bag",
   description: "Charts for analytics and data visualization.",
 });
 
-export default function ChartsPage() {
+export default async function ChartsPage() {
+  const from = format(startOfYear(new Date()), dateFormat);
+  const to = format(endOfDay(new Date()), dateFormat);
+  const result = await fetchInvoices(from, to);
+
+  // Function to count transactions per mode
+const countTransactionsByMode = (data, mode) =>
+  data?.filter((item) => item.paymentMode === mode).length || 0;
+
+// Function to sum total transaction amount per mode
+const sumTransactionAmountByMode = (data, mode) =>
+  data
+    ?.filter((item) => item.paymentMode === mode)
+    .reduce((sum, item) => sum + (Number(item.totalAmount) || 0), 0) || 0;
+
+// Get transaction stats (count & total amount)
+const getTransactionStats = (data) => ({
+  cash: {
+    count: countTransactionsByMode(data, "cash"),
+    totalAmount: sumTransactionAmountByMode(data, "cash"),
+  },
+  online: {
+    count: countTransactionsByMode(data, "online"),
+    totalAmount: sumTransactionAmountByMode(data, "online"),
+  },
+  card: {
+    count: countTransactionsByMode(data, "card"),
+    totalAmount: sumTransactionAmountByMode(data, "card"),
+  },
+});
+
+const { cash, online, card } = getTransactionStats(result?.data || []);
+
+console.log({ cash, online, card });
+
   return (
     <>
       <DashboardHeader heading="Charts" text="Charts for analytics." />
       <div className="flex flex-col gap-5">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
-          <RadialTextChart />
-          <AreaChartStacked />
+          <PieChartDonut
+            card={card.count}
+            cash={cash.count}
+            online={online.count}
+          />
+          <RadialChartGrid
+          card={card.totalAmount}
+          cash={cash.totalAmount}
+          online={online.totalAmount}
+          />
           <BarChartMixed />
           <RadarChartSimple />
         </div>
@@ -30,7 +77,7 @@ export default function ChartsPage() {
         <InteractiveBarChart />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
-          <RadialChartGrid />
+          <AreaChartStacked />
           <RadialShapeChart />
           <LineChartMultiple />
           <RadialStackedChart />
