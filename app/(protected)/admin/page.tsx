@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { RoundButton } from "@/components/ui/round-button";
 import { Icons } from "@/components/shared/icons";
 import { FloatingButton } from "@/components/ui/floating-button";
+import { AreaChartInteractive } from "@/components/charts/area-chart-interactive";
 
 export default async function AdminPage() {
   const user = await getCurrentUser();
@@ -32,6 +33,7 @@ export default async function AdminPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <Data />
           </div>
+          <AreaChartInteractive />
           <TransactionsList showRowsNumber={5} />
           <TopDataList />
         </div>
