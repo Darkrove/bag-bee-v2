@@ -23,26 +23,26 @@ const chartConfig = {
   transactions: {
     label: "Transactions",
   },
-  card: {
-    label: "Card",
-    color: "hsl(var(--chart-1))",
+  online: {
+    label: "Online",
+    color: "hsl(var(--chart-3))",
   },
   cash: {
     label: "Cash",
     color: "hsl(var(--chart-2))",
   },
-  online: {
-    label: "Online",
-    color: "hsl(var(--chart-3))",
+  card: {
+    label: "Card",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
 export function RadialChartGrid({card, cash, online}: {card: number, cash: number, online: number}) {
   const chartData = React.useMemo(() => {
       return [
-        { mode: "Card", transactions: card, fill: "var(--color-card)" },
-        { mode: "Cash", transactions: cash, fill: "var(--color-cash)" },
         { mode: "Online", transactions: online, fill: "var(--color-online)" },
+        { mode: "Cash", transactions: cash, fill: "var(--color-cash)" },
+        { mode: "Card", transactions: card, fill: "var(--color-card)" },       
       ]
     }
     , [card, cash, online])
