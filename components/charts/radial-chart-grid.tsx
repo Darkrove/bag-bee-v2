@@ -40,9 +40,9 @@ const chartConfig = {
 export function RadialChartGrid({card, cash, online}: {card: number, cash: number, online: number}) {
   const chartData = React.useMemo(() => {
       return [
-        { mode: "Online", transactions: online, fill: "var(--color-online)" },
-        { mode: "Cash", transactions: cash, fill: "var(--color-cash)" },
-        { mode: "Card", transactions: card, fill: "var(--color-card)" },       
+        { mode: "online", transactions: online, fill: "var(--color-online)" },
+        { mode: "cash", transactions: cash, fill: "var(--color-cash)" },
+        { mode: "card", transactions: card, fill: "var(--color-card)" },       
       ]
     }
     , [card, cash, online])
