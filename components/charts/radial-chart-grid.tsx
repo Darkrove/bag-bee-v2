@@ -25,7 +25,7 @@ const chartConfig = {
   },
   online: {
     label: "Online",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-1))",
   },
   cash: {
     label: "Cash",
@@ -33,7 +33,7 @@ const chartConfig = {
   },
   card: {
     label: "Card",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig
 
