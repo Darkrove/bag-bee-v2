@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { TrendingUp } from "lucide-react"
+import { TrendingUp, TrendingDown } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
@@ -40,7 +40,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 
-export function PieChartDonut({card, cash, online}: {card: number, cash: number, online: number}) {
+export function PieChartDonut({ card, cash, online }: { card: number, cash: number, online: number }) {
   const chartData = React.useMemo(() => {
     return [
       { mode: "Card", transactions: card, fill: "var(--color-card)" },
@@ -48,14 +48,16 @@ export function PieChartDonut({card, cash, online}: {card: number, cash: number,
       { mode: "Online", transactions: online, fill: "var(--color-online)" },
     ]
   }
-  , [card, cash, online])
+    , [card, cash, online])
   const totalTransactions = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.transactions, 0)
   }, [])
 
-  const percentageIncrease = cash > 0 
-  ? ((online - cash) / cash) * 100 
-  : online > 0 ? 100 : 0;
+  const percentageDifference = cash > 0
+    ? ((online - cash) / cash) * 100
+    : online > 0 ? 100 : 0;
+
+  const isOnlineHigher = online > cash;
 
   return (
     <Card className="flex flex-col">
@@ -110,8 +112,11 @@ export function PieChartDonut({card, cash, online}: {card: number, cash: number,
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-        Online transactions are {percentageIncrease.toFixed(2)}% more than cash transaction <TrendingUp className="size-4" />
+        <div className="flex items-center justify-center gap-2 font-medium leading-none">
+          Online transactions are {Math.abs(percentageDifference).toFixed(2)}%
+          {isOnlineHigher ? " more " : " less "}
+          than cash transactions
+          {isOnlineHigher ? <TrendingUp className="size-4 text-green-500" /> : <TrendingDown className="size-4 text-red-500" />}
         </div>
         <div className="leading-none text-muted-foreground">
           Showing total transaction for the year {new Date().getFullYear()}
