@@ -7,6 +7,7 @@ import { Label, Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -54,8 +55,11 @@ export function PieChartDonut({ card, cash, online }: { card: number; cash: numb
 
   return (
     <Card className="flex flex-col">
-      <CardHeader className="flex items-center justify-between">
-        <CardTitle>Transaction Breakdown by Payment Method</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Transaction Breakdown</CardTitle>
+          <CardDescription>by Payment Method</CardDescription>
+        </div>
         {isOnlineHigher ? <TrendingUp className="size-4 text-green-500" /> : <TrendingDown className="size-4 text-red-500" />}
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -83,7 +87,7 @@ export function PieChartDonut({ card, cash, online }: { card: number; cash: numb
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-center gap-2 text-sm">
+      <CardFooter className="flex-col gap-2 text-center text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
           Online transactions are {Math.abs(percentageDifference).toFixed(2)}% {isOnlineHigher ? "higher" : "lower"} than cash transactions.
         </div>
