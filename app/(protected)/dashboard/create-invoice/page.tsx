@@ -4,7 +4,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { constructMetadata } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { InvoiceForm } from "@/components/forms/invoice-form"
-import { ItemForm } from "@/components/forms/item-form"
+import { ProductForm } from "@/components/forms/product-form"
 
 export const metadata = constructMetadata({
   title: "Create Invoice | Famous Bag",
@@ -25,7 +25,7 @@ export default function InvoicePage() {
               <Luggage className="size-6 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <ItemForm />
+              <ProductForm />
             </CardContent>
           </Card>
           <Card>

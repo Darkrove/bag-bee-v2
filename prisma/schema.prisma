@@ -65,8 +65,19 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String
+  address   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  invoices  Invoice[]
+}
+
 model Invoice {
   id              Int           @id @default(autoincrement())
+  customerId      String?
   customerName    String
   customerPhone   String
   customerAddress String
@@ -79,6 +90,9 @@ model Invoice {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @default(now())
   items           InvoiceItem[] @relation("InvoiceToItems")
+  customer        Customer?     @relation(fields: [customerId], references: [id])
+
+  @@index([customerId])
 }
 
 model InvoiceItem {
@@ -101,3 +115,4 @@ enum UserRole {
   ADMIN
   USER
 }
+

@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { Invoice, InvoiceItem } from "@prisma/client";
 
 export interface Status {
@@ -11,7 +11,7 @@ export const updateInvoice = async (
   data: Partial<Invoice>,
 ): Promise<Status> => {
   try {
-    const invoice = await prisma.invoice.update({
+    const invoice = await db.invoice.update({
       where: { id },
       data,
     });

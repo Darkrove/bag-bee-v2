@@ -56,7 +56,7 @@ const defaultValues: Partial<ItemFormValues> = {
   quantity: 1,
 };
 
-export function ItemForm() {
+export function ProductForm() {
   const [isLoading, setIsLoading] = useState(false);
   const addItem = useStore((state) => state.addItem);
   const clearItems = useStore((state) => state.clearItems);

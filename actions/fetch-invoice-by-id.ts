@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { Invoice, InvoiceItem } from "@prisma/client";
 
 // Define the interface that includes invoice and its items
@@ -32,7 +32,7 @@ export interface InvoicesResponse {
 export async function getInvoiceById(billid: number): Promise<InvoicesResponse> {
     try {
         // Fetch the invoice from the database
-        const invoice = await prisma.invoice.findUnique({
+        const invoice = await db.invoice.findUnique({
             where: {
                 id: billid,
             },

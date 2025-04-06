@@ -1,112 +1,84 @@
-"use server";
+"use server"
 
-import { PrismaClient } from "@prisma/client";
-import { z } from "zod";
-import messages from "@/constants/messages";
-import { prisma } from "@/lib/db";
-import { InvoiceData } from "./fetch-invoices";
+import { db } from "@/lib/db"
+import { revalidatePath } from "next/cache"
+import type { InvoiceDataRequest } from "@/types/invoice"
 
-interface CreateInvoicesResponse {
-  status: string;
-  message: string | z.ZodIssue[];
-  time?: string;
-  data?: InvoiceData;
-  id?: number;
-}
-
-import { InvoiceDataRequest } from "@/types/invoice";
-
-const invoiceSchema = z.object({
-  customerName: z.string(),
-  customerPhone: z.string(),
-  customerAddress: z.string(),
-  paymentMode: z.string(),
-  warrantyPeriod: z.string(),
-  cashierName: z.string(),
-  totalAmount: z.number(),
-  totalProfit: z.number(),
-  totalQuantity: z.number(),
-  items: z.array(
-    z.object({
-      productCategory: z.string(),
-      quantity: z.number(),
-      price: z.number(),
-      amount: z.number(),
-      note: z.string().optional(),
-      code: z.string(),
-      profit: z.number(),
-      dealerCode: z.string(),
-    }),
-  ),
-});
-
-export type InvoiceInterface = z.infer<typeof invoiceSchema>;
-
-export async function createInvoice(data: InvoiceDataRequest): Promise<CreateInvoicesResponse> {
-  const validationResult = invoiceSchema.safeParse(data);
-
-  if (!validationResult.success) {
-    return {
-      status: "error",
-      message: validationResult.error.issues,
-    };
-  }
-
-  const {
-    customerName,
-    customerPhone,
-    customerAddress,
-    paymentMode,
-    warrantyPeriod,
-    cashierName,
-    totalAmount,
-    totalProfit,
-    totalQuantity,
-    items,
-  } = validationResult.data;
-
+export async function createInvoice(data: InvoiceDataRequest) {
   try {
-    const start = Date.now();
-    const invoiceData = await prisma.invoice.create({
+    // Check if customer exists
+    let customerId: string | null = null
+    const existingCustomer = await db.customer.findFirst({
+      where: {
+        OR: [
+          { phone: data.customerPhone },
+          {
+            name: data.customerName,
+            phone: data.customerPhone,
+          },
+        ],
+      },
+    })
+
+    // Create or update customer
+    if (existingCustomer) {
+      await db.customer.update({
+        where: { id: existingCustomer.id },
+        data: {
+          name: data.customerName,
+          phone: data.customerPhone,
+          address: data.customerAddress,
+          updatedAt: new Date(),
+        },
+      })
+      customerId = existingCustomer.id
+    } else {
+      const newCustomer = await db.customer.create({
+        data: {
+          name: data.customerName,
+          phone: data.customerPhone,
+          address: data.customerAddress,
+        },
+      })
+      customerId = newCustomer.id
+    }
+
+    // Create invoice with customer reference
+    const invoice = await db.invoice.create({
       data: {
-        customerName,
-        customerPhone,
-        customerAddress,
-        paymentMode,
-        warrantyPeriod,
-        cashierName,
-        totalAmount,
-        totalProfit,
-        totalQuantity,
+        customerId,
+        customerName: data.customerName,
+        customerPhone: data.customerPhone,
+        customerAddress: data.customerAddress,
+        cashierName: data.cashierName,
+        totalAmount: data.totalAmount,
+        totalProfit: data.totalProfit,
+        totalQuantity: data.totalQuantity,
+        paymentMode: data.paymentMode,
+        warrantyPeriod: data.warrantyPeriod,
         items: {
-          create: items,
+          create: data.items.map((item) => ({
+            productCategory: item.productCategory,
+            note: item.note || "",
+            quantity: item.quantity,
+            price: item.price,
+            amount: item.amount,
+            code: item.code,
+            profit: item.profit,
+            dealerCode: item.dealerCode,
+          })),
         },
       },
-      include: {
-        items: true,
-      },
-    });
+    })
 
-    const end = Date.now();
-
-    return {
-      status: "success",
-      message: messages.success,
-      time: `${end - start}ms`,
-      data: invoiceData,
-      id: invoiceData.id,
-    };
+    revalidatePath("/dashboard/invoices")
+    return { status: "success", id: invoice.id }
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.log(error);
-      return {
-        status: "error",
-        message: error.issues,
-      };
-    }
+    console.error("Error creating invoice:", error)
     return {
       status: "error",
-      message: messages.request.failed,
-    };
+      message: "Failed to create invoice. Please try again.",
+    }
   }
 }
+

@@ -9,7 +9,7 @@ import {
 } from "date-fns";
 import { z } from "zod";
 
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Invalid date format" });
     }
 
-    const invoices = await prisma.invoice.findMany({
+    const invoices = await db.invoice.findMany({
       where: {
         createdAt: {
           gte: from,
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const invoiceItems = await prisma.invoiceItem.findMany({
+    const invoiceItems = await db.invoiceItem.findMany({
       where: {
         createdAt: {
           gte: from,
@@ -111,7 +111,7 @@ export async function PUT(request: NextRequest) {
     const start = Date.now();
 
     // Update the invoice
-    await prisma.invoice.update({
+    await db.invoice.update({
       where: { id },
       data: {
         customerName,
@@ -130,7 +130,7 @@ export async function PUT(request: NextRequest) {
     // Update invoice items using Promise.all for parallel execution
     await Promise.all(
       items.map(async (item: any) => {
-        await prisma.invoiceItem.update({
+        await db.invoiceItem.update({
           where: {
             id: item.id,
           },

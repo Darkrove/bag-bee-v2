@@ -4,7 +4,7 @@ import {
   parseISO,
   startOfDay,
 } from "date-fns";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { Invoice, InvoiceItem } from "@prisma/client";
 
 export interface InvoiceData extends Invoice {
@@ -26,7 +26,7 @@ export async function fetchInvoices(
     const from = startOfDay(parseISO(fromString));
     const to = endOfDay(parseISO(toString));
 
-    const invoices = await prisma.invoice.findMany({
+    const invoices = await db.invoice.findMany({
       where: {
         createdAt: {
           gte: from,
@@ -35,7 +35,7 @@ export async function fetchInvoices(
       },
     });
 
-    const invoiceItems = await prisma.invoiceItem.findMany({
+    const invoiceItems = await db.invoiceItem.findMany({
       where: {
         createdAt: {
           gte: from,
