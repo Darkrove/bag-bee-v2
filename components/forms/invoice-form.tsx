@@ -247,7 +247,7 @@ export function InvoiceForm() {
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="h-8 w-8 rounded-full hover:bg-destructive hover:text-destructive-foreground"
+                      className="size-8 rounded-full hover:bg-destructive hover:text-destructive-foreground"
                       onClick={() => handleDelete(item.code)}
                     >
                       <Trash className="size-4" />
@@ -285,7 +285,7 @@ export function InvoiceForm() {
           >
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
-                <Search className="h-4 w-4" />
+                <Search className="size-4" />
                 <span className="hidden sm:inline">Find Customer</span>
               </Button>
             </PopoverTrigger>
@@ -328,7 +328,7 @@ export function InvoiceForm() {
                 <CommandList>
                   {isSearching ? (
                     <div className="flex items-center justify-center p-4">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="size-4 animate-spin" />
                     </div>
                   ) : (
                     <>
