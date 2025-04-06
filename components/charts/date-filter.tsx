@@ -51,7 +51,7 @@ export function DateFilter() {
   return (
     <Card className="w-full border-0 bg-background/50 shadow-sm backdrop-blur-sm">
       <form action="/dashboard/charts" className="w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <Tabs value={dateRange} onValueChange={handleTabChange} className="w-full sm:w-auto">
             <TabsList className="grid grid-cols-2 rounded-lg bg-muted/80 p-1">
               <TabsTrigger
