@@ -12,6 +12,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { PieChartDonut } from "@/components/charts/pie-chart";
 import { fetchInvoices } from "@/actions/fetch-invoices";
 import { dateFormat } from "@/constants/date";
+import { DateFilter } from "@/components/charts/date-filter"
 
 import { endOfDay, format, startOfDay, startOfYear } from "date-fns";
 
@@ -20,11 +21,17 @@ export const metadata = constructMetadata({
   description: "Charts for analytics and data visualization.",
 });
 
-export default async function ChartsPage() {
-  const from = format(startOfYear(new Date()), dateFormat);
-  const to = format(endOfDay(new Date()), dateFormat);
-  const result = await fetchInvoices(from, to);
+export default async function ChartsPage({
+  searchParams,
+}: {
+  searchParams: { from?: string; to?: string }
+}) {
+  // Get date range from search params or use defaults
+  const from = searchParams.from || format(startOfYear(new Date()), dateFormat)
+  const to = searchParams.to || format(endOfDay(new Date()), dateFormat)
 
+  // Fetch data based on date range
+  const result = await fetchInvoices(from, to)
   // Function to count transactions per mode
 const countTransactionsByMode = (data, mode) =>
   data?.filter((item) => item.paymentMode === mode).length || 0;
@@ -53,11 +60,10 @@ const getTransactionStats = (data) => ({
 
 const { cash, online, card } = getTransactionStats(result?.data || []);
 
-console.log({ cash, online, card });
-
   return (
     <>
-      <DashboardHeader heading="Charts" text="Charts for analytics." />
+     <DashboardHeader heading="Charts" text="Charts for analytics."/>
+     <DateFilter />
       <div className="flex flex-col gap-5">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
           <PieChartDonut

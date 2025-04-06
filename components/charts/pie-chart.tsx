@@ -76,7 +76,7 @@ export function PieChartDonut({ card, cash, online }: { card: number; cash: numb
                           {totalTransactions.toLocaleString()}
                         </tspan>
                         <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
-                          Total Transactions
+                          Transactions
                         </tspan>
                       </text>
                     );

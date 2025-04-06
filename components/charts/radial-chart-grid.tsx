@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { PolarGrid, RadialBar, RadialBarChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { PolarGrid, RadialBar, RadialBarChart } from "recharts";
 
 import {
   Card,
@@ -10,14 +10,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import React from "react"
+} from "@/components/ui/chart";
+import React from "react";
 
 const chartConfig = {
   transactions: {
@@ -35,23 +35,33 @@ const chartConfig = {
     label: "Card",
     color: "hsl(var(--chart-3))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function RadialChartGrid({card, cash, online}: {card: number, cash: number, online: number}) {
+export function RadialChartGrid({
+  card,
+  cash,
+  online,
+}: {
+  card: number;
+  cash: number;
+  online: number;
+}) {
   const chartData = React.useMemo(() => {
-      return [
-        { mode: "online", transactions: online, fill: "var(--color-online)" },
-        { mode: "cash", transactions: cash, fill: "var(--color-cash)" },
-        { mode: "card", transactions: card, fill: "var(--color-card)" },       
-      ]
-    }
-    , [card, cash, online])
+    return [
+      { mode: "online", transactions: online, fill: "var(--color-online)" },
+      { mode: "cash", transactions: cash, fill: "var(--color-cash)" },
+      { mode: "card", transactions: card, fill: "var(--color-card)" },
+    ];
+  }, [card, cash, online]);
   return (
     <Card className="flex flex-col">
-      {/* <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Grid</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
-      </CardHeader> */}
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Amount Breakdown</CardTitle>
+          <CardDescription>by Payment Method</CardDescription>
+        </div>
+        {/* {isOnlineHigher ? <TrendingUp className="size-4 text-green-500" /> : <TrendingDown className="size-4 text-red-500" />} */}
+      </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
@@ -76,5 +86,5 @@ export function RadialChartGrid({card, cash, online}: {card: number, cash: numbe
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
