@@ -77,11 +77,11 @@ export function DateFilter() {
           <Button type="submit" className="w-full sm:w-auto">
                 Apply Filter
               </Button>
-{/* 
+
           <input type="hidden" name="from" value={fromDate ? format(fromDate, dateFormat) : ""} />
           <input type="hidden" name="to" value={toDate ? format(toDate, dateFormat) : ""} />
 
-          {dateRange === "custom" && (
+          {/* {dateRange === "custom" && (
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
                 <div className="flex flex-col gap-1.5">
