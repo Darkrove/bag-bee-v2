@@ -4,13 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group rounded-full p-1.5 transition-all bg-secondary text-secondary-foreground duration-75 hover:scale-105 focus:outline-none active:scale-95",
+  "group rounded-full p-1.5 transition-all duration-75 hover:scale-105 focus:outline-none active:scale-95",
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "hover:bg-red-100",
-        secondary: "hover:bg-blue-100",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
       },
     },
     defaultVariants: {

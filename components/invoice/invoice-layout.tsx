@@ -50,7 +50,7 @@ const InvoiceLayout = ({ invoice, invoiceItem }: Props) => {
         <span>
           Shop No. 5,
           <br /> Ekta Appartment,
-<br/ > Nehru Road,
+          <br /> Nehru Road,
           <br /> Opp. Ration Office,
           <br /> Dombivli East-421201
         </span>
@@ -101,14 +101,14 @@ Happy Shopping ♻`,
                     target="_blank"
                   >
                     <span className="sr-only">Share</span>
-                    <Share className="size-4 text-secondary-foreground transition-all group-hover:text-blue-800" />
+                    <Share className="size-4" />
                   </Link>
                   <ReactToPrint
                     bodyClass="invoice"
                     trigger={() => (
-                      <RoundButton>
+                      <RoundButton variant="secondary">
                         <span className="sr-only">Print</span>
-                        <Printer className="size-4 text-secondary-foreground transition-all group-hover:text-green-800" />
+                        <Printer className="size-4" />
                       </RoundButton>
                     )}
                     content={() => componentRef.current}
@@ -131,9 +131,9 @@ Happy Shopping ♻`,
                     fileName={`invoice-${invoice.id}.pdf`}
                   >
                     <div>
-                      <RoundButton variant="destructive">
+                      <RoundButton variant="secondary">
                         <span className="sr-only">Download</span>
-                        <Download className="size-4 text-secondary-foreground transition-all group-hover:text-red-800" />
+                        <Download className="size-4" />
                       </RoundButton>
                     </div>
                   </PDFDownloadLink>
@@ -145,24 +145,24 @@ Happy Shopping ♻`,
                     className={buttonVariants({ variant: "secondary" })}
                   >
                     <span className="sr-only">Edit</span>
-                    <Pencil className="size-4 text-secondary-foreground transition-all group-hover:text-blue-800" />
+                    <Pencil className="size-4" />
                   </Link>
                   <RoundButton variant="destructive">
                     <span className="sr-only">Delete</span>
-                    <Trash className="size-4 text-secondary-foreground transition-all group-hover:text-red-800" />
+                    <Trash className="size-4" />
                   </RoundButton>
                 </div>
               </div>
             </div>
-            <div className="w-full rounded-lg bg-white p-10 shadow-md dark:bg-secondary">
+            <div className="w-full rounded-lg bg-secondary p-10 shadow-md">
               <div className="flex items-center justify-between">
                 <div className="flex w-full items-center justify-between space-x-2 md:w-auto md:justify-start">
-                  <h1 className="text-gray-600 dark:text-gray-400">Mode</h1>
+                  <h1 className="text-secondary-foreground">Mode</h1>
                   <Status type={invoice?.paymentMode} />
                 </div>
                 <div className="hidden space-x-2 md:block">
                   {/* <div className="text-2xl font-bold">Date</div> */}
-                  <div className="text-gray-600 dark:text-gray-400">
+                  <div className="text-secondary-foreground">
                     {format(invoice?.createdAt, "PPP")}
                   </div>
                 </div>
@@ -170,7 +170,7 @@ Happy Shopping ♻`,
             </div>
             <div
               ref={componentRef}
-              className="invoice flex min-h-full w-full flex-col justify-between rounded-none border-t-[12px] border-primary bg-white p-4 dark:bg-secondary sm:p-10"
+              className="invoice flex min-h-full w-full flex-col justify-between rounded-none border-t-[12px] border-primary bg-secondary sm:p-10"
             >
               <div>
                 <div className="flex justify-between">
@@ -180,21 +180,21 @@ Happy Shopping ♻`,
                       {data.me.name}
                     </h1>
                     <div className="mt-2">
-                      <p className="block text-sm font-medium text-gray-800 dark:text-gray-200">
+                      <p className="block text-sm font-medium text-secondary-foreground">
                         {data.me.contact}
                       </p>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 md:text-3xl">
+                    <h2 className="text-2xl font-semibold text-secondary-foreground md:text-3xl">
                       Invoice
                     </h2>
-                    <span className="mt-1 block text-gray-500">
+                    <span className="mt-1 block text-secondary-foreground/50">
                       #{invoice.id}
                     </span>
 
-                    <address className="mt-4 not-italic text-gray-800 dark:text-gray-200">
+                    <address className="mt-4 not-italic text-secondary-foreground">
                       {data.me.address}
                     </address>
                   </div>
@@ -202,13 +202,13 @@ Happy Shopping ♻`,
 
                 <div className="mt-8 grid gap-3 sm:grid-cols-2">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    <h3 className="text-lg font-semibold text-secondary-foreground">
                       Bill to
                     </h3>
-                    <h3 className="font-semibold text-gray-500">
+                    <h3 className="font-semibold text-secondary-foreground/50">
                       {invoice.customerName}
                     </h3>
-                    <address className="not-italic text-gray-500">
+                    <address className="not-italic text-secondary-foreground/50">
                       <p>{invoice.customerPhone}</p>
                       <p>{invoice.customerAddress}</p>
                     </address>
@@ -217,19 +217,19 @@ Happy Shopping ♻`,
                   <div className="space-y-2 sm:text-right">
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-2">
                       <dl className="grid gap-x-3 sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           Invoice date
                         </dt>
-                        <dd className="col-span-2 text-gray-500">
+                        <dd className="col-span-2 text-secondary-foreground/50">
                           {format(invoice.createdAt, "dd/MM/yyyy")}
                         </dd>
                       </dl>
                       <dl className="grid gap-x-3 text-right sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           Warranty upto
                         </dt>
                         {parseInt(invoice.warrantyPeriod) > 0 ? (
-                          <dd className="col-span-3 text-gray-500 sm:col-span-2">
+                          <dd className="col-span-3 text-secondary-foreground/50 sm:col-span-2">
                             {format(
                               addDays(
                                 invoice.createdAt,
@@ -239,7 +239,7 @@ Happy Shopping ♻`,
                             )}
                           </dd>
                         ) : (
-                          <dd className="col-span-3 text-gray-500 sm:col-span-2">
+                          <dd className="col-span-3 text-secondary-foreground/50 sm:col-span-2">
                             No warranty
                           </dd>
                         )}
@@ -249,37 +249,37 @@ Happy Shopping ♻`,
                 </div>
 
                 <div className="mt-6">
-                  <div className="space-y-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                  <div className="space-y-4 rounded-lg border border-secondary-foreground p-4">
                     <div className="hidden sm:grid sm:grid-cols-6">
-                      <div className="text-xs font-medium uppercase text-gray-500 sm:col-span-2">
+                      <div className="text-xs font-medium uppercase text-secondary-foreground/50 sm:col-span-2">
                         Item
                       </div>
-                      <div className="text-xs font-medium uppercase text-gray-500">
+                      <div className="text-xs font-medium uppercase text-secondary-foreground/50">
                         Code
                       </div>
-                      <div className="text-left text-xs font-medium uppercase text-gray-500">
+                      <div className="text-left text-xs font-medium uppercase text-secondary-foreground/50">
                         Rate
                       </div>
-                      <div className="text-left text-xs font-medium uppercase text-gray-500">
+                      <div className="text-left text-xs font-medium uppercase text-secondary-foreground/50">
                         Qty
                       </div>
-                      <div className="text-right text-xs font-medium uppercase text-gray-500">
+                      <div className="text-right text-xs font-medium uppercase text-secondary-foreground/50">
                         Total
                       </div>
                     </div>
 
-                    <div className="hidden border-b border-gray-200 dark:border-gray-700 sm:block"></div>
+                    <div className="hidden border-b border-secondary-foreground sm:block"></div>
                     {invoiceItem.map((item: InvoiceItem, index: number) => (
                       <>
                         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
                           <div className="col-span-2">
-                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                            <h5 className="text-xs font-medium uppercase text-secondary-foreground/50 sm:hidden">
                               Item
                             </h5>
-                            <p className="font-medium text-gray-800 dark:text-gray-200">
+                            <p className="font-medium text-secondary-foreground">
                               {item.productCategory}
                               {item.note ? (
-                                <span className="uppercase text-foreground/50">
+                                <span className="uppercase text-secondary-foreground/50">
                                   {" "}
                                   ({item.note})
                                 </span>
@@ -287,34 +287,34 @@ Happy Shopping ♻`,
                             </p>
                           </div>
                           <div className="text-right sm:text-left">
-                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                            <h5 className="text-xs font-medium uppercase text-secondary-foreground/50 sm:hidden">
                               Code
                             </h5>
-                            <p className="text-gray-800 dark:text-gray-200">
+                            <p className="text-secondary-foreground">
                               {item.code}
                             </p>
                           </div>
                           <div>
-                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                            <h5 className="text-xs font-medium uppercase text-secondary-foreground/50 sm:hidden">
                               Rate
                             </h5>
-                            <p className="text-gray-800 dark:text-gray-200">
+                            <p className="text-secondary-foreground">
                               ₹{item.price}
                             </p>
                           </div>
                           <div>
-                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                            <h5 className="text-xs font-medium uppercase text-secondary-foreground/50 sm:hidden">
                               Qty
                             </h5>
-                            <p className="text-gray-800 dark:text-gray-200">
+                            <p className="text-secondary-foreground">
                               {item.quantity}
                             </p>
                           </div>
                           <div className="text-right">
-                            <h5 className="text-xs font-medium uppercase text-gray-500 sm:hidden">
+                            <h5 className="text-xs font-medium uppercase text-secondary-foreground/50 sm:hidden">
                               Total
                             </h5>
-                            <p className="text-gray-800 dark:text-gray-200 sm:text-right">
+                            <p className="text-secondary-foreground sm:text-right">
                               ₹{item.amount}
                             </p>
                           </div>
@@ -334,46 +334,46 @@ Happy Shopping ♻`,
                     {/* <!-- Grid --> */}
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-2">
                       <dl className="grid gap-x-3 sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           Subtotal
                         </dt>
-                        <dd className="col-span-2 text-gray-500">
+                        <dd className="col-span-2 text-secondary-foreground/50">
                           ₹{invoice.totalAmount}.00
                         </dd>
                       </dl>
 
                       <dl className="grid gap-x-3 text-right sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           GST
                         </dt>
-                        <dd className="col-span-3 text-gray-500 sm:col-span-2">
+                        <dd className="col-span-3 text-secondary-foreground/50 sm:col-span-2">
                           ₹{data.customer.taxes}.00
                         </dd>
                       </dl>
 
                       <dl className="grid gap-x-3 sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           Total
                         </dt>
-                        <dd className="col-span-2 text-gray-500">
+                        <dd className="col-span-2 text-secondary-foreground/50">
                           ₹{invoice.totalAmount}.00
                         </dd>
                       </dl>
 
                       <dl className="grid gap-x-3 text-right sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           Amount paid
                         </dt>
-                        <dd className="col-span-3 text-gray-500 sm:col-span-2">
+                        <dd className="col-span-3 text-secondary-foreground/50 sm:col-span-2">
                           ₹{invoice.totalAmount}.00
                         </dd>
                       </dl>
 
                       <dl className="grid gap-x-3 sm:grid-cols-5">
-                        <dt className="col-span-3 font-semibold text-gray-800 dark:text-gray-200">
+                        <dt className="col-span-3 font-semibold text-secondary-foreground">
                           Amount due
                         </dt>
-                        <dd className="col-span-2 text-gray-500">₹0.00</dd>
+                        <dd className="col-span-2 text-secondary-foreground/50">₹0.00</dd>
                       </dl>
                     </div>
                     {/* <!-- End Grid --> */}
@@ -385,10 +385,10 @@ Happy Shopping ♻`,
                 <div className="mt-8 sm:mt-12">
                   <Separator className="bg-gray-200 dark:bg-gray-700" />
                   <div className="mt-8 flex w-full flex-col items-center justify-between sm:flex-row">
-                    <h4 className="text-base font-semibold text-gray-800 dark:text-gray-200">
+                    <h4 className="text-base font-semibold text-secondary-foreground">
                       Thank you!
                     </h4>
-                    <p className="text-base text-gray-800 dark:text-gray-200">
+                    <p className="text-base text-secondary-foreground">
                       © 2024 {data.me.name}.
                     </p>
                   </div>
@@ -396,8 +396,8 @@ Happy Shopping ♻`,
               </div>
             </div>
             {/* <!-- End Card --> */}
-            <div className="w-full rounded-lg bg-white p-6 shadow-md dark:bg-secondary">
-              <div className="flex w-full flex-col items-center justify-center text-center">
+            <div className="w-full rounded-lg bg-secondary p-6 shadow-md">
+              <div className="flex w-full flex-col items-center justify-center text-center text-secondary-foreground">
                 <p className="text-xs">* No return / Exchange / Refund.</p>
                 <p className="text-xs">
                   * Warranty covers only stitching and fitting.
