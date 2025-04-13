@@ -24,18 +24,18 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Seach Customer..."
           value={
-            (table.getColumn("customerName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("name")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("customerName")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {/* {table.getColumn("paymentMode") && (
+        {/* {table.getColumn("address") && (
           <DataTableFacetedFilter
-            column={table.getColumn("paymentMode")}
-            title="Method"
-            options={MODES}
+            column={table.getColumn("address")}
+            title="Address"
+            options={addressOptions}
           />
         )} */}
         {isFiltered && (
