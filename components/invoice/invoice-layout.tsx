@@ -170,7 +170,7 @@ Happy Shopping ♻`,
             </div>
             <div
               ref={componentRef}
-              className="invoice flex min-h-full w-full flex-col justify-between rounded-none border-t-[12px] border-primary bg-secondary sm:p-10"
+              className="invoice flex min-h-full w-full flex-col justify-between rounded-none border-t-[12px] border-primary bg-secondary p-4 sm:p-10"
             >
               <div>
                 <div className="flex justify-between">
