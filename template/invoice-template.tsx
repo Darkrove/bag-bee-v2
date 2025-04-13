@@ -6,10 +6,17 @@ import {
   Page,
   Document,
   StyleSheet,
+  Font
 } from "@react-pdf/renderer";
 import { addDays, format, parseISO } from "date-fns";
 import { Props } from "@/components/invoice/invoice-layout";
 import { InvoiceItem } from "@prisma/client";
+
+// Register font
+Font.register({
+  family: 'Satoshi',
+  src: '@/assets/fonts/satoshi-variable.woff2',
+});
 
 interface Item {
   code: string;
@@ -47,7 +54,6 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
       flexDirection: "column",
       borderTopWidth: 8,
       borderColor: "#4CAF50",
-      fontFamily: "ui-monospace, SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace",
     },
 
     spaceBetween: {
