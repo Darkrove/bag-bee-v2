@@ -18,6 +18,7 @@ import {
 
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { Customer } from "@prisma/client";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -106,7 +107,7 @@ export const columns: ColumnDef<Customer>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const customer = row.original;
 
       return (
         <DropdownMenu>
@@ -119,20 +120,22 @@ export const columns: ColumnDef<Customer>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(payment.id.toString())
-              }
+              onClick={() => {
+                navigator.clipboard.writeText(customer.id);
+                toast.success("success", {
+                  description: "Customer ID copied to clipboard",
+                });
+              }}
             >
-              Copy payment ID
+              Copy customer ID
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={`/dashboard/edit/${payment.id}`}>Edit Invoice</Link>
+              <Link href={`/dashboard/edit/${customer.id}`}>Edit Customer</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={`/dashboard/view-invoice/${payment.id}`}>
-                View Invoice
+              <Link href={`/dashboard/view-customer-data/${customer.id}`}>
+                View Customer Invoices
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
