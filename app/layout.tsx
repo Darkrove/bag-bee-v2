@@ -26,7 +26,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-mono antialiased theme-scaled",
+          "theme-scaled min-h-screen bg-background font-mono antialiased",
         )}
       >
         <SessionProvider>
