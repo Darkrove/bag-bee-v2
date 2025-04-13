@@ -12,12 +12,6 @@ import { addDays, format, parseISO } from "date-fns";
 import { Props } from "@/components/invoice/invoice-layout";
 import { InvoiceItem } from "@prisma/client";
 
-// Register font
-Font.register({
-  family: 'Satoshi',
-  src: '@/assets/fonts/satoshi-variable.woff2',
-});
-
 interface Item {
   code: string;
   productCategory: string;
