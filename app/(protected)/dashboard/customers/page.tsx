@@ -20,6 +20,9 @@ export default async function CustomersDataPage() {
   const from = format(startOfYear(new Date()), dateFormat);
   const to = format(endOfYear(new Date()), dateFormat);
   const result = await fetchCustomers(from, to);
+
+  result.data.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  
   return (
     <>
       <DashboardHeader heading="Customers" text="Check and manage customers." />
