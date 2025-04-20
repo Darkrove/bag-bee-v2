@@ -47,7 +47,7 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
       lineHeight: 1.5,
       flexDirection: "column",
       borderTopWidth: 8,
-      borderColor: "#4CAF50",
+      borderColor: "#000",
     },
 
     spaceBetween: {
@@ -80,7 +80,7 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
       paddingLeft: 7,
       flex: 1,
       height: 20,
-      backgroundColor: "#000",
+      backgroundColor: "#DEDEDE",
       borderColor: "whitesmoke",
       borderRightWidth: 1,
       borderBottomWidth: 1,
