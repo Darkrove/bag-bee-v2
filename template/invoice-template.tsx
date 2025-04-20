@@ -80,7 +80,7 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
       paddingLeft: 7,
       flex: 1,
       height: 20,
-      backgroundColor: "#DEDEDE",
+      backgroundColor: "#000",
       borderColor: "whitesmoke",
       borderRightWidth: 1,
       borderBottomWidth: 1,
@@ -119,7 +119,7 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
             style={{
               fontSize: 15,
               fontWeight: "semibold",
-              color: "#4CAF50",
+              color: "#000",
               marginTop: 3,
             }}
           >
