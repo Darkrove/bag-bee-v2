@@ -117,12 +117,12 @@ export default function CustomerDetails(data: CustomerData) {
                   <div className="absolute left-0 top-1 flex size-4 items-center justify-center rounded-full border border-primary bg-background">
                     <div className="size-1.5 rounded-full bg-primary" />
                   </div>
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between space-x-2">
                     <div>
                       <div className="flex items-center gap-2">
                         <FileText className="size-4 text-muted-foreground" />
                         <div className="font-medium">
-                          Invoice INV#{invoice.id}
+                          INV#{invoice.id}
                         </div>
                         <Badge
                           variant="outline"
