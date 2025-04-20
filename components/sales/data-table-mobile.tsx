@@ -231,7 +231,7 @@ const InvoiceDetail = ({ invoice }: { invoice: InvoiceData }) => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <Link
-                      href={`/dashboard/view-customer-data/${payment.customerId}`}
+                      href={`/dashboard/view-customer-data/${invoice.customerId}`}
                     >
                       View Customer Data
                     </Link>
