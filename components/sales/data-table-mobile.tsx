@@ -149,7 +149,9 @@ const DataTableToolbar = ({
         >
           <ChevronLeft className="size-4" />
         </Button>
-        <p className="flex size-8 items-center justify-center rounded-md border border-input">{currentPage}</p>
+        <p className="flex size-8 items-center justify-center rounded-md border border-input">
+          {currentPage}
+        </p>
         <Button
           variant="outline"
           className="size-8 p-0"
@@ -227,7 +229,13 @@ const InvoiceDetail = ({ invoice }: { invoice: InvoiceData }) => {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>View customer</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link
+                      href={`/dashboard/view-customer-data/${payment.customerId}`}
+                    >
+                      View Customer Data
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href={`/dashboard/view-invoice/${invoice.id}`}>
                       View Invoice

@@ -163,7 +163,11 @@ export const columns: ColumnDef<InvoiceData>[] = [
               <Link href={`/dashboard/edit/${payment.id}`}>Edit Invoice</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/dashboard/view-customer-data/${payment.customerId}`}>
+                View Customer Data
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href={`/dashboard/view-invoice/${payment.id}`}>View Invoice</Link>
             </DropdownMenuItem>
