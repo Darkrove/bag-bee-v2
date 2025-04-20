@@ -1,7 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import { Clock, FileText, MapPin, Phone, User } from "lucide-react";
+import { CircleCheck, Clock, FileText, MapPin, Phone, User } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -128,13 +128,12 @@ export default function CustomerDetails(data: CustomerData) {
                       <div className="flex items-center gap-2">
                         <FileText className="size-4 text-muted-foreground" />
                         <div className="font-medium">INV#{invoice.id}</div>
-                        <Badge
-                          variant="success"
-                          size="sm"
-                          className="ml-2"
+                        <div
+                          className="ml-2 inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-600"
                         >
+                          <CircleCheck className="size-3" />
                           paid
-                        </Badge>
+                        </div>
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
                         <Clock className="size-4" />
