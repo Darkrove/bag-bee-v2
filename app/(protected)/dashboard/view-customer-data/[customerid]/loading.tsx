@@ -5,7 +5,7 @@ export default function ViewCustomerDataLoading() {
   return (
     <>
       <DashboardHeader heading="Customer" text="Customer Data" />
-      <Skeleton className="size-full rounded-lg py-6" />
+      <Skeleton className="size-full rounded-lg mt-6" />
     </>
   );
 }

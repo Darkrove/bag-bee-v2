@@ -109,6 +109,12 @@ export default function CustomerDetails(data: CustomerData) {
                 INVOICE TIMELINE
               </h3>
 
+              {customer.invoices.length === 0 && (
+                <div className="text-sm text-muted-foreground">
+                  No invoices available.
+                </div>
+              )}
+
               {customer.invoices.map((invoice, index) => (
                 <div key={invoice.id} className="relative pb-8 pl-6 last:pb-0">
                   {index < customer.invoices.length - 1 && (
@@ -121,18 +127,17 @@ export default function CustomerDetails(data: CustomerData) {
                     <div>
                       <div className="flex items-center gap-2">
                         <FileText className="size-4 text-muted-foreground" />
-                        <div className="font-medium">
-                          INV#{invoice.id}
-                        </div>
+                        <div className="font-medium">INV#{invoice.id}</div>
                         <Badge
-                          variant="outline"
-                          className="ml-2 border-green-200 bg-green-50 text-xs text-green-700"
+                          variant="success"
+                          size="sm"
+                          className="ml-2"
                         >
                           paid
                         </Badge>
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="size-3" />
+                        <Clock className="size-4" />
                         {format(invoice.createdAt, "MMM dd, yyyy")}
                       </div>
                     </div>
