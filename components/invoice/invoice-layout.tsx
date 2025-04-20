@@ -22,6 +22,7 @@ import { Status } from "@/components/invoice/status";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Button } from "../ui/button";
 import InvoiceTemplate from "@/template/invoice-template";
+import { currencyFormatter } from "@/lib/utils";
 
 export interface Props {
   invoice: {
@@ -71,10 +72,10 @@ const InvoiceLayout = ({ invoice, invoiceItem }: Props) => {
           <br />
         </span>
       ),
-      subtotal: "0",
-      taxes: "0",
-      total: "0",
-      amountpaid: "0",
+      subtotal: 0,
+      taxes: 0,
+      total: 0,
+      amountpaid: 0,
     },
     encodedMessage: encodeURIComponent(
       `Dear Sir/Madam
@@ -299,7 +300,7 @@ Happy Shopping ♻`,
                               Rate
                             </h5>
                             <p className="text-secondary-foreground">
-                              ₹{item.price}
+                              {currencyFormatter.format(item.price)}
                             </p>
                           </div>
                           <div>
@@ -315,7 +316,7 @@ Happy Shopping ♻`,
                               Total
                             </h5>
                             <p className="text-secondary-foreground sm:text-right">
-                              ₹{item.amount}
+                              {currencyFormatter.format(item.amount)}
                             </p>
                           </div>
                         </div>
@@ -338,7 +339,7 @@ Happy Shopping ♻`,
                           Subtotal
                         </dt>
                         <dd className="col-span-2 text-secondary-foreground/50">
-                          ₹{invoice.totalAmount}.00
+                          {currencyFormatter.format(invoice.totalAmount)}
                         </dd>
                       </dl>
 
@@ -347,7 +348,7 @@ Happy Shopping ♻`,
                           GST
                         </dt>
                         <dd className="col-span-3 text-secondary-foreground/50 sm:col-span-2">
-                          ₹{data.customer.taxes}.00
+                          {currencyFormatter.format(data.customer.taxes)}
                         </dd>
                       </dl>
 
@@ -356,7 +357,7 @@ Happy Shopping ♻`,
                           Total
                         </dt>
                         <dd className="col-span-2 text-secondary-foreground/50">
-                          ₹{invoice.totalAmount}.00
+                          {currencyFormatter.format(invoice.totalAmount)}
                         </dd>
                       </dl>
 
@@ -365,7 +366,7 @@ Happy Shopping ♻`,
                           Amount paid
                         </dt>
                         <dd className="col-span-3 text-secondary-foreground/50 sm:col-span-2">
-                          ₹{invoice.totalAmount}.00
+                        {currencyFormatter.format(invoice.totalAmount)}
                         </dd>
                       </dl>
 
