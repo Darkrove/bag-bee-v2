@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CustomerWithInvoices } from "@/actions/fetch-customers";
+import { currencyFormatter } from "@/lib/utils";
 
 interface CustomerData {
   customer: CustomerWithInvoices | null;
@@ -84,7 +85,7 @@ export default function CustomerDetails(data: CustomerData) {
                     Total Amount
                   </div>
                   <div className="text-xl font-medium">
-                    ₹{amountPaid.toFixed(2)}
+                    {currencyFormatter.format(amountPaid)}
                   </div>
                 </div>
                 <div className="col-span-2">
@@ -136,7 +137,7 @@ export default function CustomerDetails(data: CustomerData) {
                       </div>
                     </div>
                     <div className="font-medium">
-                      ₹{invoice.totalAmount.toFixed(2)}
+                      {currencyFormatter.format(invoice.totalAmount || 0)}
                     </div>
                   </div>
                 </div>
