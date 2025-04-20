@@ -151,7 +151,9 @@ const DataTableToolbar = ({
         >
           <ChevronLeft className="size-4" />
         </Button>
-        <p className="flex size-8 items-center justify-center rounded-md border border-input">{currentPage}</p>
+        <p className="flex size-8 items-center justify-center rounded-md border border-input">
+          {currentPage}
+        </p>
         <Button
           variant="outline"
           className="size-8 p-0"
@@ -208,11 +210,11 @@ const CustomerDetails = ({ customer }: { customer: Customer }) => {
                   <DropdownMenuItem
                     onClick={() => {
                       navigator.clipboard.writeText(customer.id);
-                      toast.success ("success", {
+                      toast.success("success", {
                         description: "Customer ID copied to clipboard",
                       });
-                    }
-                  }>
+                    }}
+                  >
                     Copy customer ID
                   </DropdownMenuItem>
                   <DropdownMenuItem>
@@ -237,25 +239,23 @@ const CustomerDetails = ({ customer }: { customer: Customer }) => {
                 <Blend className="size-4 text-secondary-foreground" />
                 <p className="text-sm font-semibold">Customer ID</p>
               </div>
-              <p className="text-sm text-muted-foreground">{truncate(customer.id, 6)}</p>
+              <Badge variant="outline" className="text-xs font-normal">
+                {truncate(customer.id, 8)}
+              </Badge>
             </div>
             <div className="flex items-center justify-between space-x-2">
               <div className="flex items-center space-x-2">
                 <User className="size-4 text-secondary-foreground" />
-                <p className="text-sm font-semibold">Customer Name</p>
+                <p className="truncate text-sm font-semibold">Customer Name</p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {customer.name}
-              </p>
+              <p className="text-sm text-muted-foreground">{customer.name}</p>
             </div>
             <div className="flex items-center justify-between space-x-2">
               <div className="flex items-center space-x-2">
                 <Phone className="size-4 text-secondary-foreground" />
                 <p className="text-sm font-semibold">Phone Number</p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {customer.phone}
-              </p>
+              <p className="text-sm text-muted-foreground">{customer.phone}</p>
             </div>
             <div className="flex items-center justify-between space-x-2">
               <div className="flex items-center space-x-2">
@@ -265,8 +265,8 @@ const CustomerDetails = ({ customer }: { customer: Customer }) => {
               <p className="text-sm text-muted-foreground">
                 {customer.address}
               </p>
-            </div>    
-        </div>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
