@@ -246,7 +246,7 @@ const CustomerDetails = ({ customer }: { customer: Customer }) => {
             <div className="flex items-center justify-between space-x-2">
               <div className="flex items-center space-x-2">
                 <User className="size-4 text-secondary-foreground" />
-                <p className="truncate text-sm font-semibold">Customer Name</p>
+                <p className="text-sm font-semibold">Customer Name</p>
               </div>
               <p className="text-sm text-muted-foreground">{customer.name}</p>
             </div>
