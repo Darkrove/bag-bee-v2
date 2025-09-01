@@ -39,6 +39,7 @@ export const DEALERS = [
   { label: "Originals Bag", value: "Originals Bag" },
   { label: "Jiore Bag", value: "Jiore Bag" },
   { label: "AL Bag", value: "ALB" },
+{ label: "Your Choice", value: "YCB" },
 ]
 
 export const PRODUCTS = [
