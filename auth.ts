@@ -37,7 +37,7 @@ export const {
         }
 
         if (token.role) {
-          session.user.role = token.role as UserRole;
+          session.user.role = token.role;
         }
 
         session.user.name = token.name;
@@ -63,5 +63,5 @@ export const {
     },
   },
   ...authConfig,
-  // debug: process.env.NODE_ENV !== "production"
+  debug: process.env.NODE_ENV !== "production"
 });
