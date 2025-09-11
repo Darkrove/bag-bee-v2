@@ -34,6 +34,8 @@ export const OverviewContextProvider = (props: any) => {
   }
   const loading = isSalesLoading
 
+  console.log("Overview data:", data, loading, error)
+
   return (
     <OverviewContext.Provider value={{ data, loading }} {...others}>
       {children}

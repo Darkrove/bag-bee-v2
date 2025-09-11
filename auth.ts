@@ -37,7 +37,7 @@ export const {
         }
 
         if (token.role) {
-          session.user.role = token.role;
+          session.user.role = token.role as UserRole;
         }
 
         session.user.name = token.name;
