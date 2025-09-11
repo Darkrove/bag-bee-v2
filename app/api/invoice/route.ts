@@ -40,31 +40,23 @@ export async function GET(request: NextRequest) {
           lte: to,
         },
       },
-    });
-
-    const invoiceItems = await db.invoiceItem.findMany({
-      where: {
-        createdAt: {
-          gte: from,
-          lte: to,
-        },
+      include: {
+        items: true, // <-- automatically joins invoiceItem
+      },
+      orderBy: {
+        id: "asc",
       },
     });
 
-    const data = invoices.map((invoice) => {
-      const items = invoiceItems.filter(
-        (item) => item.invoiceId === invoice.id
-      );
-      return {
-        ...invoice,
-        items,
-      };
+    const totalSales = await db.invoice.aggregate({
+      where: { createdAt: { gte: from, lte: to } },
+      _sum: { totalAmount: true },
     });
-
-    data.sort((a, b) => a.id - b.id);
-
-    const totalSales = data.reduce((acc, curr) => acc + curr.totalAmount, 0);
-    const totalProfit = data.reduce((acc, curr) => acc + curr.totalProfit, 0);
+    
+    const totalProfit = await db.invoice.aggregate({
+      where: { createdAt: { gte: from, lte: to } },
+      _sum: { totalProfit: true },
+    });
 
     const end = Date.now();
 
@@ -72,7 +64,7 @@ export async function GET(request: NextRequest) {
       success: true,
       message: "GET /api/invoice",
       time: `${end - start}ms`,
-      data,
+      data: invoices,
       totalSales,
       totalProfit,
     });
@@ -111,29 +103,25 @@ export async function PUT(request: NextRequest) {
     const start = Date.now();
 
     // Update the invoice
-    await db.invoice.update({
-      where: { id },
-      data: {
-        customerName,
-        customerPhone,
-        customerAddress,
-        paymentMode,
-        warrantyPeriod,
-        cashierName,
-        totalAmount,
-        totalProfit,
-        totalQuantity,
-        updatedAt: new Date(),
-      },
-    });
-
-    // Update invoice items using Promise.all for parallel execution
-    await Promise.all(
-      items.map(async (item: any) => {
-        await db.invoiceItem.update({
-          where: {
-            id: item.id,
-          },
+    await db.$transaction([
+      db.invoice.update({
+        where: { id },
+        data: {
+          customerName,
+          customerPhone,
+          customerAddress,
+          paymentMode,
+          warrantyPeriod,
+          cashierName,
+          totalAmount,
+          totalProfit,
+          totalQuantity,
+          updatedAt: new Date(),
+        },
+      }),
+      ...items.map((item: any) =>
+        db.invoiceItem.update({
+          where: { id: item.id },
           data: {
             productCategory: item.productCategory,
             quantity: item.quantity,
@@ -145,10 +133,10 @@ export async function PUT(request: NextRequest) {
             dealerCode: item.dealerCode,
             updatedAt: new Date(),
           },
-        });
-      })
-    );
-
+        })
+      ),
+    ]);
+    
     const end = Date.now();
 
     return NextResponse.json(
