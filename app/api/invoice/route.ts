@@ -20,39 +20,40 @@ export async function GET(request: NextRequest) {
   try {
     const start = Date.now();
 
-    if (fromString === "" || toString === "") {
-      return NextResponse.json({
-        error: "Missing required parameter(s)",
-      });
+    if (!fromString || !toString) {
+      return NextResponse.json(
+        { error: "Missing required parameter(s)" },
+        { status: 400 },
+      );
     }
 
     const from = startOfDay(parseISO(fromString));
     const to = endOfDay(parseISO(toString));
 
     if (isNaN(from.getTime()) || isNaN(to.getTime())) {
-      return NextResponse.json({ error: "Invalid date format" });
+      return NextResponse.json(
+        { error: "Invalid date format" },
+        { status: 400 },
+      );
     }
 
-    const invoices = await db.invoice.findMany({
+    // Get invoice count
+    const count = await db.invoice.count({
       where: {
         createdAt: {
           gte: from,
           lte: to,
         },
       },
-      include: {
-        items: true, // <-- automatically joins invoiceItem
-      },
-      orderBy: {
-        id: "asc",
-      },
     });
 
+    // Get total sales
     const totalSales = await db.invoice.aggregate({
       where: { createdAt: { gte: from, lte: to } },
       _sum: { totalAmount: true },
     });
-    
+
+    // Get total profit
     const totalProfit = await db.invoice.aggregate({
       where: { createdAt: { gte: from, lte: to } },
       _sum: { totalProfit: true },
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest) {
       success: true,
       message: "GET /api/invoice",
       time: `${end - start}ms`,
-      data: invoices,
+      count: count,
       totalSales,
       totalProfit,
     });
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -133,10 +134,10 @@ export async function PUT(request: NextRequest) {
             dealerCode: item.dealerCode,
             updatedAt: new Date(),
           },
-        })
+        }),
       ),
     ]);
-    
+
     const end = Date.now();
 
     return NextResponse.json(
@@ -146,18 +147,18 @@ export async function PUT(request: NextRequest) {
         id,
         time: `${end - start}ms`,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.log(error);
-      
+
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }
 
     return NextResponse.json(
       { error, message: messages.request.failed },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

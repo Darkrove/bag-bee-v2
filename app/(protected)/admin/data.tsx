@@ -23,7 +23,7 @@ export function Data() {
   // Ensure data is available and has totalSales and totalProfit
   const totalSales = data?.sales?.totalSales._sum.totalAmount || 0;
   const totalProfit = data?.sales?.totalProfit._sum.totalProfit || 0;
-  const totalTransactions = data?.sales?.data?.length || 0;
+  const totalTransactions = data?.sales?.count || 0;
   const averageTransactionValue = totalTransactions ? parseFloat((totalSales / totalTransactions).toFixed(2)) : 0;
 
   return (
