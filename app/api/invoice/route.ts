@@ -37,27 +37,20 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get invoice count
-    const count = await db.invoice.count({
+    const summary = await db.invoice.aggregate({
       where: {
         createdAt: {
           gte: from,
           lte: to,
         },
       },
+      _count: true,
+      _sum: {
+        totalAmount: true,
+        totalProfit: true,
+      },
     });
-
-    // Get total sales
-    const totalSales = await db.invoice.aggregate({
-      where: { createdAt: { gte: from, lte: to } },
-      _sum: { totalAmount: true },
-    });
-
-    // Get total profit
-    const totalProfit = await db.invoice.aggregate({
-      where: { createdAt: { gte: from, lte: to } },
-      _sum: { totalProfit: true },
-    });
+    
 
     const end = Date.now();
 
@@ -65,9 +58,11 @@ export async function GET(request: NextRequest) {
       success: true,
       message: "GET /api/invoice",
       time: `${end - start}ms`,
-      count: count,
-      totalSales,
-      totalProfit,
+      data: {
+        count: summary._count,
+        totalSales: summary._sum.totalAmount || 0,
+        totalProfit: summary._sum.totalProfit || 0,
+      },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
