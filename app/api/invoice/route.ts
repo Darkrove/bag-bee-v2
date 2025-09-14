@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
       message: "GET /api/invoice",
       time: `${end - start}ms`,
       data: {
-        count: summary._count,
+        count: summary._count._all || 0,
         totalSales: summary._sum.totalAmount || 0,
         totalProfit: summary._sum.totalProfit || 0,
       },
