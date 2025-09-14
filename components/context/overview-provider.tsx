@@ -30,8 +30,9 @@ export const OverviewContextProvider = (props: any) => {
   } = useSWR(apiUrls.invoice.getInvoice({ from, to }), fetcher)
 
   const data = {
-    sales: salesData,
+    sales: salesData?.data || { count: 0, totalSales: 0, totalProfit: 0 },
   }
+
   const loading = isSalesLoading
 
   console.log("Overview data:", data, loading, error)
