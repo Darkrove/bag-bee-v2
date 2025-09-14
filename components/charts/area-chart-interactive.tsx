@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-
+import { Skeleton } from "@/components/ui/skeleton";
 import { useOverview } from "@/components/context/overview-provider";
 import {
   Card,
@@ -45,33 +45,59 @@ export function AreaChartInteractive() {
   const { data, loading } = useOverview();
   const filteredData: { date: string; sales: number; profit: number }[] = [];
 
-  data?.sales?.data?.forEach(
-    (row: { totalAmount: number; totalProfit: number; createdAt: Date }) => {
-      const date = new Date(row.createdAt);
-      const formattedDate = date.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
+  data?.daily?.forEach(
+    (row: { date: string; sales: number; profit: number }) => {
+      // row.date is already in "YYYY-MM-DD", so no need for conversion
+      const formattedDate = row.date;
 
-      const totalAmount = row.totalAmount;
-      const totalProfit = row.totalProfit;
+      const sales = row.sales || 0;
+      const profit = row.profit || 0;
 
-      // Check if the date already exists in the chartData array
+      // Check if this date already exists
       const existingEntryIndex = filteredData.findIndex(
         (entry) => entry.date === formattedDate,
       );
 
       if (existingEntryIndex !== -1) {
-        // If the date already exists, update the sales and profit for that date
-        filteredData[existingEntryIndex].sales += totalAmount;
-        filteredData[existingEntryIndex].profit += totalProfit;
+        // Update if already exists
+        filteredData[existingEntryIndex].sales += sales;
+        filteredData[existingEntryIndex].profit += profit;
       } else {
-        // If the date doesn't exist, add a new entry for that date
+        // Insert new record
         filteredData.push({
           date: formattedDate,
-          sales: totalAmount,
-          profit: totalProfit,
+          sales,
+          profit,
         });
       }
     },
   );
+  // Sort data by date (useful for charts)
+  filteredData.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
+  const parseDate = (value: string) => {
+    // Ensure YYYY-MM-DD is parsed as local date
+    const [year, month, day] = value.split("-");
+    return new Date(Number(year), Number(month) - 1, Number(day));
+  };
+
+  if (loading) {
+    return (
+      <Card>
+        <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+          <div className="grid flex-1 justify-items-center gap-1 text-center sm:justify-items-start sm:text-left">
+            <Skeleton className="h-6 w-32 text-center" /> {/* title */}
+            <Skeleton className="h-4 w-52 text-center" /> {/* description */}
+          </div>
+        </CardHeader>
+        <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+          <Skeleton className="h-[250px] w-full rounded-xl" />{" "}
+          {/* chart skeleton */}
+        </CardContent>
+      </Card>
+    );
+  }
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
@@ -122,7 +148,7 @@ export function AreaChartInteractive() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value);
+                const date = parseDate(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
