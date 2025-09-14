@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
           lte: to,
         },
       },
-      _count: true,
+      _count: { _all: true },
       _sum: {
         totalAmount: true,
         totalProfit: true,
