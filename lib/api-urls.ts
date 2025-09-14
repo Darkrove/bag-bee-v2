@@ -22,6 +22,8 @@ export const apiUrls = {
         `/api/invoice?from=${from}&to=${to}`,
       getInvoiceDaily: ({ from, to }: { from: string; to: string }) =>
         `/api/invoice/daily?from=${from}&to=${to}`,
+      getList: ({ from, to }: { from: string; to: string }) =>
+        `/api/invoice/list?from=${from}&to=${to}`,
       getById: ({ id }: { id: string }) => `/api/sales/getbyid?id=${id}`,
     },
     feedback: {
