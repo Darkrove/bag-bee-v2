@@ -1,3 +1,5 @@
+export const runtime = "nodejs"
+
 import { NextRequest, NextResponse } from "next/server";
 import messages from "@/constants/messages";
 import {
@@ -68,9 +70,10 @@ export async function GET(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }
-
+    console.error("Invoice API error:", error)
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Internal Server Error" ,
+      details: String(error) },
       { status: 500 },
     );
   }
