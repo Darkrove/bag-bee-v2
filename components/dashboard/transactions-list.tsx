@@ -119,6 +119,16 @@ export default function TransactionsList({
         </Button>
       </CardHeader>
       <CardContent>
+           {invoices.length === 0 ? (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+  <h2 className="text-2xl font-bold text-white">
+    No Transactions for Today 📭
+  </h2>
+  <p className="mt-2 text-sm text-gray-400">
+    Check back later — your sales will show up here.
+  </p>
+</div>
+    ) : (
         <div>
           {invoices
             ?.slice(-showRowsNumber) // get last N
@@ -155,12 +165,13 @@ export default function TransactionsList({
                     + {currencyFormatter.format(invoice.totalAmount)}
                   </div>
                 </div>
-                {index !== showRowsNumber - 1 && (
+                {index !== invoices.length - 1 && (
                   <Separator className="border-gray-500" />
                 )}
               </div>
             ))}
         </div>
+    )}
       </CardContent>
     </Card>
   );
