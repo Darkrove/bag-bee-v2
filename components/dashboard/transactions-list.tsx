@@ -51,7 +51,10 @@ export default function TransactionsList({
     ),
   );
   const { data, error, isLoading } = useSWR(
-    apiUrls.invoice.getList({ from: todayStart.toISOString(), to: todayEnd.toISOString() }),
+    apiUrls.invoice.getList({
+      from: todayStart.toISOString(),
+      to: todayEnd.toISOString(),
+    }),
     fetcher,
     {
       refreshInterval: 5000, // 🔄 refresh every 5s
@@ -119,59 +122,59 @@ export default function TransactionsList({
         </Button>
       </CardHeader>
       <CardContent>
-           {invoices.length === 0 ? (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-  <h2 className="text-2xl font-bold text-white">
-    No Transactions for Today 📭
-  </h2>
-  <p className="mt-2 text-sm text-gray-400">
-    Check back later — your sales will show up here.
-  </p>
-</div>
-    ) : (
-        <div>
-          {invoices
-            ?.slice(-showRowsNumber) // get last N
-            .map((invoice, index) => (
-              <div key={invoice.id} className="flex flex-col gap-3 pt-3">
-                <div className="flex items-center">
-                  <Avatar className="size-9 bg-gray-300 shadow-sm">
-                    <AvatarImage
-                      src={`/avatars/${getRandomNumber()}.png`}
-                      alt="Avatar"
-                    />
-                    <AvatarFallback>
-                      {invoice.customerName ? invoice.customerName[0] : ""}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="ml-4 flex space-x-1">
-                    <div className="flex flex-col items-start justify-between space-y-1">
-                      <Link
-                        href={`/dashboard/view-invoice/${invoice.id}`}
-                        className="truncate text-sm font-medium capitalize leading-none transition duration-300 ease-in-out hover:underline"
-                      >
-                        {invoice.customerName || "Unknown"}
-                      </Link>
-                      <p className="text-sm text-muted-foreground">
-                        {formatDistance(
-                          new Date(invoice.createdAt),
-                          new Date(),
-                        )}{" "}
-                        ago
-                      </p>
+        {invoices.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <h2 className="text-2xl font-bold text-white">
+              No Transactions for Today 📭
+            </h2>
+            <p className="mt-2 text-sm text-gray-400">
+              Check back later — your sales will show up here.
+            </p>
+          </div>
+        ) : (
+          <div>
+            {invoices
+              ?.slice(-showRowsNumber) // get last N
+              .map((invoice, index) => (
+                <div key={invoice.id} className="flex flex-col gap-3 pt-3">
+                  <div className="flex items-center">
+                    <Avatar className="size-9 bg-gray-300 shadow-sm">
+                      <AvatarImage
+                        src={`/avatars/${getRandomNumber()}.png`}
+                        alt="Avatar"
+                      />
+                      <AvatarFallback>
+                        {invoice.customerName ? invoice.customerName[0] : ""}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="ml-4 flex space-x-1">
+                      <div className="flex flex-col items-start justify-between space-y-1">
+                        <Link
+                          href={`/dashboard/view-invoice/${invoice.id}`}
+                          className="truncate text-sm font-medium capitalize leading-none transition duration-300 ease-in-out hover:underline"
+                        >
+                          {invoice.customerName || "Unknown"}
+                        </Link>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDistance(
+                            new Date(invoice.createdAt),
+                            new Date(),
+                          )}{" "}
+                          ago
+                        </p>
+                      </div>
+                    </div>
+                    <div className="ml-auto font-medium">
+                      + {currencyFormatter.format(invoice.totalAmount)}
                     </div>
                   </div>
-                  <div className="ml-auto font-medium">
-                    + {currencyFormatter.format(invoice.totalAmount)}
-                  </div>
+                  {index !== invoices.length - 1 && (
+                    <Separator className="border-gray-500" />
+                  )}
                 </div>
-                {index !== invoices.length - 1 && (
-                  <Separator className="border-gray-500" />
-                )}
-              </div>
-            ))}
-        </div>
-    )}
+              ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
