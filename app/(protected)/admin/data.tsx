@@ -12,10 +12,10 @@ export function Data() {
   if (loading) {
     return (
       <>
-        <Skeleton className="h-32 w-full rounded-lg" />
-        <Skeleton className="h-32 w-full rounded-lg" />
-        <Skeleton className="h-32 w-full rounded-lg" />
-        <Skeleton className="h-32 w-full rounded-lg" />
+        <Skeleton className="h-44 w-full rounded-lg" />
+        <Skeleton className="h-44 w-full rounded-lg" />
+        <Skeleton className="h-44 w-full rounded-lg" />
+        <Skeleton className="h-44 w-full rounded-lg" />
       </>
     );
   }

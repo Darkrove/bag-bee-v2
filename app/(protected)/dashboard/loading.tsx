@@ -15,10 +15,10 @@ export default function DashboardLoading() {
       <DashboardHeader heading="Dashboard" text="Current Role :" />
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <Skeleton className="h-32 w-full rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
         </div>
         <Card className="xl:col-span-2">
           <CardHeader className="flex flex-row items-center">
