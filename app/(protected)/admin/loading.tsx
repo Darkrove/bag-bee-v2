@@ -17,11 +17,11 @@ export default function AdminPanelLoading() {
         text="Access only for users with ADMIN role."
       />
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Skeleton className="h-32 w-full rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-lg" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <Skeleton className="h-44 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
+          <Skeleton className="h-44 w-full rounded-lg" />
         </div>
         <Card>
           <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">

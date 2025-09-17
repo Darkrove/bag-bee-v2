@@ -1,6 +1,21 @@
 import { ReactNode } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardFooter,
+} from "@/components/ui/card";
+import {
+  IndianRupee,
+  PieChart,
+  ChartLine,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 import Counter from "@/components/counter";
+import { Badge } from "../ui/badge";
 
 // Define the props for the InfoCard component
 interface InfoCardProps {
@@ -18,17 +33,27 @@ export default function InfoCard({
   showCurrencySymbol = true, // Default to true if not provided
 }: InfoCardProps) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">
+    <Card className="@container/card">
+      <CardHeader>
+        <CardDescription>{title}</CardDescription>
+        <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
           {showCurrencySymbol && "₹"}<Counter value={amount} />
+        </CardTitle>
+        <CardAction>
+          <Badge variant="outline">
+            <TrendingUp />
+            +12.5%
+          </Badge>
+        </CardAction>
+      </CardHeader>
+      <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <div className="line-clamp-1 flex gap-2 font-medium">
+          Trending up this month {icon}
         </div>
-        <p className="text-xs text-muted-foreground">+180.1% from last month</p>
-      </CardContent>
+        <div className="text-muted-foreground">
+          Visitors for the last 6 months
+        </div>
+      </CardFooter>
     </Card>
   );
 }
