@@ -1,5 +1,5 @@
 import { CalendarIcon } from 'lucide-react';
-import { addDays, format, startOfMonth, startOfYear, subDays } from 'date-fns';
+import { addDays, format, startOfMonth, startOfYear, subDays, endOfYear } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 
 import { Button } from 'components/ui/button';
@@ -109,8 +109,8 @@ function DatePickerSelect({ onChange, selectedValue }: { onChange: any; selected
 					case 'lasty': {
 						onChange({
 							selected,
-							from: startOfYear(subDays(new Date(), 365)),
-							to: addDays(new Date(), 0),
+							from: startOfYear(subYears(currentDate, 1)),
+							to: endOfYear(subYears(currentDate, 1)),
 						});
 						break;
 					}
