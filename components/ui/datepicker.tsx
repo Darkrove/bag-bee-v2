@@ -106,6 +106,14 @@ function DatePickerSelect({ onChange, selectedValue }: { onChange: any; selected
 						});
 						break;
 					}
+					case 'lasty': {
+						onChange({
+							selected,
+							from: startOfYear(subDays(new Date(), 365)),
+							to: addDays(new Date(), 0),
+						});
+						break;
+					}
 				}
 			}}
 		>
@@ -119,6 +127,7 @@ function DatePickerSelect({ onChange, selectedValue }: { onChange: any; selected
 				<SelectItem value="30days">Last 30 days</SelectItem>
 				<SelectItem value="m">Month to Date</SelectItem>
 				<SelectItem value="y">Year to Date</SelectItem>
+				<SelectItem value="lasty">Last Year</SelectItem>
 			</SelectContent>
 		</Select>
 	);
