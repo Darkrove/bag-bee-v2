@@ -76,7 +76,7 @@ export default function TransactionsList({
         <CardContent>
           {Array.from({ length: showRowsNumber }).map((_, i) => (
             <div key={i} className="flex items-center gap-3 py-3">
-              <Skeleton className="h-9 w-9 rounded-full" />
+              <Skeleton className="size-9 rounded-full" />
               <div className="flex-1">
                 <Skeleton className="mb-2 h-4 w-32" />
                 <Skeleton className="h-3 w-20" />
