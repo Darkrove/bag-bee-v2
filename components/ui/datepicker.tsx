@@ -107,6 +107,7 @@ function DatePickerSelect({ onChange, selectedValue }: { onChange: any; selected
 						break;
 					}
 					case 'lasty': {
+const currentDate = new Date()
 						onChange({
 							selected,
 							from: startOfYear(subYears(currentDate, 1)),
