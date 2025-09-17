@@ -124,7 +124,7 @@ export default function TransactionsList({
       <CardContent>
         {invoices.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-2xl font-bold text-primary">
               No Transactions for Today 📭
             </h2>
             <p className="mt-2 text-sm text-gray-400">
