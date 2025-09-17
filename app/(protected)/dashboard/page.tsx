@@ -20,7 +20,7 @@ export default async function DashboardPage() {
         text={`Current Role : ${user?.role}.`}
       />
       <div className="flex flex-col gap-5">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className='*:data-[slot=card]:shadow-xs grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card md:grid-cols-2 xl:grid-cols-4'>
           <Data />
         </div>
         <TransactionsList showRowsNumber={10} />
