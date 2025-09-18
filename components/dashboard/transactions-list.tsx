@@ -35,21 +35,9 @@ export default function TransactionsList({
 }: {
   showRowsNumber: number;
 }) {
-  const now = new Date();
-  const todayStart = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-  );
-  const todayEnd = new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      23,
-      59,
-      59,
-      999,
-    ),
-  );
+  const todayStart =  startOfDay(new Date())
+  const todayEnd = endOfDay(new Date())
+  
   const { data, error, isLoading } = useSWR(
     apiUrls.invoice.getList({
       from: todayStart.toISOString(),
@@ -135,6 +123,7 @@ export default function TransactionsList({
           <div>
             {invoices
               ?.slice(-showRowsNumber) // get last N
+              .reverse() // reverse to show latest first
               .map((invoice, index) => (
                 <div key={invoice.id} className="flex flex-col gap-3 pt-3">
                   <div className="flex items-center">
@@ -168,7 +157,8 @@ export default function TransactionsList({
                       + {currencyFormatter.format(invoice.totalAmount)}
                     </div>
                   </div>
-                  {index !== invoices.length - 1 && (
+                  // here show separator except for last item based on length if length is smalled that showRowsNumber other wise showrownumber-1
+                  {index !== Math.min(invoices.length, showRowsNumber) - 1 && (
                     <Separator className="border-gray-500" />
                   )}
                 </div>

@@ -1,12 +1,22 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { startOfDay, endOfDay } from "date-fns";
+import { startOfDay, endOfDay, parseISO } from "date-fns";
 
-export async function GET(req: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const from = searchParams.get("from");
-    const to = searchParams.get("to");
+    const { searchParams } = request.nextUrl;
+    const fromString = searchParams.get("from");
+    const toString = searchParams.get("to");
+
+    if (!fromString || !toString) {
+      return NextResponse.json(
+        { error: "Missing date params" },
+        { status: 400 },
+      );
+    }
+
+    const from = startOfDay(parseISO(fromString));
+    const to = endOfDay(parseISO(toString));
 
     const where: any = {};
     if (from && to) {
@@ -31,7 +41,6 @@ export async function GET(req: Request) {
         totalAmount: true,
         createdAt: true,
       },
-      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json({ success: true, data: invoices });
@@ -39,7 +48,7 @@ export async function GET(req: Request) {
     console.error("Error fetching invoices", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch invoices" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
