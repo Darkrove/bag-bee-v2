@@ -157,7 +157,6 @@ export default function TransactionsList({
                       + {currencyFormatter.format(invoice.totalAmount)}
                     </div>
                   </div>
-                  // here show separator except for last item based on length if length is smalled that showRowsNumber other wise showrownumber-1
                   {index !== Math.min(invoices.length, showRowsNumber) - 1 && (
                     <Separator className="border-gray-500" />
                   )}
