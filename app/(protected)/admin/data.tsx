@@ -32,22 +32,26 @@ export function Data() {
         amount={totalSales}
         title="Total Sales"
         icon={<PieChart className="size-4 text-muted-foreground" />}
+        footerTitle="All sales record"
       />
       <InfoCard
         amount={totalProfit}
         title="Total Profit"
         icon={<IndianRupee className="size-4 text-muted-foreground" />}
+        footerTitle="All profit record"
       />
       <InfoCard
         amount={totalTransactions}
         title="Total Transactions"
         showCurrencySymbol={false}
         icon={<ChartLine className="size-4 text-muted-foreground" />}
+        footerTitle="All transactions record"
       />
       <InfoCard
         amount={averageTransactionValue}
         title="Average Sales Value"
         icon={<IndianRupee className="size-4 text-muted-foreground" />}
+        footerTitle="Average transaction value"
       />
     </>
   );
