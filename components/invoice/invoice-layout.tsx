@@ -390,7 +390,7 @@ Happy Shopping ♻`,
                       Thank you!
                     </h4>
                     <p className="text-base text-secondary-foreground">
-                      © 2024 {data.me.name}.
+                      © 2025 {data.me.name}.
                     </p>
                   </div>
                 </div>
