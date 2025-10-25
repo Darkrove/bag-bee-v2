@@ -422,7 +422,7 @@ const InvoiceTemplate = ({ invoice, invoiceItem, totalSales, me }: InvoiceProps)
           }}
         >
           <Text style={{ fontSize: 11, fontWeight: "bold" }}>Thank you!</Text>
-          <Text style={{ fontSize: 11 }}>© 2024 Famous Bag</Text>
+          <Text style={{ fontSize: 11 }}>© 2025 Famous Bag</Text>
         </View>
       </View>
     );
