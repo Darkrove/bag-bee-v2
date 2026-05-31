@@ -124,69 +124,77 @@ export const columns: ColumnDef<UserData>[] = [
     id: "actions",
     cell: ({ row }) => {
       const user = row.original;
-      const [isLoading, setIsLoading] = useState(false);
-
-      const handleRoleChange = async (newRole: UserRole) => {
-        if (user.role === newRole) return;
-
-        setIsLoading(true);
-        try {
-          const result = await updateUserRoleAdmin(user.id, { role: newRole });
-          
-          if (result.status === "success") {
-            toast.success("Role updated", {
-              description: `User role changed to ${newRole}`,
-            });
-          } else {
-            toast.error("Error", {
-              description: result.message || "Failed to update role",
-            });
-          }
-        } catch (error) {
-          toast.error("Error", {
-            description: "An error occurred while updating the role",
-          });
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="size-8 p-0" disabled={isLoading}>
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => {
-                navigator.clipboard.writeText(user.email || "");
-                toast.success("success", {
-                  description: "Email copied to clipboard",
-                });
-              }}
-            >
-              Copy email
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
-              Change Role
-            </DropdownMenuLabel>
-            {Object.values(UserRole).map((role) => (
-              <DropdownMenuItem
-                key={role}
-                onClick={() => handleRoleChange(role as UserRole)}
-                disabled={isLoading || user.role === role}
-              >
-                {role}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <ActionsCell user={user} />;
     },
   },
 ];
+
+function ActionsCell({ user }: { user: UserData }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRoleChange = async (newRole: UserRole) => {
+    if (user.role === newRole) return;
+
+    setIsLoading(true);
+    try {
+      const result = await updateUserRoleAdmin(user.id, { role: newRole });
+
+      if (result.status === "success") {
+        toast.success("Role updated", {
+          description: `User role changed to ${newRole}`,
+        });
+      } else {
+        toast.error("Error", {
+          description: result.message || "Failed to update role",
+        });
+      }
+    } catch {
+      toast.error("Error", {
+        description: "An error occurred while updating the role",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="size-8 p-0" disabled={isLoading}>
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+        <DropdownMenuItem
+          onClick={() => {
+            navigator.clipboard.writeText(user.email || "");
+            toast.success("success", {
+              description: "Email copied to clipboard",
+            });
+          }}
+        >
+          Copy email
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+          Change Role
+        </DropdownMenuLabel>
+
+        {Object.values(UserRole).map((role) => (
+          <DropdownMenuItem
+            key={role}
+            onClick={() => handleRoleChange(role)}
+            disabled={isLoading || user.role === role}
+          >
+            {role}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
