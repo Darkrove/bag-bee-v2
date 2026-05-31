@@ -31,6 +31,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
+  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
 
   async function onSubmit(data: FormData) {
@@ -70,7 +71,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading || isGoogleLoading}
+              disabled={isLoading || isGoogleLoading || isGitHubLoading}
               {...register("email")}
             />
             {errors?.email && (
@@ -79,7 +80,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
               </p>
             )}
           </div>
-          <button className={cn(buttonVariants())} disabled={isLoading}>
+          <button className={cn(buttonVariants())} disabled={isLoading || isGitHubLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 size-4 animate-spin" />
             )}
@@ -104,7 +105,7 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
           setIsGoogleLoading(true);
           signIn("google");
         }}
-        disabled={isLoading || isGoogleLoading}
+        disabled={isLoading || isGoogleLoading || isGitHubLoading}
       >
         {isGoogleLoading ? (
           <Icons.spinner className="mr-2 size-4 animate-spin" />
@@ -112,6 +113,22 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
           <Icons.google className="mr-2 size-4" />
         )}{" "}
         Google
+      </button>
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsGitHubLoading(true);
+          signIn("github");
+        }}
+        disabled={isLoading || isGoogleLoading || isGitHubLoading}
+      >
+        {isGitHubLoading ? (
+          <Icons.spinner className="mr-2 size-4 animate-spin" />
+        ) : (
+          <Icons.gitHub className="mr-2 size-4" />
+        )}{" "}
+        GitHub
       </button>
     </div>
   );
