@@ -187,7 +187,7 @@ const PaymentModeIcon = ({ paymentMode }: { paymentMode: string }) => {
 const InvoiceDetail = ({ invoice }: { invoice: InvoiceData }) => {
   return (
     <Card className="w-full">
-      <CardContent className="pt-6">
+      <CardContent>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
