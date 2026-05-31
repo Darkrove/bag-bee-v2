@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -10,7 +10,8 @@ import { Check, ChevronsUpDown, Loader2, Plus, Trash } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { cn, calculateProfit } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { DEALERS, PRODUCTS } from "@/components/sales/data";
+import { fetchProducts } from "@/actions/manage-products";
+import { fetchDealers } from "@/actions/manage-dealers";
 import {
   Command,
   CommandEmpty,
@@ -56,8 +57,17 @@ const defaultValues: Partial<ItemFormValues> = {
   quantity: 1,
 };
 
+interface SelectItem {
+  label: string;
+  value: string;
+}
+
 export function ProductForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState<SelectItem[]>([]);
+  const [dealers, setDealers] = useState<SelectItem[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  
   const addItem = useStore((state) => state.addItem);
   const clearItems = useStore((state) => state.clearItems);
 
@@ -66,6 +76,42 @@ export function ProductForm() {
     defaultValues,
   });
 
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function loadData() {
+    setIsLoadingData(true);
+    try {
+      const [productsResult, dealersResult] = await Promise.all([
+        fetchProducts(),
+        fetchDealers(),
+      ]);
+
+      if (productsResult.data) {
+        setProducts(
+          productsResult.data.map((p: any) => ({
+            label: p.label,
+            value: p.value,
+          }))
+        );
+      }
+
+      if (dealersResult.data) {
+        setDealers(
+          dealersResult.data.map((d: any) => ({
+            label: d.label,
+            value: d.value,
+          }))
+        );
+      }
+    } catch (error) {
+      toast.error("Failed to load products and dealers");
+    } finally {
+      setIsLoadingData(false);
+    }
+  }
+
   async function onSubmit(data: ItemFormValues) {
     setIsLoading(true);
     try {
@@ -73,19 +119,20 @@ export function ProductForm() {
       const amount = data.price * data.quantity;
       const note = data?.note?.replace(/\s/g, "").toUpperCase() || undefined;
       const invoiceData = {
-        code: (data.code).toUpperCase(),
+        code: data.code.toUpperCase(),
         productCategory: data.product,
         quantity: data.quantity,
         price: data.price,
         amount: amount,
         profit: profit,
         note: note,
-        dealerCode: (data.dealerCode).toUpperCase(),
+        dealerCode: data.dealerCode.toUpperCase(),
       };
       addItem(invoiceData);
       toast.success("Success", {
         description: "Item added successfully.",
       });
+      form.reset(defaultValues);
     } catch (error) {
       toast.error("An error occurred.", {
         description: "Unable to process.",
@@ -93,6 +140,14 @@ export function ProductForm() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (isLoadingData) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -118,10 +173,10 @@ export function ProductForm() {
                         )}
                       >
                         {field.value
-                          ? PRODUCTS.find(
+                          ? products.find(
                               (product) => product.value === field.value,
                             )?.label
-                          : "Select language"}
+                          : "Select product"}
                         <ChevronsUpDown className="opacity-50" />
                       </Button>
                     </FormControl>
@@ -133,7 +188,7 @@ export function ProductForm() {
                       <CommandList>
                         <CommandEmpty>No category found.</CommandEmpty>
                         <CommandGroup>
-                          {PRODUCTS.map((product) => (
+                          {products.map((product) => (
                             <CommandItem
                               value={product.value}
                               key={product.value}
@@ -183,7 +238,7 @@ export function ProductForm() {
                         )}
                       >
                         {field.value
-                          ? DEALERS.find(
+                          ? dealers.find(
                               (dealer) => dealer.value === field.value,
                             )?.label
                           : "Select dealer"}
@@ -197,7 +252,7 @@ export function ProductForm() {
                       <CommandList>
                         <CommandEmpty>No dealer code found.</CommandEmpty>
                         <CommandGroup>
-                          {DEALERS.map((dealer) => (
+                          {dealers.map((dealer) => (
                             <CommandItem
                               value={dealer.value}
                               key={dealer.value}
@@ -222,7 +277,7 @@ export function ProductForm() {
                   </PopoverContent>
                 </Popover>
                 <FormDescription>
-                  This is the product category for billing.
+                  This is the dealer code for billing.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

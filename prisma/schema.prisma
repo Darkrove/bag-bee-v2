@@ -116,3 +116,24 @@ enum UserRole {
   USER
 }
 
+model Product {
+  id        String   @id @default(cuid())
+  label     String   @unique
+  value     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("products")
+}
+
+model Dealer {
+  id        String   @id @default(cuid())
+  label     String   @unique
+  value     String   @unique
+  contactNumber String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("dealers")
+}
+
