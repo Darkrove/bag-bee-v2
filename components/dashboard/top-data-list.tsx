@@ -69,13 +69,13 @@ export default async function TopDataList() {
       <TopListCard
         heading="Top Categories"
         title="Top 5 product categories"
-        link="/featured-products"
+        link="/admin/featured-products"
         data={topCategoriesWithPercentage}
       />
       <TopListCard
         heading="Top Dealers"
         title="Top 5 delaers by sales"
-        link="/featured-dealers"
+        link="/admin/featured-dealers"
         data={topDealersWithPercentage}
         isDealer={true}
       />
