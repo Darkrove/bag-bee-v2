@@ -41,6 +41,7 @@ export const DEALERS = [
   { label: "Jiore Bag", value: "Jiore Bag" },
   { label: "AL Bag", value: "AL Bag" },
   { label: "Your Choice", value: "Your Choice" },
+  { label: "FB Fashion", value: "FB Fashion" },
 ]
 
 export const PRODUCTS = [
