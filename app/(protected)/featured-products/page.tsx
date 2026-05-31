@@ -1,4 +1,4 @@
-import { endOfYear, format } from "date-fns";
+import { endOfYear, format, startOfYear } from "date-fns";
 
 import { dateFormat } from "@/constants/date";
 import { fetchInvoices } from "@/actions/fetch-invoices";
@@ -7,7 +7,7 @@ import LayoutHeader from "@/components/dashboard/header";
 import { FeaturedPerformanceTable } from "@/components/dashboard/featured-performance-table";
 
 export default async function FeaturedProductsPage() {
-  const from = format(new Date("2023-01-01"), dateFormat);
+  const from = format(startOfYear(new Date()), dateFormat);
   const to = format(endOfYear(new Date()), dateFormat);
 
   const result = await fetchInvoices(from, to);

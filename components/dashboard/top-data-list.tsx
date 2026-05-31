@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
-import { endOfYear, format } from "date-fns";
+import { endOfYear, format, startOfYear } from "date-fns";
 
 import { dateFormat } from "@/constants/date";
 import { Button } from "@/components/ui/button";
@@ -48,7 +48,7 @@ function getTopEntitiesWithPercentage(
 }
 
 export default async function TopDataList() {
-  const from = format(new Date("2023-01-01"), dateFormat);
+  const from = format(startOfYear(new Date()), dateFormat);
   const to = format(endOfYear(new Date()), dateFormat);
   
   const result = await fetchInvoices(from, to)
