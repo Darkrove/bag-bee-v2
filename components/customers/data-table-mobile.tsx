@@ -178,7 +178,7 @@ const DataTableToolbar = ({
 const CustomerDetails = ({ customer }: { customer: Customer }) => {
   return (
     <Card className="w-full">
-      <CardContent className="pt-6">
+      <CardContent>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
