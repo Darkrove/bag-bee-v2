@@ -14,6 +14,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { toCamelCase, currencyFormatter } from "@/lib/utils";
 import { fetchInvoices, InvoicesResponse } from "@/actions/fetch-invoices";
+import {
+  calculateSalesData,
+  getEntitiesWithPercentage,
+} from "@/lib/performance";
 
 interface InvoiceItem {
   productCategory: string;
@@ -21,15 +25,6 @@ interface InvoiceItem {
   price: number;
   quantity: number;
   profit: number;
-}
-
-interface SalesDataItem {
-  totalSales: number;
-  totalProfit: number;
-}
-
-interface SalesData {
-  [key: string]: SalesDataItem;
 }
 
 interface TopListCardProps {
@@ -45,46 +40,11 @@ interface TopListCardProps {
   isDealer?: boolean;
 }
 
-function calculateSalesData(
-  response: InvoicesResponse,
-  key: keyof InvoiceItem,
-): SalesData {
-  const salesData: SalesData = {};
-
-  response.data?.forEach((invoice) => {
-    invoice.items?.forEach((item) => {
-      const value = item[key];
-      if (!salesData[value]) {
-        salesData[value] = { totalSales: 0, totalProfit: 0 };
-      }
-      salesData[value].totalSales += item.price * item.quantity;
-      salesData[value].totalProfit += item.profit;
-    });
-  });
-
-  return salesData;
-}
-
-function getTopEntitiesWithPercentage(salesData: SalesData, topN: number) {
-  const sortedEntities = Object.entries(salesData).sort(
-    (a, b) => b[1].totalSales - a[1].totalSales,
-  );
-
-  const overallTotalSales = Object.values(salesData).reduce(
-    (total, entity) => total + entity.totalSales,
-    0,
-  );
-
-  const entitiesWithPercentage = sortedEntities.map(
-    ([entity, { totalSales, totalProfit }]) => ({
-      entity,
-      totalSales,
-      totalProfit,
-      percentageSales: (totalSales / overallTotalSales) * 100,
-    }),
-  );
-
-  return entitiesWithPercentage.slice(0, topN);
+function getTopEntitiesWithPercentage(
+  salesData: Record<string, { totalSales: number; totalProfit: number }>,
+  topN: number,
+) {
+  return getEntitiesWithPercentage(salesData, topN);
 }
 
 export default async function TopDataList() {
