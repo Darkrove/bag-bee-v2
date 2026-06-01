@@ -17,11 +17,6 @@ export async function fetchDealers() {
 
 export async function createDealer(label: string, value: string, contactNumber?: string) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return { data: null, error: "Unauthorized" };
-    }
-
     const dealer = await db.dealer.create({
       data: {
         label,
@@ -38,11 +33,6 @@ export async function createDealer(label: string, value: string, contactNumber?:
 
 export async function updateDealer(id: string, label: string, value: string, contactNumber?: string) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return { data: null, error: "Unauthorized" };
-    }
-
     const dealer = await db.dealer.update({
       where: { id },
       data: {

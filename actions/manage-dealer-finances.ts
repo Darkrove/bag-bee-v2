@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { auth } from "@/auth";
 
 export type DealerBillWithStrings = {
   id: number;
@@ -94,11 +93,6 @@ export async function createDealerBill(
   billNumber?: string
 ) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return { data: null, error: "Unauthorized" };
-    }
-
     const bill = await db.dealerBill.create({
       data: {
         dealerId,
@@ -122,11 +116,6 @@ export async function createDealerPayment(
   paymentMethod: "CASH" | "ONLINE"
 ) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return { data: null, error: "Unauthorized" };
-    }
-
     const payment = await db.dealerPayment.create({
       data: {
         dealerId,

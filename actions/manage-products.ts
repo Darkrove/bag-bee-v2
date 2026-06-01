@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { auth } from "@/auth";
+import { auth } from "@/auth";  
 
 export async function fetchProducts() {
   try {
@@ -17,11 +17,6 @@ export async function fetchProducts() {
 
 export async function createProduct(label: string, value: string) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return { data: null, error: "Unauthorized" };
-    }
-
     const product = await db.product.create({
       data: {
         label,
@@ -41,11 +36,6 @@ export async function updateProduct(
   value: string,
 ) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return { data: null, error: "Unauthorized" };
-    }
-
     const product = await db.product.update({
       where: { id },
       data: {
