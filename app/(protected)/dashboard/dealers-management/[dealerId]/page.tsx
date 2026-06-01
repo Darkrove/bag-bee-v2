@@ -11,12 +11,6 @@ interface DealerManagementPageProps {
 }
 
 export default async function DealerManagementPage({ params }: DealerManagementPageProps) {
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "ADMIN") {
-    redirect("/dashboard");
-  }
-
   const result = await fetchDealerDetails(params.dealerId);
 
   if (!result.data) {
