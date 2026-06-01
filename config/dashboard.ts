@@ -25,12 +25,12 @@ export const sidebarLinks: SidebarNavItem[] = [
         authorizeOnly: UserRole.ADMIN,
       },
       {
-        href: "/admin/products-management",
+        href: "/dashboard/products-management",
         icon: "package",
-        title: "Products",
+        title: "Products",      
       },
       {
-        href: "/admin/dealers-management",
+        href: "/dashboard/dealers-management",
         icon: "package",
         title: "Dealers",
       },

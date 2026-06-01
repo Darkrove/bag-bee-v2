@@ -215,10 +215,11 @@ export function DealersManagementTable() {
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Link
-                    href={`/admin/dealers-management/${dealer.id}`}
+                    href={`/dashboard/dealers-management/${dealer.id}`}
                     className="inline-flex items-center justify-center rounded-md border border-input bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary/80"
                   >
-                    Manage
+                    <ArrowUpRight className="h-4 w-4" />
+                    <span className="sr-only">Manage</span>
                   </Link>
                   <Button variant="outline" size="sm" onClick={() => handleEdit(dealer)}>
                     <Pencil className="h-4 w-4" />
@@ -294,7 +295,7 @@ export function DealersManagementTable() {
                   <TableCell className="text-right">
                     <div className="flex flex-wrap justify-end gap-2">
                       <Link
-                        href={`/admin/dealers-management/${dealer.id}`}
+                        href={`/dashboard/dealers-management/${dealer.id}`}
                         className="inline-flex items-center justify-center rounded-md border border-input bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary/80"
                       >
                         <ArrowUpRight className="h-4 w-4" />
