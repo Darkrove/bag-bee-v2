@@ -28,13 +28,11 @@ export const sidebarLinks: SidebarNavItem[] = [
         href: "/admin/products-management",
         icon: "package",
         title: "Products",
-        authorizeOnly: UserRole.ADMIN,
       },
       {
         href: "/admin/dealers-management",
         icon: "package",
         title: "Dealers",
-        authorizeOnly: UserRole.ADMIN,
       },
       {
         href: "/admin/featured-products",

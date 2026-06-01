@@ -42,6 +42,7 @@ export function ProductsManagementTable() {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [pendingDeleteLabel, setPendingDeleteLabel] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formData, setFormData] = useState({ label: "", value: "" });
 
@@ -90,8 +91,9 @@ export function ProductsManagementTable() {
     }
   }
 
-  function requestDelete(id: string) {
+  function requestDelete(id: string, label?: string) {
     setPendingDeleteId(id);
+    setPendingDeleteLabel(label ?? null);
     setConfirmOpen(true);
   }
 
@@ -110,6 +112,7 @@ export function ProductsManagementTable() {
       setIsSubmitting(false);
       setConfirmOpen(false);
       setPendingDeleteId(null);
+      setPendingDeleteLabel(null);
     }
   }
 
@@ -275,7 +278,7 @@ export function ProductsManagementTable() {
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => requestDelete(product.id)}
+                        onClick={() => requestDelete(product.id, product.label)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -293,7 +296,7 @@ export function ProductsManagementTable() {
           <DialogHeader>
             <DialogTitle>Delete product</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">Are you sure you want to delete this product? This action cannot be undone.</p>
+          <p className="text-sm text-muted-foreground">Are you sure you want to delete {pendingDeleteLabel ? `"${pendingDeleteLabel}"` : "this product"}? This action cannot be undone.</p>
           <div className="mt-4 flex justify-end gap-2">
             <Button variant="outline" onClick={() => setConfirmOpen(false)}>Cancel</Button>
             <Button variant="destructive" onClick={performDelete} disabled={isSubmitting}>

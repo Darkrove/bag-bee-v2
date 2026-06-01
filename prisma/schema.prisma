@@ -127,13 +127,46 @@ model Product {
 }
 
 model Dealer {
-  id        String   @id @default(cuid())
-  label     String   @unique
-  value     String   @unique
+  id            String           @id @default(cuid())
+  label         String           @unique
+  value         String           @unique
   contactNumber String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @default(now())
+  bills         DealerBill[]
+  payments      DealerPayment[]
 
   @@map("dealers")
+}
+
+model DealerBill {
+  id         Int      @id @default(autoincrement())
+  dealerId   String
+  billNumber String?
+  amount     Int
+  date       DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  dealer     Dealer   @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+
+  @@index([dealerId])
+}
+
+model DealerPayment {
+  id            Int           @id @default(autoincrement())
+  dealerId      String
+  amount        Int
+  date          DateTime
+  paymentMethod PaymentMethod
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now())
+  dealer        Dealer        @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+
+  @@index([dealerId])
+}
+
+enum PaymentMethod {
+  CASH
+  ONLINE
 }
 

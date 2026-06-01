@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2 } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 import { fetchDealers, createDealer, updateDealer, deleteDealer } from "@/actions/manage-dealers";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ export function DealersManagementTable() {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [pendingDeleteLabel, setPendingDeleteLabel] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formData, setFormData] = useState({ label: "", value: "", contactNumber: "" });
 
@@ -91,8 +93,9 @@ export function DealersManagementTable() {
     }
   }
 
-  function requestDelete(id: string) {
+  function requestDelete(id: string, label?: string) {
     setPendingDeleteId(id);
+    setPendingDeleteLabel(label ?? null);
     setConfirmOpen(true);
   }
 
@@ -111,6 +114,7 @@ export function DealersManagementTable() {
       setIsSubmitting(false);
       setConfirmOpen(false);
       setPendingDeleteId(null);
+      setPendingDeleteLabel(null);
     }
   }
 
@@ -209,11 +213,17 @@ export function DealersManagementTable() {
                 <div>
                   <p className="text-sm font-medium">{dealer.label}</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Link
+                    href={`/admin/dealers-management/${dealer.id}`}
+                    className="inline-flex items-center justify-center rounded-md border border-input bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary/80"
+                  >
+                    Manage
+                  </Link>
                   <Button variant="outline" size="sm" onClick={() => handleEdit(dealer)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => requestDelete(dealer.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => requestDelete(dealer.id, dealer.label)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -261,7 +271,7 @@ export function DealersManagementTable() {
           <TableBody>
             {dealers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
                   No dealers found. Create your first dealer.
                 </TableCell>
               </TableRow>
@@ -282,7 +292,14 @@ export function DealersManagementTable() {
                     })()}
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                    <div className="flex flex-wrap justify-end gap-2">
+                      <Link
+                        href={`/admin/dealers-management/${dealer.id}`}
+                        className="inline-flex items-center justify-center rounded-md border border-input bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary/80"
+                      >
+                        <ArrowUpRight className="h-4 w-4" />
+                        <span className="sr-only">Manage</span>
+                      </Link>
                       <Button
                         variant="outline"
                         size="sm"
@@ -293,7 +310,7 @@ export function DealersManagementTable() {
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => requestDelete(dealer.id)}
+                        onClick={() => requestDelete(dealer.id, dealer.label)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -311,7 +328,7 @@ export function DealersManagementTable() {
           <DialogHeader>
             <DialogTitle>Delete dealer</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">Are you sure you want to delete this dealer? This action cannot be undone.</p>
+          <p className="text-sm text-muted-foreground">Are you sure you want to delete {pendingDeleteLabel ? `"${pendingDeleteLabel}"` : "this dealer"}? This action cannot be undone.</p>
           <div className="mt-4 flex justify-end gap-2">
             <Button variant="outline" onClick={() => setConfirmOpen(false)}>Cancel</Button>
             <Button variant="destructive" onClick={performDelete} disabled={isSubmitting}>

@@ -1,0 +1,144 @@
+"use server";
+
+import { db } from "@/lib/db";
+import { auth } from "@/auth";
+
+export type DealerBillWithStrings = {
+  id: number;
+  dealerId: string;
+  billNumber: string | null;
+  amount: number;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type DealerPaymentWithStrings = {
+  id: number;
+  dealerId: string;
+  amount: number;
+  date: string;
+  paymentMethod: "CASH" | "ONLINE";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type DealerWithHistory = {
+  id: string;
+  label: string;
+  value: string;
+  contactNumber?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  bills: DealerBillWithStrings[];
+  payments: DealerPaymentWithStrings[];
+};
+
+export async function fetchDealerDetails(id: string) {
+  try {
+    const dealer = await db.dealer.findUnique({
+      where: { id },
+      include: {
+        bills: {
+          orderBy: { date: "desc" },
+        },
+        payments: {
+          orderBy: { date: "desc" },
+        },
+      },
+    });
+
+    if (!dealer) {
+      return { data: null, error: "Dealer not found" };
+    }
+
+    return {
+      data: {
+        id: dealer.id,
+        label: dealer.label,
+        value: dealer.value,
+        contactNumber: dealer.contactNumber,
+        createdAt: dealer.createdAt.toISOString(),
+        updatedAt: dealer.updatedAt.toISOString(),
+        bills: dealer.bills.map((bill) => ({
+          id: bill.id,
+          dealerId: bill.dealerId,
+          billNumber: bill.billNumber,
+          amount: bill.amount,
+          date: bill.date.toISOString(),
+          createdAt: bill.createdAt.toISOString(),
+          updatedAt: bill.updatedAt.toISOString(),
+        })),
+        payments: dealer.payments.map((payment) => ({
+          id: payment.id,
+          dealerId: payment.dealerId,
+          amount: payment.amount,
+          date: payment.date.toISOString(),
+          paymentMethod: payment.paymentMethod as "CASH" | "ONLINE",
+          createdAt: payment.createdAt.toISOString(),
+          updatedAt: payment.updatedAt.toISOString(),
+        })),
+      },
+      error: null,
+    };
+  } catch (error) {
+    console.error("Error fetching dealer details:", error);
+    return { data: null, error: "Failed to fetch dealer details" };
+  }
+}
+
+export async function createDealerBill(
+  dealerId: string,
+  amount: number,
+  date: string,
+  billNumber?: string
+) {
+  try {
+    const session = await auth();
+    if (!session?.user || session.user.role !== "ADMIN") {
+      return { data: null, error: "Unauthorized" };
+    }
+
+    const bill = await db.dealerBill.create({
+      data: {
+        dealerId,
+        amount: Math.max(0, Math.round(amount)),
+        date: new Date(date),
+        billNumber: billNumber?.trim() || null,
+      },
+    });
+
+    return { data: bill, error: null };
+  } catch (error) {
+    console.error("Error creating dealer bill:", error);
+    return { data: null, error: "Failed to create dealer bill" };
+  }
+}
+
+export async function createDealerPayment(
+  dealerId: string,
+  amount: number,
+  date: string,
+  paymentMethod: "CASH" | "ONLINE"
+) {
+  try {
+    const session = await auth();
+    if (!session?.user || session.user.role !== "ADMIN") {
+      return { data: null, error: "Unauthorized" };
+    }
+
+    const payment = await db.dealerPayment.create({
+      data: {
+        dealerId,
+        amount: Math.max(0, Math.round(amount)),
+        date: new Date(date),
+        paymentMethod,
+      },
+    });
+
+    return { data: payment, error: null };
+  } catch (error) {
+    console.error("Error creating dealer payment:", error);
+    return { data: null, error: "Failed to create dealer payment" };
+  }
+}
