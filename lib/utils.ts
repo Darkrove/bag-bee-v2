@@ -61,7 +61,9 @@ export function constructMetadata({
     },
     icons,
     metadataBase: new URL(siteConfig.url),
-    manifest: `${siteConfig.url}/site.webmanifest`,
+    // Use a relative manifest path to avoid cross-origin manifest requests
+    // which can lead to CORS/credentials issues in some browsers.
+    manifest: `/site.webmanifest`,
     ...(noIndex && {
       robots: {
         index: false,
