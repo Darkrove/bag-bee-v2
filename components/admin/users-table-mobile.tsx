@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { updateUserRoleAdmin } from "@/actions/update-user-role-admin";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 type UserData = Pick<User, "id" | "email" | "name" | "image" | "role" | "createdAt">;
 
@@ -210,7 +211,19 @@ const UserDetailsCard = ({ user }: { user: UserData }) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="flex size-10 items-center justify-center rounded-full bg-secondary-foreground">
-                <UserIcon className="size-5 text-secondary" />
+                {user.image ? (
+                   <Avatar className="size-9 bg-gray-300 shadow-sm">
+                      <AvatarImage
+                        src={user.image}
+                        alt="Avatar"
+                      />
+                      <AvatarFallback>
+                        {user.name ? user.name[0] : ""}
+                      </AvatarFallback>
+                    </Avatar>
+                ) : (
+                  <UserIcon className="size-5 text-muted-foreground" />
+                )}
               </div>
               <div>
                 <p className="text-sm font-medium">{user.name || "Unknown"}</p>
