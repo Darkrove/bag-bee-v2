@@ -71,9 +71,13 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
       toast.error("Enter a valid bill amount.");
       return;
     }
-
+    const CleanedFormData = {
+      billNumber: billForm.billNumber.trim(),
+      date: billForm.date,
+    };
+    
     setIsBillSubmitting(true);
-    const result = await createDealerBill(dealer.id, amount, billForm.date, billForm.billNumber);
+    const result = await createDealerBill(dealer.id, amount, CleanedFormData.date, CleanedFormData.billNumber);
     if (result.error) {
       toast.error(result.error);
     } else {
@@ -92,13 +96,18 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
       toast.error("Enter a valid payment amount.");
       return;
     }
-
+    const CleanedFormData = {
+      amount: paymentForm.amount.trim(),
+      date: paymentForm.date,
+      paymentMethod: paymentForm.paymentMethod,
+    };
+    
     setIsPaymentSubmitting(true);
     const result = await createDealerPayment(
       dealer.id,
       amount,
-      paymentForm.date,
-      paymentForm.paymentMethod
+      CleanedFormData.date,
+      CleanedFormData.paymentMethod
     );
     if (result.error) {
       toast.error(result.error);
@@ -282,7 +291,10 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
                 id="billNumber"
                 value={billForm.billNumber}
                 onChange={(event) =>
-                  setBillForm({ ...billForm, billNumber: event.target.value })
+                  setBillForm({
+                    ...billForm,
+                    billNumber: event.target.value,
+                  })
                 }
                 placeholder="Optional bill number"
               />

@@ -64,10 +64,14 @@ export function ProductsManagementTable() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsSubmitting(true);
+    const CleanedFormData = {
+      label: formData.label.trim(),
+      value: formData.value.trim(),
+    };
 
     try {
       if (editingId) {
-        const result = await updateProduct(editingId, formData.label, formData.value);
+        const result = await updateProduct(editingId, CleanedFormData.label, CleanedFormData.value);
         if (result.error) {
           toast.error(result.error);
         } else {
@@ -76,7 +80,7 @@ export function ProductsManagementTable() {
           await loadProducts();
         }
       } else {
-        const result = await createProduct(formData.label, formData.value);
+        const result = await createProduct(CleanedFormData.label, CleanedFormData.value);
         if (result.error) {
           toast.error(result.error);
         } else {

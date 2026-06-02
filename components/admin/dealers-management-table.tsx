@@ -67,9 +67,20 @@ export function DealersManagementTable() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const cleanedFormData = {
+      label: formData.label.trim(),
+      value: formData.value.trim(),
+      contactNumber: formData.contactNumber.trim(),
+    };
+
     try {
       if (editingId) {
-        const result = await updateDealer(editingId, formData.label, formData.value, formData.contactNumber);
+        const result = await updateDealer(
+          editingId,
+          cleanedFormData.label,
+          cleanedFormData.value,
+          cleanedFormData.contactNumber,
+        );
         if (result.error) {
           toast.error(result.error);
         } else {
@@ -78,7 +89,11 @@ export function DealersManagementTable() {
           await loadDealers();
         }
       } else {
-        const result = await createDealer(formData.label, formData.value, formData.contactNumber);
+        const result = await createDealer(
+          cleanedFormData.label,
+          cleanedFormData.value,
+          cleanedFormData.contactNumber,
+        );
         if (result.error) {
           toast.error(result.error);
         } else {
@@ -182,6 +197,7 @@ export function DealersManagementTable() {
               <Label htmlFor="contactNumber">Contact Number</Label>
               <Input
                 id="contactNumber"
+                type="tel"
                 placeholder="e.g., +233201234567"
                 value={formData.contactNumber}
                 onChange={(e) =>
