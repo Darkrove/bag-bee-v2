@@ -8,6 +8,7 @@ import Link from "next/link";
 import { fetchDealers, createDealer, updateDealer, deleteDealer } from "@/actions/manage-dealers";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { currencyFormatter } from "@/lib/utils";
 import {
   Table,
   TableBody,
@@ -34,8 +35,10 @@ interface Dealer {
   value: string;
   contactNumber?: string;
   updatedAt: string;
+  totalBilled: number;
+  totalPaid: number;
+  remainingBalance: number;
 }
-
 
 export function DealersManagementTable() {
   const [dealers, setDealers] = useState<Dealer[]>([]);
@@ -56,7 +59,7 @@ export function DealersManagementTable() {
     setIsLoading(true);
     const result = await fetchDealers();
     if (result.data) {
-      setDealers(result.data as any);
+      setDealers(result.data as Dealer[]);
     } else {
       toast.error("Failed to load dealers");
     }
@@ -145,6 +148,9 @@ export function DealersManagementTable() {
     setOpen(true);
   }
 
+  const totalRemainingAcrossDealers = dealers.reduce((sum, dealer) => sum + dealer.remainingBalance, 0);
+  const totalPaidAcrossDealers = dealers.reduce((sum, dealer) => sum + dealer.totalPaid, 0);
+
   if (isLoading) {
     return (
       <Skeleton className="size-full rounded-lg" />
@@ -221,6 +227,17 @@ export function DealersManagementTable() {
         </DialogContent>
       </Dialog>
 
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-lg border bg-background p-4">
+          <p className="text-sm font-medium text-muted-foreground">Total Paid to Dealers</p>
+          <p className="mt-2 text-2xl font-semibold">{currencyFormatter.format(totalPaidAcrossDealers)}</p>
+        </div>
+        <div className="rounded-lg border bg-background p-4">
+          <p className="text-sm font-medium text-muted-foreground">Total Remaining Balance</p>
+          <p className="mt-2 text-2xl font-semibold">{currencyFormatter.format(totalRemainingAcrossDealers)}</p>
+        </div>
+      </div>
+
       <div className="space-y-4 lg:hidden">
         {dealers.map((dealer) => (
           <Card key={dealer.id} className="w-full">
@@ -252,8 +269,16 @@ export function DealersManagementTable() {
                   <p className="text-sm text-muted-foreground font-mono">{dealer.value}</p>
                 </div>
                 <div className="flex items-center justify-between gap-4">
-                  <p className="text-sm font-semibold">Contact</p>
-                  <p className="text-sm text-muted-foreground">{dealer.contactNumber || "—"}</p>
+                  <p className="text-sm font-semibold">Paid</p>
+                  <p className="text-sm text-muted-foreground">
+                    {currencyFormatter.format(dealer.totalPaid)}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-sm font-semibold">Remaining</p>
+                  <p className={`text-sm font-semibold ${dealer.remainingBalance < 0 ? "text-destructive" : "text-emerald-600"}`}>
+                    {currencyFormatter.format(dealer.remainingBalance)}
+                  </p>
                 </div>
                 <div className="flex items-center justify-between gap-4">
                   <p className="text-sm font-semibold">Last Updated</p>
@@ -281,6 +306,8 @@ export function DealersManagementTable() {
               <TableHead>Name</TableHead>
               <TableHead>Value</TableHead>
               <TableHead>Contact</TableHead>
+              <TableHead>Paid</TableHead>
+              <TableHead>Remaining</TableHead>
               <TableHead>Last Updated</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -288,7 +315,7 @@ export function DealersManagementTable() {
           <TableBody>
             {dealers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
                   No dealers found. Create your first dealer.
                 </TableCell>
               </TableRow>
@@ -298,6 +325,10 @@ export function DealersManagementTable() {
                   <TableCell>{dealer.label}</TableCell>
                   <TableCell className="font-mono text-sm">{dealer.value}</TableCell>
                   <TableCell className="text-sm">{dealer.contactNumber || "—"}</TableCell>
+                  <TableCell className="text-sm">{currencyFormatter.format(dealer.totalPaid)}</TableCell>
+                  <TableCell className={`text-sm font-semibold ${dealer.remainingBalance < 0 ? "text-destructive" : "text-emerald-600"}`}>
+                    {currencyFormatter.format(dealer.remainingBalance)}
+                  </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {(() => {
                       const date = new Date(dealer.updatedAt);

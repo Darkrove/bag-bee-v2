@@ -7,8 +7,36 @@ export async function fetchDealers() {
   try {
     const dealers = await db.dealer.findMany({
       orderBy: { label: "asc" },
+      include: {
+        bills: {
+          select: {
+            amount: true,
+          },
+        },
+        payments: {
+          select: {
+            amount: true,
+          },
+        },
+      },
     });
-    return { data: dealers, error: null };
+
+    const formattedDealers = dealers.map((dealer) => {
+      const totalBilled = dealer.bills.reduce((sum, bill) => sum + bill.amount, 0);
+      const totalPaid = dealer.payments.reduce((sum, payment) => sum + payment.amount, 0);
+      return {
+        id: dealer.id,
+        label: dealer.label,
+        value: dealer.value,
+        contactNumber: dealer.contactNumber,
+        updatedAt: dealer.updatedAt.toISOString(),
+        totalBilled,
+        totalPaid,
+        remainingBalance: totalBilled - totalPaid,
+      };
+    });
+
+    return { data: formattedDealers, error: null };
   } catch (error) {
     console.error("Error fetching dealers:", error);
     return { data: null, error: "Failed to fetch dealers" };
