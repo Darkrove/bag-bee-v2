@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Loader2, Plus, Pencil, Trash2, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -41,6 +42,8 @@ interface Dealer {
 }
 
 export function DealersManagementTable() {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === "ADMIN";
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -227,16 +230,18 @@ export function DealersManagementTable() {
         </DialogContent>
       </Dialog>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-lg border bg-background p-4">
-          <p className="text-sm font-medium text-muted-foreground">Total Paid to Dealers</p>
-          <p className="mt-2 text-2xl font-semibold">{currencyFormatter.format(totalPaidAcrossDealers)}</p>
+      {isAdmin ? (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border bg-background p-4">
+            <p className="text-sm font-medium text-muted-foreground">Total Paid to Dealers</p>
+            <p className="mt-2 text-2xl font-semibold">{currencyFormatter.format(totalPaidAcrossDealers)}</p>
+          </div>
+          <div className="rounded-lg border bg-background p-4">
+            <p className="text-sm font-medium text-muted-foreground">Total Remaining Balance</p>
+            <p className="mt-2 text-2xl font-semibold">{currencyFormatter.format(totalRemainingAcrossDealers)}</p>
+          </div>
         </div>
-        <div className="rounded-lg border bg-background p-4">
-          <p className="text-sm font-medium text-muted-foreground">Total Remaining Balance</p>
-          <p className="mt-2 text-2xl font-semibold">{currencyFormatter.format(totalRemainingAcrossDealers)}</p>
-        </div>
-      </div>
+      ) : null}
 
       <div className="space-y-4 lg:hidden">
         {dealers.map((dealer) => (
