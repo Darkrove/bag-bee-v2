@@ -16,6 +16,7 @@ export async function fetchDealers() {
         payments: {
           select: {
             amount: true,
+            paymentMethod: true,
           },
         },
       },
@@ -23,7 +24,12 @@ export async function fetchDealers() {
 
     const formattedDealers = dealers.map((dealer) => {
       const totalBilled = dealer.bills.reduce((sum, bill) => sum + bill.amount, 0);
-      const totalPaid = dealer.payments.reduce((sum, payment) => sum + payment.amount, 0);
+      const totalPaid = dealer.payments
+        .filter((payment) => payment.paymentMethod !== "GR")
+        .reduce((sum, payment) => sum + payment.amount, 0);
+      const totalGRAmount = dealer.payments
+        .filter((payment) => payment.paymentMethod === "GR")
+        .reduce((sum, payment) => sum + payment.amount, 0);
       return {
         id: dealer.id,
         label: dealer.label,
@@ -32,7 +38,8 @@ export async function fetchDealers() {
         updatedAt: dealer.updatedAt.toISOString(),
         totalBilled,
         totalPaid,
-        remainingBalance: totalBilled - totalPaid,
+        totalGRAmount,
+        remainingBalance: totalBilled - totalPaid - totalGRAmount,
       };
     });
 

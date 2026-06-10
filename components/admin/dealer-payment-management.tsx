@@ -50,8 +50,13 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
   const [paymentForm, setPaymentForm] = useState({ amount: "", date: new Date().toISOString().slice(0, 10), paymentMethod: "CASH" as "CASH" | "ONLINE" | "GR" });
 
   const totalBilled = dealer.bills.reduce((sum, bill) => sum + bill.amount, 0);
-  const totalPaid = dealer.payments.reduce((sum, payment) => sum + payment.amount, 0);
-  const remainingBalance = totalBilled - totalPaid;
+  const totalPaid = dealer.payments
+    .filter((payment) => payment.paymentMethod !== "GR")
+    .reduce((sum, payment) => sum + payment.amount, 0);
+  const totalGRAmount = dealer.payments
+    .filter((payment) => payment.paymentMethod === "GR")
+    .reduce((sum, payment) => sum + payment.amount, 0);
+  const remainingBalance = totalBilled - totalPaid - totalGRAmount;
 
   async function refreshDealer() {
     setIsLoading(true);
@@ -161,7 +166,7 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-4">
         <Card className="border">
           <CardHeader>
             <CardTitle>Total Billed</CardTitle>
@@ -178,6 +183,15 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-semibold">{currencyFormatter.format(totalPaid)}</p>
+          </CardContent>
+        </Card>
+        <Card className="border">
+          <CardHeader>
+            <CardTitle>GR Amount</CardTitle>
+            <CardDescription>Products returned due to defects.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold text-orange-600">{currencyFormatter.format(totalGRAmount)}</p>
           </CardContent>
         </Card>
         <Card className="border">
@@ -266,7 +280,7 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
                           dateStyle: "medium",
                         }).format(new Date(payment.date))}
                       </TableCell>
-                      <TableCell>{payment.paymentMethod.toLowerCase()}</TableCell>
+                      <TableCell>{payment.paymentMethod}</TableCell>
                       <TableCell className="text-right font-medium">
                         {currencyFormatter.format(payment.amount)}
                       </TableCell>
