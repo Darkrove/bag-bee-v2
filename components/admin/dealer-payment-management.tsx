@@ -47,7 +47,7 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
   const [billDialogOpen, setBillDialogOpen] = useState(false);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
   const [billForm, setBillForm] = useState({ billNumber: "", amount: "", date: new Date().toISOString().slice(0, 10) });
-  const [paymentForm, setPaymentForm] = useState({ amount: "", date: new Date().toISOString().slice(0, 10), paymentMethod: "CASH" as "CASH" | "ONLINE" });
+  const [paymentForm, setPaymentForm] = useState({ amount: "", date: new Date().toISOString().slice(0, 10), paymentMethod: "CASH" as "CASH" | "ONLINE" | "GR" });
 
   const totalBilled = dealer.bills.reduce((sum, bill) => sum + bill.amount, 0);
   const totalPaid = dealer.payments.reduce((sum, payment) => sum + payment.amount, 0);
@@ -113,7 +113,7 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
       toast.error(result.error);
     } else {
       toast.success("Payment added successfully.");
-      setPaymentForm({ amount: "", date: new Date().toISOString().slice(0, 10), paymentMethod: "CASH" });
+      setPaymentForm({ amount: "", date: new Date().toISOString().slice(0, 10), paymentMethod: "CASH" as "CASH" | "ONLINE" | "GR" });
       setPaymentDialogOpen(false);
       await refreshDealer();
     }
@@ -383,7 +383,7 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
                 onValueChange={(value) =>
                   setPaymentForm({
                     ...paymentForm,
-                    paymentMethod: value as "CASH" | "ONLINE",
+                    paymentMethod: value as "CASH" | "ONLINE" | "GR",
                   })
                 }
               >
@@ -393,6 +393,7 @@ export function DealerPaymentManagement({ initialDealer }: { initialDealer: Deal
                 <SelectContent>
                   <SelectItem value="CASH">Cash</SelectItem>
                   <SelectItem value="ONLINE">Online</SelectItem>
+                  <SelectItem value="GR">GR</SelectItem>
                 </SelectContent>
               </Select>
             </div>

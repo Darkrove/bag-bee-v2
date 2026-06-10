@@ -168,5 +168,6 @@ model DealerPayment {
 enum PaymentMethod {
   CASH
   ONLINE
+  GR
 }
 

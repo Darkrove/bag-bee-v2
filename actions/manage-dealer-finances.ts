@@ -17,7 +17,7 @@ export type DealerPaymentWithStrings = {
   dealerId: string;
   amount: number;
   date: string;
-  paymentMethod: "CASH" | "ONLINE";
+  paymentMethod: "CASH" | "ONLINE" | "GR";
   createdAt: string;
   updatedAt: string;
 };
@@ -73,7 +73,7 @@ export async function fetchDealerDetails(id: string) {
           dealerId: payment.dealerId,
           amount: payment.amount,
           date: payment.date.toISOString(),
-          paymentMethod: payment.paymentMethod as "CASH" | "ONLINE",
+          paymentMethod: payment.paymentMethod as "CASH" | "ONLINE" | "GR",
           createdAt: payment.createdAt.toISOString(),
           updatedAt: payment.updatedAt.toISOString(),
         })),
@@ -113,7 +113,7 @@ export async function createDealerPayment(
   dealerId: string,
   amount: number,
   date: string,
-  paymentMethod: "CASH" | "ONLINE"
+  paymentMethod: "CASH" | "ONLINE" | "GR"
 ) {
   try {
     const payment = await db.dealerPayment.create({
