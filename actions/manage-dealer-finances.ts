@@ -131,3 +131,75 @@ export async function createDealerPayment(
     return { data: null, error: "Failed to create dealer payment" };
   }
 }
+
+export async function updateDealerBill(
+  billId: number,
+  amount: number,
+  date: string,
+  billNumber?: string
+) {
+  try {
+    const bill = await db.dealerBill.update({
+      where: { id: billId },
+      data: {
+        amount: Math.max(0, Math.round(amount)),
+        date: new Date(date),
+        billNumber: billNumber?.trim() || null,
+      },
+    });
+
+    return { data: bill, error: null };
+  } catch (error) {
+    console.error("Error updating dealer bill:", error);
+    return { data: null, error: "Failed to update dealer bill" };
+  }
+}
+
+export async function updateDealerPayment(
+  paymentId: number,
+  amount: number,
+  date: string,
+  paymentMethod: "CASH" | "ONLINE" | "GR"
+) {
+  try {
+    const payment = await db.dealerPayment.update({
+      where: { id: paymentId },
+      data: {
+        amount: Math.max(0, Math.round(amount)),
+        date: new Date(date),
+        paymentMethod,
+      },
+    });
+
+    return { data: payment, error: null };
+  } catch (error) {
+    console.error("Error updating dealer payment:", error);
+    return { data: null, error: "Failed to update dealer payment" };
+  }
+}
+
+export async function deleteDealerBill(billId: number) {
+  try {
+    await db.dealerBill.delete({
+      where: { id: billId },
+    });
+
+    return { data: null, error: null };
+  } catch (error) {
+    console.error("Error deleting dealer bill:", error);
+    return { data: null, error: "Failed to delete dealer bill" };
+  }
+}
+
+export async function deleteDealerPayment(paymentId: number) {
+  try {
+    await db.dealerPayment.delete({
+      where: { id: paymentId },
+    });
+
+    return { data: null, error: null };
+  } catch (error) {
+    console.error("Error deleting dealer payment:", error);
+    return { data: null, error: "Failed to delete dealer payment" };
+  }
+}
