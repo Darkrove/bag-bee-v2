@@ -10,8 +10,7 @@ import {
   Pencil,
   Trash2,
   Blend,
-  MoreHorizontal,
-  MoreVeritcal,
+  MoreHorizontal
 } from "lucide-react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import {
@@ -309,7 +308,7 @@ export function DealerPaymentManagement({
                 onClick={() => setBillDialogOpen(true)}
                 title="Add Bill"
               >
-                <FileText className="h-4 w-4" />
+                <FileText className="size-4" />
               </Button>
               <Button
                 size="icon"
@@ -317,7 +316,7 @@ export function DealerPaymentManagement({
                 onClick={() => setPaymentDialogOpen(true)}
                 title="Record Payment"
               >
-                <CreditCard className="h-4 w-4" />
+                <CreditCard className="size-4" />
               </Button>
             </div>
           </div>
@@ -431,20 +430,20 @@ export function DealerPaymentManagement({
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
+                                <MoreHorizontal className="size-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem
                                 onSelect={() => handleEditBill(bill)}
                               >
-                                <Pencil className="mr-2 h-3.5 w-3.5" />
+                                <Pencil className="mr-2 size-3.5" />
                                 Edit
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onSelect={() => handleDeleteBill(bill.id)}
                               >
-                                <Trash2 className="mr-2 h-3.5 w-3.5" />
+                                <Trash2 className="mr-2 size-3.5" />
                                 Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -504,20 +503,20 @@ export function DealerPaymentManagement({
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
+                                <MoreHorizontal className="size-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem
                                 onSelect={() => handleEditPayment(payment)}
                               >
-                                <Pencil className="mr-2 h-3.5 w-3.5" />
+                                <Pencil className="mr-2 size-3.5" />
                                 Edit
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onSelect={() => handleDeletePayment(payment.id)}
                               >
-                                <Trash2 className="mr-2 h-3.5 w-3.5" />
+                                <Trash2 className="mr-2 size-3.5" />
                                 Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -595,12 +594,12 @@ export function DealerPaymentManagement({
             >
               {isBillSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   {editingBillId ? "Updating bill..." : "Recording bill..."}
                 </>
               ) : (
                 <>
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   {editingBillId ? "Update Bill" : "Add Bill"}
                 </>
               )}
@@ -678,14 +677,14 @@ export function DealerPaymentManagement({
             >
               {isPaymentSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   {editingPaymentId
                     ? "Updating payment..."
                     : "Saving payment..."}
                 </>
               ) : (
                 <>
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   {editingPaymentId ? "Update Payment" : "Add Payment"}
                 </>
               )}
