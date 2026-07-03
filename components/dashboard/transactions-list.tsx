@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { formatDistance, startOfDay, endOfDay, format } from "date-fns";
@@ -19,76 +17,20 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { currencyFormatter, getRandomNumber } from "@/lib/utils";
 import { apiUrls } from "@/lib/api-urls"; // ✅ assuming you have invoice API urls
-
-interface Invoice {
-  id: string;
-  customerName: string;
-  customerPhone: string;
-  totalAmount: number;
-  createdAt: string;
-}
+import { fetchInvoices } from "@/actions/fetch-invoices";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function TransactionsList({
+export default async function TransactionsList({
   showRowsNumber,
 }: {
   showRowsNumber: number;
 }) {
-  const todayStart =  startOfDay(new Date())
-  const todayEnd = endOfDay(new Date())
-  
-  const { data, error, isLoading } = useSWR(
-    apiUrls.invoice.getList({
-      from: todayStart.toISOString(),
-      to: todayEnd.toISOString(),
-    }),
-    fetcher,
-    {
-      refreshInterval: 5000, // 🔄 refresh every 5s
-    },
-  );
+  const todayStart = format(startOfDay(new Date()), dateFormat);
+  const todayEnd = format(endOfDay(new Date()), dateFormat);
+  const result = await fetchInvoices(todayStart, todayEnd);
 
-  if (isLoading) {
-    return (
-      <Card className="xl:col-span-2">
-        <CardHeader className="flex flex-row items-center">
-          <div className="grid gap-2">
-            <Skeleton className="h-6 w-32" />
-            <Skeleton className="h-4 w-40" />
-          </div>
-          <Button size="sm" className="ml-auto shrink-0 gap-1 px-4" disabled>
-            <span>View All</span>
-          </Button>
-        </CardHeader>
-        <CardContent>
-          {Array.from({ length: showRowsNumber }).map((_, i) => (
-            <div key={i} className="flex items-center gap-3 py-3">
-              <Skeleton className="size-9 rounded-full" />
-              <div className="flex-1">
-                <Skeleton className="mb-2 h-4 w-32" />
-                <Skeleton className="h-3 w-20" />
-              </div>
-              <Skeleton className="h-4 w-16" />
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (error) {
-    return (
-      <Card className="xl:col-span-2">
-        <CardHeader>
-          <CardTitle>Transactions</CardTitle>
-          <CardDescription>Error loading transactions 🚨</CardDescription>
-        </CardHeader>
-      </Card>
-    );
-  }
-
-  const invoices: Invoice[] = data?.data || [];
+  const invoices = result?.data || [];
 
   return (
     <Card className="xl:col-span-2">

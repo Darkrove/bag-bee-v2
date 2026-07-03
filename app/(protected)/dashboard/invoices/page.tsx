@@ -19,8 +19,8 @@ export default async function SalesDataPage() {
   // const user = await getCurrentUser();
   // if (!user || user.role !== "ADMIN") redirect("/login");
   const from = format(startOfYear(new Date()), dateFormat);
-    const to = format(endOfYear(new Date()), dateFormat);
-    const result = await fetchInvoices(from, to);
+  const to = format(endOfYear(new Date()), dateFormat);
+  const result = await fetchInvoices(from, to);
 
   return (
     <>
