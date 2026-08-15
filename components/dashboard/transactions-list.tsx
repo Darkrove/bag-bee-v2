@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import TimeAgo from "@/components/shared/time-ago";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -87,11 +88,7 @@ export default async function TransactionsList({
                           {invoice.customerName || "Unknown"}
                         </Link>
                         <p className="text-sm text-muted-foreground">
-                          {formatDistance(
-                            new Date(invoice.createdAt),
-                            new Date(),
-                          )}{" "}
-                          ago
+                          <TimeAgo date={invoice.createdAt} />
                         </p>
                       </div>
                     </div>
