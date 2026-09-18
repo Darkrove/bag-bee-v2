@@ -1,6 +1,10 @@
 import { getQRData, QRCodeSVG } from "@/lib/qr";
 import { DEFAULT_MARGIN } from "@/lib/qr/constants";
-import { DotStyle, MarkerBorderStyle, MarkerCenterStyle } from "@/lib/qr/types";
+import {
+  DotStyle,
+  MarkerBorderStyle,
+  MarkerCenterStyle,
+} from "@/lib/qr/types";
 import { memo, useMemo } from "react";
 
 export const QRCode = memo(
@@ -15,6 +19,7 @@ export const QRCode = memo(
     markerCenterStyle,
     markerBorderStyle,
     markerColor,
+    id,
   }: {
     url: string;
     fgColor?: string;
@@ -26,6 +31,7 @@ export const QRCode = memo(
     markerCenterStyle?: MarkerCenterStyle;
     markerBorderStyle?: MarkerBorderStyle;
     markerColor?: string;
+    id?: string;
   }) => {
     const qrData = useMemo(
       () =>
@@ -55,6 +61,7 @@ export const QRCode = memo(
 
     return (
       <QRCodeSVG
+        id={id}
         value={qrData.value}
         size={(qrData.size / 8) * scale}
         bgColor={qrData.bgColor}
@@ -68,12 +75,8 @@ export const QRCode = memo(
         {...(qrData.imageSettings && {
           imageSettings: {
             ...qrData.imageSettings,
-            height: qrData.imageSettings
-              ? (qrData.imageSettings.height / 8) * scale
-              : 0,
-            width: qrData.imageSettings
-              ? (qrData.imageSettings.width / 8) * scale
-              : 0,
+            height: (qrData.imageSettings.height / 8) * scale,
+            width: (qrData.imageSettings.width / 8) * scale,
           },
         })}
       />

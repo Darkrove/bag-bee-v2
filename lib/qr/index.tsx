@@ -51,7 +51,6 @@ export function QRCodeCanvas(props: QRPropsCanvas) {
   const _canvas = useRef<HTMLCanvasElement>(null);
   const _image = useRef<HTMLImageElement>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isImgLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
