@@ -54,6 +54,12 @@ export const sidebarLinks: SidebarNavItem[] = [
         authorizeOnly: UserRole.ADMIN,
       },
       {
+        href: "/admin/qr",
+        icon: "qrcode",
+        title: "QR Codes",
+        authorizeOnly: UserRole.ADMIN,
+      },
+      {
         href: "#/dashboard/posts",
         icon: "post",
         title: "User Posts",

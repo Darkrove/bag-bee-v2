@@ -23,6 +23,7 @@ import {
   LucideProps,
   Table,
   MessagesSquare,
+  QrCode,
   Moon,
   MoreVertical,
   Package,
@@ -127,6 +128,7 @@ export const Icons = {
   search: Search,
   settings: Settings,
   spinner: Loader2,
+  qrcode: QrCode,
   sun: SunMedium,
   trash: Trash2,
   twitter: ({ ...props }: LucideProps) => (
