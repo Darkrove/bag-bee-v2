@@ -292,8 +292,6 @@ export function DealersManagementTable() {
                       const date = new Date(dealer.updatedAt);
                       return `${new Intl.DateTimeFormat("en-US", {
                         dateStyle: "medium",
-                      }).format(date)} at ${new Intl.DateTimeFormat("en-US", {
-                        timeStyle: "short",
                       }).format(date)}`;
                     })()}
                   </p>
