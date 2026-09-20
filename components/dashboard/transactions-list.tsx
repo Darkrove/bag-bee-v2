@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { formatDistance, startOfDay, endOfDay, format } from "date-fns";
 import useSWR from "swr";
-
+import { Blobatar } from "@blobatar/react";
 import { dateFormat } from "@/constants/date";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,7 +70,7 @@ export default async function TransactionsList({
               .map((invoice, index) => (
                 <div key={invoice.id} className="flex flex-col gap-3 pt-3">
                   <div className="flex items-center">
-                    <Avatar className="size-9 bg-gray-300 shadow-sm">
+                    {/* <Avatar className="size-9 bg-gray-300 shadow-sm">
                       <AvatarImage
                         src={`/avatars/${getRandomNumber()}.png`}
                         alt="Avatar"
@@ -78,7 +78,12 @@ export default async function TransactionsList({
                       <AvatarFallback>
                         {invoice.customerName ? invoice.customerName[0] : ""}
                       </AvatarFallback>
-                    </Avatar>
+                    </Avatar> */}
+                    <Blobatar
+                      name={(invoice.id || "Unknown").toString()}
+                      animate="hover"
+                      className="size-12 shrink-0"
+                    />
                     <div className="ml-4 flex space-x-1">
                       <div className="flex flex-col items-start justify-between space-y-1">
                         <Link
