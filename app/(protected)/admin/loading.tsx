@@ -17,7 +17,8 @@ export default function AdminPanelLoading() {
         text="Access only for users with ADMIN role."
       />
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+          <Skeleton className="h-44 w-full rounded-lg" />
           <Skeleton className="h-44 w-full rounded-lg" />
           <Skeleton className="h-44 w-full rounded-lg" />
           <Skeleton className="h-44 w-full rounded-lg" />

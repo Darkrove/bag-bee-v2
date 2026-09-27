@@ -25,6 +25,7 @@ interface InfoCardProps {
   trend?: number;
   showCurrencySymbol?: boolean;
   footerTitle?: string;
+  showPercentage?: boolean;
   footerSubtitle?: string;
 }
 
@@ -35,6 +36,7 @@ export default function InfoCard({
   icon,
   trend,
   showCurrencySymbol = true, // Default to true if not provided
+  showPercentage = false, // Default to false if not provided
   footerTitle,
   footerSubtitle,
 }: InfoCardProps) {
@@ -46,6 +48,7 @@ export default function InfoCard({
         <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
           {showCurrencySymbol && "₹"}
           <Counter value={amount} />
+          {showPercentage && "%"}
         </CardTitle>
         {typeof trend === "number" && (
           <CardAction>
